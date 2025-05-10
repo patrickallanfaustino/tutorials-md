@@ -84,20 +84,20 @@ Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861
 
 ## Preparo da topologia da molécula: campos de forças.
 
-Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `1h5o.pdb` contém as coordenadas da biomolécula e é necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATOM`). Isso pode ser feito manualmente ou automático:
+Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `1h5o.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATOM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
 
 ```
 grep -v HOH 1h5o.pdb > 1h5o_clean.pdb
 ```
 
-Para gerar escolher o campo de força e o modelo de água:
+Para escolher o campo de força e o modelo de água:
 
 ```
 gmx pdb2gmx -v -f 1ubq_clean.pdb -o ubiquitin.gro
 
--v = verbose, para visualizar o processo.
--f = file input, arquivo de coordenadas de entrada.
--o = file output, arquivo de coordenadas de saída.
+# -v = verbose, para visualizar o processo.
+# -f = file input, arquivo de coordenadas de entrada.
+# -o = file output, arquivo de coordenadas de saída.
 ```
 Quando solicitado, digite o número correspondente para selecionar o campo de força e o modelo de água.
 
