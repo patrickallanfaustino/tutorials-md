@@ -22,9 +22,9 @@
 
 Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
-Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo [1H5O](https://www.rcsb.org/structure/1H5O) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da molécula.
+Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo [1H5O](https://www.rcsb.org/structure/1H5O) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
 
-<img src="./img/crotamina.jpg" alt="Crotamina">
+<img src="https://github.com/patrickallanfaustino/tutorials-md/tree/main/img/crotamina.jpg" alt="Crotamina">
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica.
