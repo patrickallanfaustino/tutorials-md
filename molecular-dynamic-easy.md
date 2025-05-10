@@ -18,7 +18,7 @@
 - [Como Contribuir](#como-contribuir)
 - [Licença](#licença)
 
-## 🔭 Arquivos iniciais.
+## Arquivos iniciais.
 
 Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
@@ -26,7 +26,7 @@ Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861
 
 <img src="img/1h5o.jpg" alt="Crotamina">
 
-## 💻 Preparo da topologia da molécula: campos de forças.
+## Preparo da topologia da molécula: campos de forças.
 
 - Tecnologia 1
 - Tecnologia 2
@@ -35,7 +35,7 @@ Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861
 
 Descreva as tecnologias utilizadas no projeto e forneça links para as respectivas documentações ou sites oficiais.
 
-## ⚙️ Configuração do Ambiente
+## Definindo a caixa de simulação.
 
 Forneça instruções claras e detalhadas sobre como configurar o ambiente de desenvolvimento localmente. Isso pode incluir:
 
@@ -48,7 +48,7 @@ Forneça instruções claras e detalhadas sobre como configurar o ambiente de de
 
 Certifique-se de fornecer exemplos de comandos ou scripts necessários para executar o projeto corretamente.
 
-## 🤝 Como Contribuir
+## Minimização do sistema
 
 Se você deseja contribuir para o projeto, siga estas etapas:
 
@@ -71,10 +71,16 @@ Se você deseja contribuir para o projeto, siga estas etapas:
    ```
 6. Abra um pull request para que suas modificações sejam revisadas e incorporadas ao projeto.
 
-## 📄 Licença
+## Equilíbrio NVT e NPT: termostatos e barostatos.
 
-Este projeto está licenciado sob a [Nome da Licença]. Consulte o arquivo [LICENSE](LICENSE) para obter mais informações sobre os termos de licenciamento.
+Se você deseja contribuir para o projeto, siga estas etapas:
+
+## Produção: integradores.
+
+Se você deseja contribuir para o projeto, siga estas etapas:
 
 ---
 
-Aproveite o projeto e fique à vontade para personalizar este README de acordo com as necessidades do seu repositório. Divirta-se codificando! 🎉😄
+## 📄 Licença
+
+Este projeto está licenciado sob a [Nome da Licença]. Consulte o arquivo [LICENSE](LICENSE) para obter mais informações sobre os termos de licenciamento.
