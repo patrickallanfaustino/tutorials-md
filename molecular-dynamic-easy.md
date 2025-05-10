@@ -1,9 +1,9 @@
-<h1 align="center">Nome do Repositório</h1>
+<h1 align="center">Dinâmica Molecular da Crotamina (PDB: 1H5O) em água</h1>
 
 
 
 <div align="center">
-  <strong>🚀 Descrição do Repositório 📚</strong>
+  <strong>🚀 Objetivo 📚</strong>
 </div>
 
 <div align="center">
@@ -20,11 +20,15 @@
 - [Como Contribuir](#como-contribuir)
 - [Licença](#licença)
 
-## 🔭 Visão Geral
+## 🔭 Arquivos iniciais.
 
-Nesta seção, você pode fornecer uma visão geral do projeto, explicando o que ele faz, seus principais recursos e funcionalidades. Você também pode incluir capturas de tela, gifs animados ou até mesmo um vídeo para demonstrar o projeto em ação.
+Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
-## 💻 Tecnologias
+Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo 1H5O no [PDB](https://www.rcsb.org/structure/1H5O). O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos.
+
+<img src="img/1h5o.png" alt="Crotamina">
+
+## 💻 Preparo da topologia da molécula: campos de forças.
 
 - Tecnologia 1
 - Tecnologia 2
