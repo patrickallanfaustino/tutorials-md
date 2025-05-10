@@ -24,10 +24,10 @@ Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de fo
 
 Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo [1H5O](https://www.rcsb.org/structure/1H5O) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
 
-<img src="https://github.com/patrickallanfaustino/tutorials-md/tree/main/img/crotamina.jpg" alt="Crotamina">
+<img src="./img/crotamina.jpg" alt="Crotamina">
 
 >[!TIP]
-> Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica.
+> Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
 >
 
 ```
@@ -84,12 +84,24 @@ Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861
 
 ## Preparo da topologia da molécula: campos de forças.
 
-- Tecnologia 1
-- Tecnologia 2
-- Tecnologia 3
-- ...
+Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `1h5o.pdb` contém as coordenadas da biomolécula e é necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATOM`). Isso pode ser feito manualmente ou automático:
 
-Descreva as tecnologias utilizadas no projeto e forneça links para as respectivas documentações ou sites oficiais.
+```
+grep -v HOH 1h5o.pdb > 1h5o_clean.pdb
+```
+
+Para gerar escolher o campo de força e o modelo de água:
+
+```
+gmx pdb2gmx -v -f 1ubq_clean.pdb -o ubiquitin.gro
+
+-v = verbose, para visualizar o processo.
+-f = file input, arquivo de coordenadas de entrada.
+-o = file output, arquivo de coordenadas de saída.
+```
+Quando solicitado, digite o número correspondente para selecionar o campo de força e o modelo de água.
+
+
 
 ## Definindo a caixa de simulação.
 
