@@ -22,9 +22,65 @@
 
 Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
-Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo 1H5O no [PDB](https://www.rcsb.org/structure/1H5O). O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos.
+Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo [1H5O](https://www.rcsb.org/structure/1H5O) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da molécula.
 
 <img src="./img/crotamina.jpg" alt="Crotamina">
+
+>[!TIP]
+> Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica.
+>
+
+```
+├── 1h5o.pdb
+├── amber14sb_parmbsc1_cufix.ff
+│   ├── aminoacids.arn
+│   ├── aminoacids.c.tdb
+│   ├── aminoacids.hdb
+│   ├── aminoacids.n.tdb
+│   ├── aminoacids.r2b
+│   ├── aminoacids.rtp
+│   ├── aminoacids.vsd
+│   ├── atomtypes.atp
+│   ├── ca-sol7.itp
+│   ├── ca-sol7.pdb
+│   ├── cufix.itp
+│   ├── dna.arn
+│   ├── dna.hdb
+│   ├── dna.r2b
+│   ├── dna.rtp
+│   ├── ffbonded.itp
+│   ├── ffnonbonded.itp
+│   ├── ffnonbonded.itp~
+│   ├── forcefield.doc
+│   ├── forcefield.itp
+│   ├── forcefield.itp~
+│   ├── gbsa.itp
+│   ├── ions.itp
+│   ├── Makefile.am
+│   ├── Makefile.in
+│   ├── mg-sol6.itp
+│   ├── mg-sol6.pdb
+│   ├── README.md
+│   ├── rna.arn
+│   ├── rna.hdb
+│   ├── rna.r2b
+│   ├── rna.rtp
+│   ├── spce.itp
+│   ├── spc.itp
+│   ├── tip3p.itp
+│   ├── tip4pew.itp
+│   ├── tip4p.itp
+│   ├── tip5p.itp
+│   ├── urea.itp
+│   └── watermodels.dat
+├── analysis
+└── inputs
+    ├── ions.mdp
+    ├── md.mdp
+    ├── minim.mdp
+    ├── npt.mdp
+    └── nvt.mdp
+```
 
 ## Preparo da topologia da molécula: campos de forças.
 
