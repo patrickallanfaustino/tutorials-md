@@ -1,7 +1,5 @@
 <h1 align="center">Dinâmica Molecular da Crotamina (PDB: 1H5O) em água</h1>
 
-
-
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
 </div>
@@ -26,7 +24,7 @@ Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de fo
 
 Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo 1H5O no [PDB](https://www.rcsb.org/structure/1H5O). O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos.
 
-<img src="img/1h5o.tga" alt="Crotamina">
+<img src="img/1h5o.jpg" alt="Crotamina">
 
 ## 💻 Preparo da topologia da molécula: campos de forças.
 
