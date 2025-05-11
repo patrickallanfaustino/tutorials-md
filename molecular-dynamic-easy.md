@@ -12,7 +12,7 @@
 ## 📖 Índice
 
 - [Arquivos iniciais.](#arquivos-iniciais)
-- [Tecnologias](#tecnologias)
+- [Preparo da topologia da molécula: campos de forças.](#preparo-da-topologia-da-molecula-campos-de-forças)
 - [Configuração do Ambiente](#configuração-do-ambiente)
 - [Como Contribuir](#como-contribuir)
 - [Licença](#licença)
@@ -125,10 +125,10 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 **GROMOS**  | O campo de força GROMOS96 (como gromos54a7.ff) é uma escolha clássica para simulações de proteínas, sistemas aquosos e alguns tipos de estudos de bioenergia. Ele é o único desta lista a usar potencial truncado sem PME. | SPC | 1.4 nm
 
 | Modelo | Tipo | Descrição |
-|:---------|:------|:--------------------------------|
+|--------|------|--------------------------------|
 | **SPC** | 3 pontos | Modelo rígido, ângulo fixo de 109.47°, parametrizado para propriedades macroscópicas. |
 | **SPC/E** | 3 pontos | Versão estendida do SPC, com correção de energia de polarização. Melhor densidade e constante dielétrica. |
-| **TIP3P** | 3 pontos | Muito usado com AMBER e CHARMM. Simples e compatível com muitos force fields. |
+| **TIP3P** | 3 pontos | Muito usado com AMBER e CHARMM. Simples e compatível com muitos campos de força. |
 | **TIP4P** | 4 pontos | Inclui ponto virtual (M-site) para carga negativa fora do oxigênio, melhorando propriedades de fase. |
 | **TIP5P** | 5 pontos | Dois pontos extra para os pares de elétrons do oxigênio. Mais preciso para estrutura tetraédrica, porém mais custoso. |
 
