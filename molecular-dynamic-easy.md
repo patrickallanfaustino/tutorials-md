@@ -20,12 +20,8 @@ Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de fo
 
 Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S1744309110000461) que possui o código [3I40](https://www.rcsb.org/structure/3I40) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
 
-![Molécula da insulina](./img/insulina.png)
-
 <div align="center">
-  
 <img src="img/insulina.png" alt="insulina">
-
 </div>
 
 >[!TIP]
