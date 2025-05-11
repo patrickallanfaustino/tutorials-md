@@ -5,25 +5,22 @@
 </div>
 
 <div align="center">
-  <p>Simular a insulina humana em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A insulina é um hormônio regulador da entrada de glicose nas células humanas.</p>
+  <p>Simular a insulina humana em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A insulina é um hormônio regulador do metabolismo de glicose nas células humanas.</p>
   <p>Explore, colabore e divirta-se! 😄</p>
 </div>
 
 ## 📖 Índice
 
-- [Arquivos iniciais.](#arquivos-iniciais)
-- [Preparo da topologia da molécula: campos de forças.](#preparo-da-topologia-da-molécula-campos-de-forças)
-- [Configuração do Ambiente](#configuração-do-ambiente)
-- [Como Contribuir](#como-contribuir)
-- [Licença](#licença)
+- [Arquivos iniciais](#arquivos-iniciais)
+- [Preparo da topologia da molécula: campos de forças](#preparo-da-topologia-da-molécula-campos-de-forças)
 
-## Arquivos iniciais.
+## Arquivos iniciais
 
 Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
-Vamos trabalhar com a biomolécula [Insulina](https://doi.org/10.1107/S1744309110000461) que possui o codigo [3I40](https://www.rcsb.org/structure/3I40) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
+Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S1744309110000461) que possui o código [3I40](https://www.rcsb.org/structure/3I40) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
 
-<img src="img/insulina.png" alt="insulina">
+<div><img src="img/insulina.png" alt="insulina"></div>
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
@@ -81,9 +78,9 @@ Vamos trabalhar com a biomolécula [Insulina](https://doi.org/10.1107/S174430911
     └── nvt.mdp
 ```
 
-## Preparo da topologia da molécula: campos de forças.
+## Preparo da topologia da molécula: campos de forças
 
-O arquivo `3i40.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
+O arquivo `3i40.pdb` contém as coordenadas da biomolécula com moléculas de água e ligantes. Será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
 
 ```
 grep -v HETATM 3i40.pdb > 3i40_clean.pdb
@@ -100,9 +97,9 @@ gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 # -f = file input, arquivo de coordenadas de entrada.
 # -o = file output, arquivo de coordenadas de saída.
 ```
-Quando solicitado, digite o número correspondente para selecionar o campo de força e o modelo de água. Digite 1 para escolher AMBER e 1 para escolher o modelo de água TIP3P que é o recomendado para o campo de força AMBER.
+Quando solicitado, digite o número correspondente ao campo de força e o modelo de água. Digite 1 para escolher AMBER e 1 para escolher o modelo de água TIP3P recomendado para o campo de força AMBER.
 
-O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade. Entretanto, a carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
+O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade. A carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
 
 Para visualizar no VMD, utilize:
 ```
@@ -111,14 +108,15 @@ vmd insulina.gro
 
 >[!NOTE]
 >Saiba mais sobre o comando [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
+>
 >Será gerado os seguintes arquivos:
 > - insulina.gro = arquivo com as coordenadas de cada átomo da biomolécula compatível com o campo de força.
-> - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para o cálculo das forças.
-> - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrição por padrão.
+> - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para os cálculos das forças.
+> - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrições por padrão.
 >
 
 Campo de Força  |  Informações  |  Modelo de água  |  cut-off
-------- | -------- | -------- | -------- 
+------- | ---------- | -------- | -------- 
 **OPLS**    | O campo de força OPLS-AA (Optimized Potentials for Liquid Simulations – All Atom) é amplamente usado para simulações de proteínas, pequenas moléculas, solventes, lipídios, dentre outros. | TIP4P recomendado, mas pode usar TIP3P. Não recomendado SPC. | 1.0~1.2 nm
 **AMBER**   | A família de campos de força AMBER (como amber99sb, amber99sb-ildn, amber14, etc.) é amplamente usada para proteínas, DNA/RNA e simulações biomoleculares. | TIP3P, não recomendado TIP4P e SPC. | 1.0~1.2 nm
 **CHARMM**  | O campo de força CHARMM (como charmm36-jul2022.ff) é extremamente detalhado, especialmente para lipídios, proteínas e açúcares, e foi parametrizado com switching functions, o que o diferencia das abordagens anteriores. | TIP3P modificado, não substituir por TIP3P comum. | 1.2 nm
@@ -138,7 +136,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 
 ---
 
-## Definindo a caixa de simulação.
+## Definindo a caixa de simulação
 
 Forneça instruções claras e detalhadas sobre como configurar o ambiente de desenvolvimento localmente. Isso pode incluir:
 
