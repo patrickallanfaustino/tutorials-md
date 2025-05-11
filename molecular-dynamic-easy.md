@@ -119,8 +119,7 @@ vmd insulina.gro
 
 Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 ------- | -------- | -------- | -------- 
-OPLS    | O campo de força OPLS-AA (Optimized Potentials for Liquid Simulations – All Atom) é amplamente 
-usado para simulações de proteínas, pequenas moléculas, solventes, lipídios, dentre outros. | TIP4P recomendado, mas pode usar TIP3P. Não recomendado SPC. | 1.0~1.2 nm
+OPLS    | O campo de força OPLS-AA (Optimized Potentials for Liquid Simulations – All Atom) é amplamente usado para simulações de proteínas, pequenas moléculas, solventes, lipídios, dentre outros. | TIP4P recomendado, mas pode usar TIP3P. Não recomendado SPC. | 1.0~1.2 nm
 AMBER   | Texto | texto | texto
 CHARMM  | Texto | texto | texto
 GROMOS  | Texto | texto | texto
