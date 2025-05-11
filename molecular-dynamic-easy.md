@@ -5,7 +5,7 @@
 </div>
 
 <div align="center">
-  <p>Simular a insulina humana em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A insulina é um hormônio regulador da entrada de glicosa nas células humanas.</p>
+  <p>Simular a insulina humana em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A insulina é um hormônio regulador da entrada de glicose nas células humanas.</p>
   <p>Explore, colabore e divirta-se! 😄</p>
 </div>
 
@@ -100,9 +100,9 @@ gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 # -f = file input, arquivo de coordenadas de entrada.
 # -o = file output, arquivo de coordenadas de saída.
 ```
-Quando solicitado, digite o número correspondente para selecionar o campo de força e o modelo de água.
+Quando solicitado, digite o número correspondente para selecionar o campo de força e o modelo de água. Digite 1 para escolher AMBER e 1 para escolher o modelo de água TIP3P que é o recomendado para o campo de força AMBER.
 
-O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade.
+O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade. Entretanto, a carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
 
 >[!NOTE]
 >Saiba mais sobre o comando [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
@@ -111,6 +111,7 @@ O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consid
 > - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para o cálculo das forças.
 > - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrição por padrão.
 >
+
 
 
 ## Definindo a caixa de simulação.
