@@ -102,7 +102,7 @@ Quando solicitado, digite o número correspondente ao campo de força e o modelo
 
 O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade e adicionando hidrogênios. A carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
 
-Caso queira utilizar um campo de força externo, a pasta do campo de força com os arquivos deverá estar no diretório de trabalho nomeada como `<forcefield-name>.ff`.
+Caso queira utilizar um campo de força externo, a pasta do campo de força com os arquivos deverá estar dentro da pasta de trabalho nomeada como `<name>.ff`.
 
 Para visualizar no VMD, utilize:
 ```
