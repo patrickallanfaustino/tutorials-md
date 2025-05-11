@@ -18,13 +18,13 @@
 
 Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
-Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S1744309110000461) que possui o código [3I40](https://www.rcsb.org/structure/3I40) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
+Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S1744309110000461) que possui o código [3I40](https://www.rcsb.org/structure/3I40) no PDB, com resolução de 1,85 Â. Procure sempre utilizar estruturas com **resolução < 2,5 Â**, pois assim teremos uma geometria confiavél da estrutura da biomolécula para a dinâmica (quanto menor for a resolução, mais detalhada é a estrutura). O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da molécula de insulina humana.
 
 <div align="center">
 <img src="img/insulina.png" alt="insulina">
 </div>
 
->Proteína PDB 3I40, insulina humana. Cores: 
+>Proteína PDB 3I40, insulina humana. O VMD possui o seguinte esquema de cores para a estrutura secundária: violeta para alfa-hélices; amarelo para beta-folhas; cinza para voltas e branco para superhélices ou cordas.
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
@@ -81,7 +81,6 @@ Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S174430911
     ├── npt.mdp
     └── nvt.mdp
 ```
----
 
 ## Preparo da topologia da molécula: campos de forças
 
@@ -140,8 +139,6 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 >[!IMPORTANT]
 >A escolha do campo de força e do modelo de água deve considerar a natureza do sistema e as propriedades que se deseja investigar.
 >
-
----
 
 ## Definindo a caixa de simulação
 
