@@ -11,7 +11,7 @@
 
 ## 📖 Índice
 
-- [Visão Geral](#visão-geral)
+- [Arquivos iniciais.](#arquivos-iniciais)
 - [Tecnologias](#tecnologias)
 - [Configuração do Ambiente](#configuração-do-ambiente)
 - [Como Contribuir](#como-contribuir)
@@ -104,6 +104,11 @@ Quando solicitado, digite o número correspondente para selecionar o campo de fo
 
 O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade. Entretanto, a carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
 
+Para visualizar no VMD, utilize:
+```
+vmd insulina.gro
+```
+
 >[!NOTE]
 >Saiba mais sobre o comando [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
 >Será gerado os seguintes arquivos:
@@ -112,10 +117,7 @@ O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consid
 > - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrição por padrão.
 >
 
-Para visualizar no VMD, utilize:
-```
-vmd insulina.gro
-```
+
 
 
 ## Definindo a caixa de simulação.
