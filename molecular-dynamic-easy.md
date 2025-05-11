@@ -120,9 +120,9 @@ vmd insulina.gro
 Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 ------- | -------- | -------- | -------- 
 OPLS    | O campo de força OPLS-AA (Optimized Potentials for Liquid Simulations – All Atom) é amplamente usado para simulações de proteínas, pequenas moléculas, solventes, lipídios, dentre outros. | TIP4P recomendado, mas pode usar TIP3P. Não recomendado SPC. | 1.0~1.2 nm
-AMBER   | Texto | texto | texto
-CHARMM  | Texto | texto | texto
-GROMOS  | Texto | texto | texto
+AMBER   | A família de campos de força AMBER (como amber99sb, amber99sb-ildn, amber14, etc.) é amplamente usada para proteínas, DNA/RNA e simulações biomoleculares. | TIP3P, não usar TIP4P e SPC. | 1.0~1.2 nm
+CHARMM  | O campo de força CHARMM (como charmm36-mar2019.ff) é extremamente detalhado, especialmente para lipídios, proteínas e açúcares, e foi parametrizado com switching functions, o que o diferencia das abordagens anteriores. | TIP3P modificado, não substituir por TIP3P comum. | 1.2 nm
+GROMOS  | O campo de força GROMOS96 (como gromos54a7.ff) é uma escolha clássica para simulações de proteínas, sistemas aquosos e alguns tipos de estudos de bioenergia. Ele é o único desta lista a usar potencial truncado sem PME. | SPC | 1.4 nm
 
 
 ## Definindo a caixa de simulação.
