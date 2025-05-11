@@ -23,7 +23,8 @@ Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S174430911
 <div align="center">
 <img src="img/insulina.png" alt="insulina">
 </div>
-> Proteína PDB 3I40, insulina humana. Cores: 
+
+>Proteína PDB 3I40, insulina humana. Cores: 
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
@@ -129,7 +130,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 **GROMOS**  | O campo de força GROMOS96 (como gromos54a7.ff) é uma escolha clássica para simulações de proteínas, sistemas aquosos e alguns tipos de estudos de bioenergia. Ele é o único desta lista a usar potencial truncado sem PME. | SPC | 1.4 nm
 
 | Modelo | Tipo | Descrição |
-|--------|------|--------------------------------|
+|--------|---------|--------------------------------|
 | **SPC** | 3 pontos | Modelo rígido, ângulo fixo de 109.47°, parametrizado para propriedades macroscópicas. |
 | **SPC/E** | 3 pontos | Versão estendida do SPC, com correção de energia de polarização. Melhor densidade e constante dielétrica. |
 | **TIP3P** | 3 pontos | Muito usado com AMBER e CHARMM. Simples e compatível com muitos campos de força. |
