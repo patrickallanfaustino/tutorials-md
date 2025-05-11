@@ -83,10 +83,10 @@ Vamos trabalhar com a biomolécula [Crotoxina](https://doi.org/10.1016/j.jmb.201
 
 ## Preparo da topologia da molécula: campos de forças.
 
-Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `3r0l.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATOM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
+Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `3r0l.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
 
 ```
-grep -v HOH 3r0l.pdb > 3r0l_clean.pdb
+grep -v HETATM 3r0l.pdb > 3r0l_clean.pdb
 ```
 
 Para escolher o campo de força e o modelo de água:
@@ -100,7 +100,7 @@ gmx pdb2gmx -v -f 3r0l_clean.pdb -o crotoxina.gro
 ```
 Quando solicitado, digite o número correspondente para selecionar o campo de força e o modelo de água.
 
-O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH proximos da neutralidade.
+O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade.
 
 >[!NOTE]
 >Saiba mais sobre o comando [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
