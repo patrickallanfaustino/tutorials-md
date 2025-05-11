@@ -1,12 +1,11 @@
-<h1 align="center">Dinâmica Molecular da Crotamina (PDB: 1H5O) em água</h1>
+<h1 align="center">Dinâmica Molecular da Crotoxina (PDB: 3R0L) em água</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
 </div>
 
 <div align="center">
-  <p>Um repositório incrível com um projeto espetacular! 🎉</p>
-  <p>Aqui você encontrará informações sobre o projeto, tecnologias utilizadas, instruções para configurar o ambiente de desenvolvimento e muito mais.</p>
+  <p>Simular a proteína Crotoxina em uma caixa cúbica de água a uma temperatura de 298 K e 1 bar de pressão. A Crotoxina (CTX) é uma proteína que compõe o veneno da cobra Cascavel.</p>
   <p>Explore, colabore e divirta-se! 😄</p>
 </div>
 
@@ -22,16 +21,16 @@
 
 Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
-Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861(56)90444-1) que possui o codigo [1H5O](https://www.rcsb.org/structure/1H5O) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
+Vamos trabalhar com a biomolécula [Crotoxina](https://doi.org/10.1016/j.jmb.2011.07.027) que possui o codigo [3R0L](https://www.rcsb.org/structure/3R0L) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
 
-<img src="./img/crotamina.jpg" alt="Crotamina">
+<img src="./img/crotoxina.jpg" alt="CTX">
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
 >
 
 ```
-├── 1h5o.pdb
+├── 3r0l.pdb
 ├── amber14sb_parmbsc1_cufix.ff
 │   ├── aminoacids.arn
 │   ├── aminoacids.c.tdb
@@ -84,16 +83,16 @@ Vamos trabalhar com a biomolécula [Crotamina](https://doi.org/10.1016/0003-9861
 
 ## Preparo da topologia da molécula: campos de forças.
 
-Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `1h5o.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATOM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
+Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `3r0l.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATOM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
 
 ```
-grep -v HOH 1h5o.pdb > 1h5o_clean.pdb
+grep -v HOH 3r0l.pdb > 3r0l_clean.pdb
 ```
 
 Para escolher o campo de força e o modelo de água:
 
 ```
-gmx pdb2gmx -v -f 1h5o_clean.pdb -o crotamina.gro
+gmx pdb2gmx -v -f 3r0l_clean.pdb -o crotoxina.gro
 
 # -v = verbose, para visualizar o processo.
 # -f = file input, arquivo de coordenadas de entrada.
@@ -104,9 +103,9 @@ Quando solicitado, digite o número correspondente para selecionar o campo de fo
 O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH proximos da neutralidade.
 
 >[!NOTE]
->Saiba mais sobre o comando **[gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html)**
+>Saiba mais sobre o comando [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
 >Será gerado os seguintes arquivos:
-> - crotamina.gro = arquivo com as coordenadas de cada átomo da biomolécula compatível com o campo de força.
+> - crotoxina.gro = arquivo com as coordenadas de cada átomo da biomolécula compatível com o campo de força.
 > - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para o cálculo das forças.
 > - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrição por padrão.
 >
