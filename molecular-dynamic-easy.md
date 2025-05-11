@@ -23,7 +23,6 @@ Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S174430911
 <div align="center">
 <img src="img/insulina.png" alt="insulina">
 </div>
-
 >Proteína PDB 3I40, insulina humana. O VMD possui o seguinte esquema de cores para a estrutura secundária: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🟦 ciano para voltas e ⚪ branco para superhélices ou cordas.
 
 >[!TIP]
@@ -88,6 +87,8 @@ O arquivo `3i40.pdb` contém as coordenadas da biomolécula com moléculas de á
 
 ```
 grep -v HETATM 3i40.pdb > 3i40_clean.pdb
+
+# ou grep -v HOH 3i40.pdb > 3i40_clean.pdb
 ```
 
 Também é necessário observar que algumas biomoléculas possuem várias cadeias identificadas como `chain A`, `chain B` etc. Recomenda-se remover manualmente as cadeias que não serão estudadas e, nesse caso, removi a cadeia B com um editor simples de texto.
@@ -101,9 +102,9 @@ gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 # -f = file input, arquivo de coordenadas de entrada.
 # -o = file output, arquivo de coordenadas de saída.
 ```
-Quando solicitado, digite o número correspondente ao campo de força e o modelo de água. Digite 1 para escolher AMBER e 1 para escolher o modelo de água TIP3P recomendado para o campo de força AMBER.
+Quando solicitado, digite o número correspondente ao campo de força e o modelo de água. Digite 1 para escolher AMBER03 (ou equivalente AMBER) e 1 para escolher o modelo de água TIP3P recomendado para campo de força AMBER.
 
-O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade e adicionando hidrogênios. A carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
+O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade e adicionando hidrogênios. A carga líquida global é conservada e pode ser visualizada no display como `Total charge in system -2.000 e`.
 
 Caso queira utilizar um campo de força externo, a pasta do campo de força com os arquivos deverá estar dentro da pasta de trabalho nomeada como `<name>.ff`.
 
