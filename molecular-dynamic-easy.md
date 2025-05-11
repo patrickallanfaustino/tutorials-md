@@ -132,7 +132,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 | **TIP4P** | 4 pontos | Inclui ponto virtual (M-site) para carga negativa fora do oxigênio, melhorando propriedades de fase. |
 | **TIP5P** | 5 pontos | Dois pontos extra para os pares de elétrons do oxigênio. Mais preciso para estrutura tetraédrica, porém mais custoso. |
 
->[!TIP]
+>[!IMPORTANT]
 >A escolha do campo de força e do modelo de água deve considerar a natureza do sistema e as propriedades que se deseja investigar.
 >
 
