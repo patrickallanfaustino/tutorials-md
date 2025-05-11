@@ -1,11 +1,11 @@
-<h1 align="center">Dinâmica Molecular da Crotoxina (PDB: 3R0L) em água</h1>
+<h1 align="center">Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
 </div>
 
 <div align="center">
-  <p>Simular a proteína Crotoxina em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A Crotoxina (CTX) é uma proteína que compõe o veneno da cobra Cascavel.</p>
+  <p>Simular a insulina humana em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A insulina é um hormônio regulador da entrada de glicosa nas células humanas.</p>
   <p>Explore, colabore e divirta-se! 😄</p>
 </div>
 
@@ -21,16 +21,16 @@
 
 Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
 
-Vamos trabalhar com a biomolécula [Crotoxina](https://doi.org/10.1016/j.jmb.2011.07.027) que possui o codigo [3R0L](https://www.rcsb.org/structure/3R0L) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
+Vamos trabalhar com a biomolécula [Insulina](https://doi.org/10.1107/S1744309110000461) que possui o codigo [3I40](https://www.rcsb.org/structure/3I40) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
 
-<img src="./img/crotoxina.png" alt="CTX">
+<img src="./img/insulina.png" alt="insulina">
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
 >
 
 ```
-├── 3r0l.pdb
+├── 3i40.pdb
 ├── amber14sb_parmbsc1_cufix.ff
 │   ├── aminoacids.arn
 │   ├── aminoacids.c.tdb
@@ -83,16 +83,18 @@ Vamos trabalhar com a biomolécula [Crotoxina](https://doi.org/10.1016/j.jmb.201
 
 ## Preparo da topologia da molécula: campos de forças.
 
-Nessa etapa, é necessário escolher o modelo de água e o campo de força utilizado. O arquivo `3r0l.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
+O arquivo `3i40.pdb` contém as coordenadas da biomolécula com moleculas de água e ligantes e será necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATM`) para evitar erros. Isso pode ser feito manualmente direto no arquivo ou pelo prompt de comando:
 
 ```
-grep -v HETATM 3r0l.pdb > 3r0l_clean.pdb
+grep -v HETATM 3i40.pdb > 3i40_clean.pdb
 ```
 
-Para escolher o campo de força e o modelo de água:
+Também é necessário observar que algumas biomoléculas possuem várias cadeias identificadas como `chain A`, `chain B` etc. Recomenda-se remover manualmente as cadeias que não serão estudadas e, nesse caso, removi a cadeia B com um editor simples de texto.
+
+Agora, vamos escolher o campo de força e o modelo de água:
 
 ```
-gmx pdb2gmx -v -f 3r0l_clean.pdb -o crotoxina.gro
+gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 
 # -v = verbose, para visualizar o processo.
 # -f = file input, arquivo de coordenadas de entrada.
@@ -105,7 +107,7 @@ O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consid
 >[!NOTE]
 >Saiba mais sobre o comando [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
 >Será gerado os seguintes arquivos:
-> - crotoxina.gro = arquivo com as coordenadas de cada átomo da biomolécula compatível com o campo de força.
+> - insulina.gro = arquivo com as coordenadas de cada átomo da biomolécula compatível com o campo de força.
 > - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para o cálculo das forças.
 > - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrição por padrão.
 >
