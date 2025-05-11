@@ -99,7 +99,9 @@ gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 ```
 Quando solicitado, digite o número correspondente ao campo de força e o modelo de água. Digite 1 para escolher AMBER e 1 para escolher o modelo de água TIP3P recomendado para o campo de força AMBER.
 
-O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade. A carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
+O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH próximos da neutralidade e adicionando hidrogênios. A carga líquida global é conservada e pode ser visualizada no display como `Total charge -2.000 e`.
+
+Caso queira utilizar um campo de força externo, a pasta do campo de força com os arquivos deverá estar no diretório de trabalho nomeada como `<forcefield-name>.ff`.
 
 Para visualizar no VMD, utilize:
 ```
