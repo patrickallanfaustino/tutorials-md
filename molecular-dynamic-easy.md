@@ -23,6 +23,7 @@ Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S174430911
 <div align="center">
 <img src="img/insulina.png" alt="insulina">
 </div>
+> Proteína PDB 3I40, insulina humana. Cores: 
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
