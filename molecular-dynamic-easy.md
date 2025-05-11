@@ -93,7 +93,7 @@ grep -v HOH 1h5o.pdb > 1h5o_clean.pdb
 Para escolher o campo de força e o modelo de água:
 
 ```
-gmx pdb2gmx -v -f 1ubq_clean.pdb -o ubiquitin.gro
+gmx pdb2gmx -v -f 1h5o_clean.pdb -o crotamina.gro
 
 # -v = verbose, para visualizar o processo.
 # -f = file input, arquivo de coordenadas de entrada.
@@ -101,6 +101,14 @@ gmx pdb2gmx -v -f 1ubq_clean.pdb -o ubiquitin.gro
 ```
 Quando solicitado, digite o número correspondente para selecionar o campo de força e o modelo de água.
 
+O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consideração valores de pH proximos da neutralidade.
+
+>[!NOTE]
+>Será gerado os seguintes arquivos:
+> - crotamina.gro = arquivo com as coordenadas de cada átomo da biomolécula compatível com o campo de força.
+> - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para o cálculo das forças.
+> - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrição por padrão.
+>
 
 
 ## Definindo a caixa de simulação.
