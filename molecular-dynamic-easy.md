@@ -93,7 +93,7 @@ grep -v HOH 1h5o.pdb > 1h5o_clean.pdb
 Para escolher o campo de força e o modelo de água:
 
 ```
-gmx pdb2gmx -v -f 1h5o_clean.pdb -o crotamina.gro
+gmx [pdb2gmx](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html) -v -f 1h5o_clean.pdb -o crotamina.gro
 
 # -v = verbose, para visualizar o processo.
 # -f = file input, arquivo de coordenadas de entrada.
