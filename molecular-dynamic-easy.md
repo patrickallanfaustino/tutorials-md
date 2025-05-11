@@ -5,7 +5,7 @@
 </div>
 
 <div align="center">
-  <p>Simular a proteína Crotoxina em uma caixa cúbica de água a uma temperatura de 298 K e 1 bar de pressão. A Crotoxina (CTX) é uma proteína que compõe o veneno da cobra Cascavel.</p>
+  <p>Simular a proteína Crotoxina em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A Crotoxina (CTX) é uma proteína que compõe o veneno da cobra Cascavel.</p>
   <p>Explore, colabore e divirta-se! 😄</p>
 </div>
 
@@ -23,7 +23,7 @@ Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de fo
 
 Vamos trabalhar com a biomolécula [Crotoxina](https://doi.org/10.1016/j.jmb.2011.07.027) que possui o codigo [3R0L](https://www.rcsb.org/structure/3R0L) no PDB. O PDB é um banco com várias biomoléculas depositadas e identificadas por códigos. Explore mais informações do PDB e da biomolécula.
 
-<img src="./img/crotoxina.jpg" alt="CTX">
+<img src="./img/crotoxina.png" alt="CTX">
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
