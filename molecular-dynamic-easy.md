@@ -22,6 +22,12 @@ Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S174430911
 
 ![Molécula da insulina](./img/insulina.png)
 
+<div align="center">
+  
+<img src="img/insulina.png" alt="insulina">
+
+</div>
+
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
 >
