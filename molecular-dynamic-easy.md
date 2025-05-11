@@ -23,6 +23,7 @@ Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S174430911
 <div align="center">
 <img src="img/insulina.png" alt="insulina">
 </div>
+
 >Proteína PDB 3I40, insulina humana. O VMD possui o seguinte esquema de cores para a estrutura secundária: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🟦 ciano para voltas e ⚪ branco para superhélices ou cordas.
 
 >[!TIP]
