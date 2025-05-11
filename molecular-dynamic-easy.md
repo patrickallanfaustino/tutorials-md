@@ -112,6 +112,10 @@ O Gromacs assumirá valores canônicos para cada aminoácidos, levando em consid
 > - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrição por padrão.
 >
 
+Para visualizar no VMD, utilize:
+```
+vmd insulina.gro
+```
 
 
 ## Definindo a caixa de simulação.
