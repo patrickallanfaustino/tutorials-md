@@ -144,7 +144,36 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 
 ## Definindo a caixa de simulação
 
-Working...
+Nesse momento, vamos editar uma caixa para a simulação, sua bordas e outros parâmetros.
+
+```
+gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
+
+# -f = file input, arquivo de coordenadas de entrada.
+# -o = file output, arquivo de coordenadas de saída.
+# -c = center, para centralizar todo o sistema.
+# -d = distância entre as moléculas e a borda.
+# -bt = box type, formado da caixa.
+```
+O formado da caixa pode ser `cubic`, `triclinic`, `octahedron` e `dodecahedron`. A escolha para o formado da caixa de simulação é a critério do pesquisador, levando em consideração o formato da biomolécula visando diminuir a quantidade de moléculas no sistema e consequentemente poupando recursos computacionais (tempo vs. energia).
+
+As dimensões da caixa escolhida pode ser verificada no display de saida. Valores entre 1.0~2.5 nm para a distância da borda são ideais.
+
+>[!NOTE]
+>Saiba mais sobre o comando [editconf](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-editconf.html).
+>Esse comando é muito util inclusive para converter arquivos .pdb <-> .gro usando `gmx editconf -f <file>.gro -o <file>.pdb`.
+>
+
+>[!IMPORTANT]
+>O comando `-box` pode ser usado para definir as dimensões da minha caixa. Exemplo: `gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic -box 10 10 10`, teremos uma caixa cubica com arestas máximas de 10 nm para cada orientação, sendo que a distância definida da borda de 2.5 nm será contabilizada, portanto teremos de espaço util 7.5 nm.
+>**Quando não definido `-box`?** Nesse caso, o algoritmo do Gromacs irá definir a caixa com base no tamanho maximo da biomolécula somado a distância da borda, medida suficiente para uma boa dinâmica com segurança e uso equilibrado de recursos computacionais.
+>
+
+<div align="center">
+<img src="img/box.png" alt="caixa de simulação">
+</div>
+
+>Proteína PDB 3I40, insulina humana em uma caixa de simulação cubica 7.8 x 7.8 x 7.8 nm.
 
 ## Minimização do sistema
 
