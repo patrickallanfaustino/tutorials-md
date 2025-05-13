@@ -166,7 +166,8 @@ As dimensões da caixa escolhida pode ser verificada no display de saida. Valore
 
 >[!IMPORTANT]
 >O comando `-box` pode ser usado para definir as dimensões da minha caixa. Exemplo: `gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic -box 10 10 10`, teremos uma caixa cubica com arestas máximas de 10 nm para cada orientação, sendo que a distância definida da borda de 2.5 nm será contabilizada, portanto teremos de espaço util 7.5 nm.
->**Quando não definido `-box`?** Nesse caso, o algoritmo do Gromacs irá definir a caixa com base no tamanho maximo da biomolécula somado a distância da borda, medida suficiente para uma boa dinâmica com segurança e uso equilibrado de recursos computacionais.
+>
+>**E quando não definimos `-box`?** Nesse caso, o algoritmo do Gromacs irá definir a caixa com base no tamanho maximo da biomolécula somado a distância da borda, medida suficiente para uma boa dinâmica com segurança e uso equilibrado de recursos computacionais.
 >
 
 <div align="center">
