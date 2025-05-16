@@ -221,7 +221,9 @@ Na tag -f temos o arquivo [ions.mdp](inputs-easy/ions.mdp) dentro da pasta `inpu
 >Em algumas oportunidades, o Gromacs gera alguns `warnings` que devem ser verificados e, se necessário, ignorados com **-maxwarn [x]**, onde `x` é a quantidade de `warnings` a ser ignorados.
 >
 
+Agora, vamos neutralizar a caixa de simulação:
 
+Working...
 
 
 
