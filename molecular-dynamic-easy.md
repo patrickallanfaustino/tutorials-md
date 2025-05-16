@@ -181,7 +181,7 @@ Agora vamos preencher nossa caixa com moléculas de água, uma vez que nossa int
 ```
 gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
 
-# -cp = coordenates protein, coordenadas do nosso soluto (geralmente, proteina)
+# -cp = coordenates protein, coordenadas do nosso soluto (geralmente, proteina).
 # -cs = coordenates solvent, coordenadas da molecula que será usada como solvente.
 # -o = output file, arquivo de saida.
 # -p = processing, para processar o arquivo de topologia do sistema.
@@ -190,7 +190,7 @@ Aqui, o software irá preencher toda a caixa de simulação com moléculas de á
 
 >[!NOTE]
 >Saiba mais sobre o comando [solvate](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-solvate.html).
->Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-naxsol** para definir a quantidade máxima de moleculas a ser adicionadas.
+>Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-maxsol** para definir a quantidade máxima de moleculas a ser adicionadas.
 >
 
 <div align="center">
@@ -198,6 +198,30 @@ Aqui, o software irá preencher toda a caixa de simulação com moléculas de á
 </div>
 
 >Proteína PDB 3I40 solvatada com água modelo TIP3P
+
+Nessa ultima etapa de preparo da caixa de simulação, vamos neutralizar a caixa com ions. Isso é necessário pois os integradores são eficientes em sistemas neutros. A insulina possui carga -2.000e, conforme visto anteriomente no preparo da topologia, portanto serão adicionados cátions para neutralizar o sistema.
+
+Antes de neutralizar com o comando `genion`, é necessário gerar um arquivo binário .tpr com todas as informações necessárias para o processamento:
+
+```
+gmx grompp -v -f inputs/ions.mdp -c solv.gro -o ions.tpr -p topol.top
+
+# -v = verbose, mostra todos os detalhes.
+# -f = file input, arquivo de entrada.
+# -c = coordenates, arquivo com as coordenadas.
+# -o = file output, arquivo de saida.
+# -p = processing, para processar o arquivo de topologia do sistema.
+```
+
+>[!NOTE]
+>Saiba mais sobre o comando [grompp](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-grompp.html).
+> Observe que na tag -f temos o arquivo `[ions.mdp]`(inputs/ions.mdp) dentro da pasta `inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um estudo sobre esse arquivo.
+>Em algumas oportunidades, o Gromacs gera alguns `warnings` que devem ser verificados e, se necessário, ignorados com **-maxwarn [x]**, onde `x` é a quantidade de `warnings` a ser ignorados.
+
+
+
+
+
 
 ## Minimização do sistema
 
