@@ -213,7 +213,7 @@ gmx grompp -v -f inputs/ions.mdp -c solv.gro -o ions.tpr -p topol.top
 # -p = processing, para processar o arquivo de topologia do sistema.
 ```
 
-Na tag -f temos o arquivo [ions.mdp](inputs/ions.mdp) dentro da pasta `inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um estudo intensivo sobre esse arquivo.
+Na tag -f temos o arquivo [ions.mdp](inputs-easy/ions.mdp) dentro da pasta `inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um estudo intensivo sobre esse arquivo.
 
 >[!NOTE]
 >Saiba mais sobre o comando [grompp](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-grompp.html).
