@@ -176,6 +176,29 @@ As dimensões da caixa escolhida pode ser verificada no display de saida. Valore
 
 >Proteína PDB 3I40, insulina humana em uma caixa de simulação cubica 7.8 x 7.8 x 7.8 nm.
 
+Agora vamos preencher nossa caixa com moléculas de água, uma vez que nossa intenção é estudar a solvatação da insulina em água.
+
+```
+gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
+
+# -cp = coordenates protein, coordenadas do nosso soluto (geralmente, proteina)
+# -cs = coordenates solvent, coordenadas da molecula que será usada como solvente.
+# -o = output file, arquivo de saida.
+# -p = processing, para processar o arquivo de topologia do sistema.
+```
+Aqui, o software irá preencher toda a caixa de simulação com moléculas de água de origem do arquivo `spc216.gro` do próprio Gromacs, ideal para modelo TIP3P. O nome do resíduo será `SOL`. No display de saida, podemos observar a quantidade de molécula adicionadas em `Number of solvent molecules` que será adicionado ao arquivo de topologia.
+
+>[!NOTE]
+>Saiba mais sobre o comando [solvate](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-solvate.html).
+>Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-naxsol** para definir a quantidade máxima de moleculas a ser adicionadas.
+>
+
+<div align="center">
+<img src="img/solvate.png" alt="proteina solvatada">
+</div>
+
+>Proteína PDB 3I40 solvatada com água modelo TIP3P
+
 ## Minimização do sistema
 
 Working...
