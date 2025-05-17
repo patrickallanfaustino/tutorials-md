@@ -15,7 +15,7 @@
 - [Preparo da topologia da molécula: campos de forças](#preparo-da-topologia-da-molécula-campos-de-forças)
 - [Definindo a caixa de simulação: dimensões, solvatação e neutralização](#definindo-a-caixa-de-simulação-dimensões-solvatação-e-neutralização)
 - [Minimização do sistema](#minimização-do-sistema)
-- [Equilíbrio NVT e NPT: termostatos e barostatos](equilíbrio-nvt-e-npt-termostatos-e-barostatos)
+- [Equilíbrio NVT e NPT: termostatos e barostatos](#equilíbrio-nvt-e-npt-termostatos-e-barostatos)
 
 ## Arquivos iniciais
 
