@@ -254,7 +254,50 @@ O `genion` solicitara para selecionar qual o grupo de moléculas que será subst
 
 ## Minimização do sistema
 
-Working...
+Nesse momento, vamos minimizar a energia potencial do sistema tratando as sobreposições das moléculas. Novamente, vamos gerar o binário .tpr e posteriormente minimizar o sistema.
+
+```
+gmx grompp -v -f inputs/minim.mdp -c solv_ions.gro -o em.tpr -p topol.top
+```
+```
+gmx mdrun -v -deffnm em
+
+# -v = verbose, mostra no display de saida os detalhes.
+# -deffnm = define o nome padrão para todos os arquivos de entrada e saida.
+```
+O comando `mdrun` é o cerne da dinâmica molecular no Gromacs. Geralmente, simplificamos os nomes dos arquivos de entradas e saidas com `-deffnm`. O nome utilizado no `grompp -o` deverá corresponder ao mesmo definido em `-deffnm`.
+
+>[!NOTE]
+>Saiba mais sobre o comando [mdrun](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-mdrun.html).
+>
+
+Para o acompanhamento eficiente dessa etapa, vamos verificar o gráfico de energia potencial. Vamos ler o arquivo .edr que contém as energias calculadas e gerar um arquivo .xvg.
+
+```
+gmx energy -f em.edr -s em.tpr -o potential.xvg
+
+# -f = file input, arquivo de entrada.
+# -o = file output, arquivo de saida.
+# -s = submit binary, arquivo binário gerado com todas informações.
+```
+
+Verifique na tabela o número correspondente a 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: 10 0
+
+Utilizaremos o `XMGrace` para visualizar o gráfico:
+
+```
+xmgrace potential.xvg
+```
+
+Note a curva realizada, indicando a minimização do sistema.
+
+<div align="center">
+<img src="img/minim.png" alt="gráfico da energia minimizada">
+</div>
+
+>[!NOTE]
+>Saiba mais sobre o comando [energy](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-energy.html).
+>
 
 ## Equilíbrio NVT e NPT: termostatos e barostatos.
 
