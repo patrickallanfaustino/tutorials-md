@@ -13,6 +13,8 @@
 
 - [Arquivos iniciais](#arquivos-iniciais)
 - [Preparo da topologia da molécula: campos de forças](#preparo-da-topologia-da-molécula-campos-de-forças)
+- [Definindo a caixa de simulação: dimensões, solvatação e neutralização](#definindo-a-caixa-de-simulação-dimensões-solvatação-e-neutralização)
+- [Minimização do sistema](#minimização-do-sistema)
 
 ## Arquivos iniciais
 
@@ -251,6 +253,8 @@ O `genion` solicitara para selecionar qual o grupo de moléculas que será subst
 </div>
 
 >Proteína PDB 3I40 solvatada e neutralizada. Em 🔵 NA e 🟢 CL.
+
+Pronto, agora nossa caixa de simulação está pronta!
 
 ## Minimização do sistema
 
