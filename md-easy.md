@@ -24,7 +24,7 @@ Vamos trabalhar com a biomolécula [insulina](https://doi.org/10.1107/S174430911
 <img src="img/insulina.png" alt="insulina">
 </div>
 
->Proteína PDB 3I40, insulina humana. O VMD possui o seguinte esquema de cores para a estrutura secundária: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🟦 ciano para voltas e ⚪ branco para superhélices ou cordas.
+>Proteína PDB 3I40, insulina humana. O VMD possui o seguinte esquema de cores para a estrutura secundária: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 ciano para voltas e ⚪ branco para superhélices ou cordas.
 
 >[!TIP]
 > Organize o diretório de trabalho criando as pastas `analysis` para os arquivos de analises e `inputs` para os arquivos .mdp da dinâmica molecular.
@@ -142,9 +142,9 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 >A escolha do campo de força e do modelo de água deve considerar a natureza do sistema e as propriedades que se deseja investigar.
 >
 
-## Definindo a caixa de simulação
+## Definindo a caixa de simulação: dimensões, solvatação e neutralização
 
-Nesse momento, vamos editar uma caixa para a simulação, sua bordas e outros parâmetros.
+Nesse momento, vamos editar uma caixa para a simulação, sua borda e outros parâmetros.
 
 ```
 gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
@@ -157,7 +157,7 @@ gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
 ```
 O formado da caixa pode ser `cubic`, `triclinic`, `octahedron` e `dodecahedron`. A escolha para o formado da caixa de simulação é a critério do pesquisador, levando em consideração o formato da biomolécula visando diminuir a quantidade de moléculas no sistema e consequentemente poupando recursos computacionais (tempo vs. energia).
 
-As dimensões da caixa escolhida pode ser verificada no display de saida. Valores entre 1.0~2.5 nm para a distância da borda são ideais.
+As dimensões da caixa escolhida pode ser verificada no display de saida. Valores entre `1.0~2.5` nm para a distância da borda são ideais.
 
 >[!NOTE]
 >Saiba mais sobre o comando [editconf](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-editconf.html).
@@ -176,7 +176,7 @@ As dimensões da caixa escolhida pode ser verificada no display de saida. Valore
 
 >Proteína PDB 3I40, insulina humana em uma caixa de simulação cubica 7.8 x 7.8 x 7.8 nm.
 
-Agora vamos preencher nossa caixa com moléculas de água, uma vez que nossa intenção é estudar a solvatação da insulina em água.
+***Solvatação***: Agora vamos preencher nossa caixa com moléculas de água, uma vez que nossa intenção é estudar a solvatação da insulina em água.
 
 ```
 gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
@@ -190,7 +190,11 @@ Aqui, o software irá preencher toda a caixa de simulação com moléculas de á
 
 >[!NOTE]
 >Saiba mais sobre o comando [solvate](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-solvate.html).
->Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-maxsol** para definir a quantidade máxima de moleculas a ser adicionadas.
+>Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-maxsol** para definir a quantidade máxima de moleculas adicionadas, sendo util para calculos de concentrações.
+>
+
+>[!IMPORTANT]
+>Para modelos de água TIP4P, `-cs` utilize `tip4p.gro`.
 >
 
 <div align="center">
@@ -199,7 +203,7 @@ Aqui, o software irá preencher toda a caixa de simulação com moléculas de á
 
 >Proteína PDB 3I40 solvatada com água modelo TIP3P
 
-Nessa ultima etapa de preparo da caixa de simulação, vamos neutralizar a caixa com ions. Isso é necessário pois os integradores são eficientes em sistemas neutros. A insulina possui carga -2.000e, conforme visto anteriomente no preparo da topologia, portanto serão adicionados cátions para neutralizar o sistema.
+***Neutralização***: Nessa ultima etapa de preparo da caixa de simulação, vamos neutralizar a caixa com ions. Isso é necessário pois os integradores são eficientes em sistemas neutros. A insulina possui carga -2.000 e, conforme visto anteriomente no preparo da topologia, portanto serão adicionados cátions para neutralizar o sistema.
 
 Antes de neutralizar com o comando `genion`, é necessário gerar um arquivo binário .tpr com todas as informações necessárias para o processamento:
 
@@ -213,7 +217,7 @@ gmx grompp -v -f inputs/ions.mdp -c solv.gro -o ions.tpr -p topol.top
 # -p = processing, para processar o arquivo de topologia do sistema.
 ```
 
-Na tag -f temos o arquivo [ions.mdp](inputs-easy/ions.mdp) dentro da pasta `inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um estudo intensivo sobre esse arquivo.
+Na tag -f temos o arquivo [ions.mdp](inputs-easy/ions.mdp) dentro da pasta `inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um [estudo intensivo](https://manual.gromacs.org/current/user-guide/mdp-options.html) sobre os parâmetros desse arquivo.
 
 >[!NOTE]
 >Saiba mais sobre o comando [grompp](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-grompp.html).
@@ -221,12 +225,32 @@ Na tag -f temos o arquivo [ions.mdp](inputs-easy/ions.mdp) dentro da pasta `inpu
 >Em algumas oportunidades, o Gromacs gera alguns `warnings` que devem ser verificados e, se necessário, ignorados com **-maxwarn [x]**, onde `x` é a quantidade de `warnings` a ser ignorados.
 >
 
-Agora, vamos neutralizar a caixa de simulação:
+Agora, podemos neutralizar a caixa de simulação:
 
-Working...
+```
+gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
 
+# -s = submit binary, arquivo binário gerado com todas informações.
+# -o = file output, arquivo de saida.
+# -p = processing, para processar o arquivo de topologia do sistema.
+# -pname = nome do cátion(+), nesse caso NA Sódio.
+# -nname = nome do ânion(-), nesse caso CL Cloro.
+# -neutral = para neutralizar completamente o sistema, as vezes desnecessário.
+# -conc 0.15 = concentration, define a concentração em mol/L.
+```
+Por padrão, o Gromacs sempre irá adicionar NA e CL suficientes apenas para neutralizar a proteina (nesse caso, como a carga é -2.000 e, então adicionará 2 NA). Com as opções `-conc 0.15` e opcionalmente `-neutral`, garantimos a adição de uma solução fisiológica 0.9% m/m a fim de estabelecer um meio próximo ao real no sistema biológico humano e neutralizar a proteina. Note no display de saida a informação 'Will try to add 45 NA ions and 43 CL ions'.
 
+O `genion` solicitara para selecionar qual o grupo de moléculas que será substituidas pela adição dos ions. Por convenção, utilizamos o grupo **SOL**. Selecione o número correspondente ao SOL.
 
+>[!NOTE]
+>Saiba mais sobre o comando [genion](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-genion.html).
+>
+
+<div align="center">
+<img src="img/neutralization.png" alt="proteina solvatada e neutralizada">
+</div>
+
+>Proteína PDB 3I40 solvatada e neutralizada. Em 🔵 NA e 🟢 CL.
 
 ## Minimização do sistema
 
