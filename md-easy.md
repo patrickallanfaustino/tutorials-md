@@ -269,7 +269,7 @@ gmx mdrun -v -deffnm em
 # -v = verbose, mostra no display de saida os detalhes.
 # -deffnm = define o nome padrão para todos os arquivos de entrada e saida.
 ```
-O comando `mdrun` é o cerne da dinâmica molecular no Gromacs. Geralmente, simplificamos os nomes dos arquivos de entradas e saidas com `-deffnm`. O nome utilizado no `grompp -o` deverá corresponder ao mesmo definido em `-deffnm`.
+O comando `mdrun` é o cerne da dinâmica molecular no Gromacs. Geralmente, simplificamos os nomes dos arquivos de entradas e saidas com `-deffnm`. O nome utilizado no `grompp -o` deverá corresponder ao mesmo definido em `-deffnm`. Utilizamos o arquivo [minim.mdp](inputs-easy/minim.mdp) com as opções para a minimização.
 
 >[!NOTE]
 >Saiba mais sobre o comando [mdrun](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-mdrun.html).
@@ -305,7 +305,54 @@ Note a curva realizada, indicando a minimização do sistema.
 
 ## Equilíbrio NVT e NPT: termostatos e barostatos.
 
-Working...
+Vamos agora ajustar a temperatura e a pressão do nosso sistema em 298.15 K (25 ºC) e 1 bar (0,98 atm).
+
+***NVT***: mantendo o mesmo número de moléculas (N), volume (V) e temperatura (T), vamos gerar o binario .tpr com o arquivo [nvt.mdp](inputs-easy/nvt.mdp). Nesse arquivo `nvt.mdp` definimos alguns parâmetros:
+
+* Definimos a restrição da proteina, `define = -DPOSRES`.
+* Definimos o tempo para o ajuste da temperatura, `nsteps = 50000` x 0,002 (dt) = 100 ps.
+* Definimos o algoritmo para o ajuste da temperatura, `tcoupl = V-rescale`.
+* Definimos os grupos para o ajuste da temperatura, `tc-grps = Protein   Non-Protein`.
+* Definimos a constante de tempo de ajuste da temperatura, `tau-t = 1.0`.
+* Definimos a temperatura de referência, `ref-t = 298.15`.
+
+Como visto, muitos parâmetros são definidos nesse momento. Algumas observações para cada parâmetro:
+
+* A restrinção de posição dos átomos não-hidrigênio da proteina nas próximas etapas é necessário para preservar a posição da proteina e adequar todo o solvente ao redor. Se a molécula exceder o limite imposto no arquivo `posre.itp` (padrão 1000 kJ/mol/nm), será permitido o movimento apenas dessa molécula.
+* É mais eficiente e garente acurácia aplicar o termostato em grupos separados, no caso de `tc-grps = Protein   Non-Protein`.
+* A constante de tempo de ajuste da temperatura, `tau-t = 1.0`, garante a aplicação do termostato nesse intervalo de tempo em ps. Pode variar entre `0.5~1.0`, sempre menor que a constante de ajuste do barostato e para valores muito pequenos o sistema ⚠️ 'explodirá'!
+
+```
+gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
+```
+```
+gmx mdrun -f -deffnm nvt
+```
+
+>[!NOTE]
+>Note a performance no display de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns;
+>
+
+Vamos gerar e verificar a temperatura do sistema:
+
+```
+gmx energy -f nvt.edr -s nvt.tpr -o temperature.xvg
+```
+
+Selecione o número correspondente a 'Temperature' seguida por espaço e 0 (zero).
+
+```
+xmgrace temperature.xvg
+```
+
+<div align="center">
+<img src="img/temperature.png" alt="gráfico da temperatura">
+</div>
+
+Note que após 20 ps a temperatura do sistema estabilizou em 298.15 K. Caso não houver a estabilização, o tempo em `nsteps` deve ser aumentado e a etapa repetida. Agora partimos para o ajuste de pressão.
+
+
+
 
 ## Produção: integradores.
 
