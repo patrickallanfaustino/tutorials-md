@@ -15,6 +15,7 @@
 - [Preparo da topologia da molécula: campos de forças](#preparo-da-topologia-da-molécula-campos-de-forças)
 - [Definindo a caixa de simulação: dimensões, solvatação e neutralização](#definindo-a-caixa-de-simulação-dimensões-solvatação-e-neutralização)
 - [Minimização do sistema](#minimização-do-sistema)
+- [Equilíbrio NVT e NPT: termostatos e barostatos](equilibrio-nvt-e-npt-termostatos-e-barostatos)
 
 ## Arquivos iniciais
 
@@ -303,7 +304,7 @@ Note a curva realizada, indicando a minimização do sistema.
 <img src="img/minim.png" alt="gráfico da energia minimizada">
 </div>
 
-## Equilíbrio NVT e NPT: termostatos e barostatos.
+## Equilíbrio NVT e NPT: termostatos e barostatos
 
 Vamos agora ajustar a temperatura e a pressão do nosso sistema em 298.15 K (25 ºC) e 1 bar (0,98 atm).
 
@@ -349,9 +350,10 @@ xmgrace temperature.xvg
 <img src="img/temperature.png" alt="gráfico da temperatura">
 </div>
 
-Note que após 20 ps a temperatura do sistema estabilizou em 298.15 K. Caso não houver a estabilização, o tempo em `nsteps` deve ser aumentado e a etapa repetida. Agora partimos para o ajuste de pressão.
+Após 20 ps a temperatura do sistema estabilizou em 298.15 K. Caso não houver a estabilização, o tempo em `nsteps` deve ser aumentado e a etapa repetida. Agora partimos para o ajuste de pressão.
 
 
+Working...
 
 
 ## Produção: integradores.
