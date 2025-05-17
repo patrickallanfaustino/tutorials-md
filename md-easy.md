@@ -331,7 +331,7 @@ gmx mdrun -f -deffnm nvt
 ```
 
 >[!NOTE]
->Note a performance no display de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns;
+>Note a performance no display de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
 >
 
 Vamos gerar e verificar a temperatura do sistema:
