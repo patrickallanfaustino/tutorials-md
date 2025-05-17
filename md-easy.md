@@ -283,6 +283,10 @@ gmx energy -f em.edr -s em.tpr -o potential.xvg
 
 Verifique na tabela o número correspondente a 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: 10 0
 
+>[!NOTE]
+>Saiba mais sobre o comando [energy](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-energy.html).
+>
+
 Utilizaremos o `XMGrace` para visualizar o gráfico:
 
 ```
@@ -294,10 +298,6 @@ Note a curva realizada, indicando a minimização do sistema.
 <div align="center">
 <img src="img/minim.png" alt="gráfico da energia minimizada">
 </div>
-
->[!NOTE]
->Saiba mais sobre o comando [energy](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-energy.html).
->
 
 ## Equilíbrio NVT e NPT: termostatos e barostatos.
 
