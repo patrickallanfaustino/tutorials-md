@@ -325,6 +325,8 @@ Como visto, muitos parâmetros são definidos nesse momento. Algumas observaçõ
 
 ```
 gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
+
+# -r = restraint file, arquivo de coordenadas com as restrinções iniciais (geralmente mesmo arquivo).
 ```
 ```
 gmx mdrun -f -deffnm nvt
@@ -352,9 +354,52 @@ xmgrace temperature.xvg
 
 Após 20 ps a temperatura do sistema estabilizou em 298.15 K. Caso não houver a estabilização, o tempo em `nsteps` deve ser aumentado e a etapa repetida. Agora partimos para o ajuste de pressão.
 
+***NPT***: mantendo o mesmo número de moléculas (N), pressão (P) e temperatura (T), vamos gerar o binario .tpr com o arquivo [npt.mdp](inputs-easy/npt.mdp). Nesse arquivo `npt.mdp` definimos:
 
-Working...
+* O algoritmo responsável por ajustar a pressão, `pcoul = C-rescale`.
+* A constante de tempo de ajuste da pressão, `tau-p = 3.0`.
+* A pressão requerida, `ref-p = 1.0`.
 
+Os demais parâmetros são idênticos ou semelhantes a etapa NVT, entretanto o tempo de equilibrio é um pouco maior na etapa NPT. Vamos gerar o arquivo binário .tpr a partir das coordenadas anteriores da etapa NVT.
+
+```
+gmx grompp -v -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -o npt.tpr -p topol.top
+
+# -t = time file, arquivo com os checkpoint anterior (geralmente utilizado para indicar o ponto de partida)
+```
+```
+gmx mdrun -v -deffnm npt
+```
+
+<div align="center">
+<img src="img/pressure.png" alt="gráfico da pressão">
+</div>
+<div align="center">
+<img src="img/density.png" alt="gráfico da densidade">
+</div>
+
+Pelo gráfico da pressão, notamos picos distintos que não são representativos e adequados para avaliar o desempenho do barostato. O gráfico de densidade é ideal para avaliar, onde notamos uma estabilização da densidade com pouca variação.
+
+Vamos para um breve resumo dos termostatos e barostatos.
+
+| Termostato | Características | Vantagens | Limitações
+|--------|---------|-------------|---------------|
+| **Berendsen** | Rápido para equilibrar temperatura | Simples e eficiente para equilíbrios | Não reproduz corretamente as flutuações canônicas |
+| **V-rescale** | Mantém temperatura média correta e flutuações realistas | Estável e mais preciso que Berendsen | Ligeiramente mais complexo |
+| **Nose-Hoover** | Mantém distribuição canônica (NVT) | Correto estatisticamente | Pode ter acoplamento mais lento |
+
+| Barostato | Características | Vantagens | Limitações
+|--------|---------|-------------|---------------|
+| **Berendsen** | Ajusta pressão rapidamente durante o equilíbrio | Simples, ideal para pré-produção | Não reproduz corretamente as flutuações canônicas |
+| **Parrinello-Rahman** | Permite flutuações de volume e forma da caixa (NPT) | Correto para simulações de produção | Pode ser instável sem bom equilíbrio inicial |
+| **C-rescale** | MVersão estocástica rigorosa de controle de pressão. Mantém flutuações canônicas corretas no ensemble NPT | Produz NPT canônico exato, mais robusto e estável que Parrinello-Rahman em algumas situações | Disponível a partir do GROMACS 2023, não tão testado quanto Parrinello-Rahman |
+
+>[!IMPORTANT]
+>A escolha do termostato e barostato deve considerar a natureza do sistema e as propriedades que se deseja investigar.
+>O Gromacs recomenda: V-rescale e C-rescale.
+>
+
+Agora estamos prontos para nossa simulação!
 
 ## Produção: integradores.
 
