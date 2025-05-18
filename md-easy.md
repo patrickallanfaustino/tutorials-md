@@ -393,7 +393,7 @@ Vamos para um breve resumo dos termostatos e barostatos.
 |--------|---------|-------------|---------------|
 | **Berendsen** | Ajusta pressão rapidamente durante o equilíbrio | Simples, ideal para pré-produção | Não reproduz corretamente as flutuações canônicas |
 | **Parrinello-Rahman** | Permite flutuações de volume e forma da caixa (NPT) | Correto para simulações de produção | Pode ser instável sem bom equilíbrio inicial |
-| **C-rescale** | MVersão estocástica rigorosa de controle de pressão. Mantém flutuações canônicas corretas no ensemble NPT | Produz NPT canônico exato, mais robusto e estável que Parrinello-Rahman em algumas situações | Disponível a partir do GROMACS 2023, não tão testado quanto Parrinello-Rahman |
+| **C-rescale** | Versão estocástica rigorosa de controle de pressão. Mantém flutuações canônicas corretas no ensemble NPT | Produz NPT canônico exato, mais robusto e estável que Parrinello-Rahman em algumas situações | Disponível a partir do GROMACS 2023, não tão testado quanto Parrinello-Rahman |
 
 >[!IMPORTANT]
 >A escolha do termostato e barostato deve considerar a natureza do sistema e as propriedades que se deseja investigar.
