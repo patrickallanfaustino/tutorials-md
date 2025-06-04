@@ -153,7 +153,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 
 ## Definindo a caixa de simulação: dimensões, solvatação e neutralização
 
-Nesse momento, vamos editar uma caixa para a simulação, sua borda e outros parâmetros.
+Nesta etapa, procede-se à definição da caixa de simulação, ajustando-se suas dimensões, a distância da biomolécula em relação às bordas e outros parâmetros relevantes para a correta configuração do sistema.
 
 ```
 gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
@@ -164,19 +164,20 @@ gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
 # -d = distância entre as moléculas e a borda.
 # -bt = box type, formado da caixa.
 ```
-O formado da caixa pode ser `cubic`, `triclinic`, `octahedron` e `dodecahedron`. A escolha para o formado da caixa de simulação é a critério do pesquisador, levando em consideração o formato da biomolécula visando diminuir a quantidade de moléculas no sistema e consequentemente poupando recursos computacionais (tempo vs. energia).
 
-As dimensões da caixa escolhida pode ser verificada no display de saida. Valores entre `1.0~2.5` nm para a distância da borda são ideais.
+O formato da caixa pode ser definido como `cubic`, `triclinic`, `octahedron` ou `dodecahedron`. A escolha do formato da caixa de simulação é de responsabilidade do pesquisador e deve considerar o formato da biomolécula, com o objetivo de otimizar o número de moléculas no sistema. Essa estratégia permite economizar recursos computacionais, equilibrando tempo de simulação e demanda energética.
+
+As dimensões da caixa selecionada podem ser verificadas no display de saída. Recomenda-se que a distância entre a biomolécula e as bordas da caixa esteja entre 1,0 e 2,5 nm, valores considerados ideais.
 
 >[!NOTE]
 >Saiba mais sobre o comando [editconf](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-editconf.html).
->Esse comando é muito util inclusive para converter arquivos .pdb <-> .gro usando `gmx editconf -f <file>.gro -o <file>.pdb`.
+>Esse comando é util para converter arquivos .pdb <--> .gro usando `gmx editconf -f <file>.gro -o <file>.pdb`.
 >
 
 >[!IMPORTANT]
->O comando `-box` pode ser usado para definir as dimensões da minha caixa. Exemplo: `gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic -box 10 10 10`, teremos uma caixa cubica com arestas máximas de 10 nm para cada orientação, sendo que a distância definida da borda de 2.5 nm será contabilizada, portanto teremos de espaço util 7.5 nm.
+>O comando `-box` pode ser utilizado para definir as dimensões da caixa de simulação. Por exemplo, ao executar `gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic -box 10 10 10`, obtém-se uma caixa cúbica com arestas de 10 nm em cada direção. Nessa configuração, a distância da borda definida como 2,5 nm será considerada, resultando em um espaço útil de 7,5 nm para a acomodação da biomolécula, garantindo o afastamento adequado entre a molécula e as bordas da caixa.
 >
->**E quando não definimos `-box`?** Nesse caso, o algoritmo do Gromacs irá definir a caixa com base no tamanho maximo da biomolécula somado a distância da borda, medida suficiente para uma boa dinâmica com segurança e uso equilibrado de recursos computacionais.
+>**E quando não definimos `-box`?** Nessa configuração, o algoritmo do Gromacs definirá as dimensões da caixa com base no tamanho máximo da biomolécula, acrescido da distância especificada para a borda. Essa abordagem proporciona uma margem suficiente para garantir uma dinâmica molecular segura, ao mesmo tempo em que promove o uso eficiente dos recursos computacionais.
 >
 
 <div align="center">
@@ -185,7 +186,7 @@ As dimensões da caixa escolhida pode ser verificada no display de saida. Valore
 
 >Proteína PDB 3I40, insulina humana em uma caixa de simulação cubica 7.8 x 7.8 x 7.8 nm.
 
-***Solvatação***: Agora vamos preencher nossa caixa com moléculas de água, uma vez que nossa intenção é estudar a solvatação da insulina em água.
+***Solvatação***: Na sequência, a caixa de simulação será preenchida com moléculas de água, uma vez que o objetivo é investigar a solvatação da insulina em meio aquoso. Esse procedimento assegura que a biomolécula esteja imersa em um ambiente que simule condições fisiológicas adequadas para a dinâmica molecular.
 
 ```
 gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
@@ -195,11 +196,12 @@ gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
 # -o = output file, arquivo de saida.
 # -p = processing, para processar o arquivo de topologia do sistema.
 ```
-Aqui, o software irá preencher toda a caixa de simulação com moléculas de água de origem do arquivo `spc216.gro` do próprio Gromacs, ideal para modelo TIP3P. O nome do resíduo será `SOL`. No display de saida, podemos observar a quantidade de molécula adicionadas em `Number of solvent molecules` que será adicionado ao arquivo de topologia.
+
+Neste estágio, o software preencherá toda a caixa de simulação com moléculas de água provenientes do arquivo `spc216.gro`, disponível no próprio Gromacs, que é adequado para o modelo TIP3P. As moléculas de água serão identificadas pelo nome de resíduo **SOL**. No display de saída, é possível observar a quantidade total de moléculas de solvente adicionadas por meio da linha `Number of solvent molecules`, sendo essa informação incorporada automaticamente ao `[ molecules ]` do arquivo de topologia do sistema.
 
 >[!NOTE]
 >Saiba mais sobre o comando [solvate](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-solvate.html).
->Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-maxsol** para definir a quantidade máxima de moleculas adicionadas, sendo util para calculos de concentrações.
+>Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-maxsol** para definir a quantidade máxima de moleculas adicionadas, util para calculos de concentrações.
 >
 
 >[!IMPORTANT]
@@ -212,7 +214,7 @@ Aqui, o software irá preencher toda a caixa de simulação com moléculas de á
 
 >Proteína PDB 3I40 solvatada com água modelo TIP3P
 
-***Neutralização***: Nessa ultima etapa de preparo da caixa de simulação, vamos neutralizar a caixa com ions. Isso é necessário pois os integradores são eficientes em sistemas neutros. A insulina possui carga -2.000 e, conforme visto anteriomente no preparo da topologia, portanto serão adicionados cátions para neutralizar o sistema.
+***Neutralização***: Na última etapa do preparo da caixa de simulação, procede-se à neutralização do sistema por meio da adição de íons. Essa etapa é fundamental, pois os integradores utilizados nas simulações apresentam maior eficiência em sistemas eletricamente neutros. Considerando que a insulina apresenta carga total de -2,000 e, como evidenciado anteriormente na preparação da topologia, será necessária a adição de cátions de modo a compensar essa carga e garantir a neutralidade global do sistema.
 
 Antes de neutralizar com o comando `genion`, é necessário gerar um arquivo binário .tpr com todas as informações necessárias para o processamento:
 
@@ -226,15 +228,15 @@ gmx grompp -v -f inputs/ions.mdp -c solv.gro -o ions.tpr -p topol.top
 # -p = processing, para processar o arquivo de topologia do sistema.
 ```
 
-Na tag -f temos o arquivo [ions.mdp](inputs-easy/ions.mdp) dentro da pasta `inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um [estudo intensivo](https://manual.gromacs.org/current/user-guide/mdp-options.html) sobre os parâmetros desse arquivo.
+Na tag -f temos o arquivo [ions.mdp](inputs-easy/ions.mdp) da pasta `inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um [estudo intensivo](https://manual.gromacs.org/current/user-guide/mdp-options.html) sobre os parâmetros desse arquivo.
 
 >[!NOTE]
 >Saiba mais sobre o comando [grompp](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-grompp.html).
 >
->Em algumas oportunidades, o Gromacs gera alguns `warnings` que devem ser verificados e, se necessário, ignorados com **-maxwarn [x]**, onde `x` é a quantidade de `warnings` a ser ignorados.
+>Em algumas oportunidades, o Gromacs gera `warnings` que devem ser verificados e, se necessário, suprimidos com **-maxwarn [x]**, onde `x` é a quantidade de `warnings` a ser suprimidos.
 >
 
-Agora, podemos neutralizar a caixa de simulação:
+Neste momento, procede-se à neutralização da caixa de simulação, adicionando-se os íons necessários para compensar a carga líquida do sistema e assegurar a neutralidade elétrica.
 
 ```
 gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
@@ -247,9 +249,10 @@ gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutra
 # -neutral = para neutralizar completamente o sistema, as vezes desnecessário.
 # -conc 0.15 = concentration, define a concentração em mol/L.
 ```
-Por padrão, o Gromacs sempre irá adicionar NA e CL suficientes apenas para neutralizar a proteina (nesse caso, como a carga é -2.000 e, então adicionará 2 NA). Com as opções `-conc 0.15` e opcionalmente `-neutral`, garantimos a adição de uma solução fisiológica 0.9% m/m a fim de estabelecer um meio próximo ao real no sistema biológico humano e neutralizar a proteina. Note no display de saida a informação 'Will try to add 45 NA ions and 43 CL ions'.
 
-O `genion` solicitara para selecionar qual o grupo de moléculas que será substituidas pela adição dos ions. Por convenção, utilizamos o grupo **SOL**. Selecione o número correspondente ao SOL.
+Por padrão, o Gromacs adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar a proteína; neste caso, considerando a carga líquida de -2,000 e, serão adicionados dois íons NA ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9% m/m, simulando um ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema. No display de saída, pode-se observar a mensagem `Will try to add 45 NA ions and 43 CL ions`, indicando o número de íons a serem incorporados para atingir a concentração e o equilíbrio desejados.
+
+O `genion` solicitara para selecionar qual o grupo de moléculas que será substituidas pela adição dos ions. Por convenção, utilizamos o grupo **SOL** para remover moléculas de água em troca dos ions. Selecione o número correspondente ao SOL.
 
 >[!NOTE]
 >Saiba mais sobre o comando [genion](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-genion.html).
@@ -265,7 +268,7 @@ Pronto, agora nossa caixa de simulação está pronta!
 
 ## Minimização do sistema
 
-Nesse momento, vamos minimizar a energia potencial do sistema tratando as sobreposições das moléculas. Novamente, vamos gerar o binário .tpr e posteriormente minimizar o sistema.
+Neste momento, realiza-se a minimização da energia potencial do sistema, processando as eventuais sobreposições entre as moléculas. Para isso, é gerado novamente o arquivo binário .tpr e, em seguida, procede-se à minimização energética do sistema, garantindo uma configuração estrutural inicial estável e adequada para as etapas subsequentes da simulação.
 
 ```
 gmx grompp -v -f inputs/minim.mdp -c solv_ions.gro -o em.tpr -p topol.top
@@ -276,13 +279,15 @@ gmx mdrun -v -deffnm em
 # -v = verbose, mostra no display de saida os detalhes.
 # -deffnm = define o nome padrão para todos os arquivos de entrada e saida.
 ```
-O comando `mdrun` é o cerne da dinâmica molecular no Gromacs. Geralmente, simplificamos os nomes dos arquivos de entradas e saidas com `-deffnm`. O nome utilizado no `grompp -o` deverá corresponder ao mesmo definido em `-deffnm`. Utilizamos o arquivo [minim.mdp](inputs-easy/minim.mdp) com as opções para a minimização.
+
+O comando mdrun constitui o núcleo do processo de dinâmica molecular no Gromacs. Recomenda-se simplificar os nomes dos arquivos de entrada e saída utilizando a opção `-deffnm`. O nome utilizado no `grompp -o <name>.tpr` deve ser o mesmo especificado em `-deffnm`, garantindo consistência entre os arquivos utilizados. Para a etapa de minimização, é adotado o arquivo de parâmetros [minim.mdp](inputs-easy/minim.mdp), que contém as opções específicas para o procedimento de minimização energética.
+
 
 >[!NOTE]
 >Saiba mais sobre o comando [mdrun](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-mdrun.html).
 >
 
-Para o acompanhamento eficiente dessa etapa, vamos verificar o gráfico de energia potencial. Vamos ler o arquivo .edr que contém as energias calculadas e gerar um arquivo .xvg.
+Para um acompanhamento eficiente desta etapa, recomenda-se a análise do gráfico de energia potencial do sistema. Para isso, o arquivo .edr, que armazena as energias calculadas durante a simulação, deve ser lido e convertido em um arquivo .xvg. Esse procedimento permite a avaliação gráfica da convergência e da estabilidade energética do sistema ao longo do processo de minimização.
 
 ```
 gmx energy -f em.edr -s em.tpr -o potential.xvg
@@ -292,19 +297,19 @@ gmx energy -f em.edr -s em.tpr -o potential.xvg
 # -s = submit binary, arquivo binário gerado com todas informações.
 ```
 
-Verifique na tabela o número correspondente a 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: 10 0
+Verifique na tabela o número correspondente a 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: **10 0**.
 
 >[!NOTE]
 >Saiba mais sobre o comando [energy](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-energy.html).
 >
 
-Utilizaremos o `XMGrace` para visualizar o gráfico:
+Utiliza-se o `XMGrace` para visualizar o gráfico:
 
 ```
 xmgrace potential.xvg
 ```
 
-Note a curva realizada, indicando a minimização do sistema.
+Observa-se a curva gerada no gráfico, a qual indica a minimização efetiva do sistema.
 
 <div align="center">
 <img src="img/minim.png" alt="gráfico da energia minimizada">
@@ -312,9 +317,9 @@ Note a curva realizada, indicando a minimização do sistema.
 
 ## Equilíbrio NVT e NPT: termostatos e barostatos
 
-Vamos agora ajustar a temperatura e a pressão do nosso sistema em 298.15 K (25 ºC) e 1 bar (0,98 atm).
+As próximas etapas consiste no ajuste da temperatura e da pressão do sistema, estabelecendo-se 298,15 K (25 ºC) para a temperatura e 1 bar (0,98 atm) para a pressão. Essas condições visam simular um ambiente termodinâmico semelhante ao meio biológico natural.
 
-***NVT***: mantendo o mesmo número de moléculas (N), volume (V) e temperatura (T), vamos gerar o binario .tpr com o arquivo [nvt.mdp](inputs-easy/nvt.mdp). Nesse arquivo `nvt.mdp` definimos alguns parâmetros:
+***NVT***: mantendo o número de moléculas (N), o volume (V) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [nvt.mdp](inputs-easy/nvt.mdp). No arquivo `nvt.mdp` define-se alguns parâmetros:
 
 * Definimos a restrição da proteina, `define = -DPOSRES`.
 * Definimos o tempo para o ajuste da temperatura, `nsteps = 50000` x 0,002 (dt) = 100 ps.
@@ -323,26 +328,26 @@ Vamos agora ajustar a temperatura e a pressão do nosso sistema em 298.15 K (25 
 * Definimos a constante de tempo de ajuste da temperatura, `tau-t = 1.0`.
 * Definimos a temperatura de referência, `ref-t = 298.15`.
 
-Como visto, muitos parâmetros são definidos nesse momento. Algumas observações para cada parâmetro:
+Como observado, diversos parâmetros são definidos nesta etapa. Algumas considerações específicas devem ser destacadas:
 
-* A restrinção de posição dos átomos não-hidrigênio da proteina nas próximas etapas é necessário para preservar a posição da proteina e adequar todo o solvente ao redor. Se a molécula exceder o limite imposto no arquivo `posre.itp` (padrão 1000 kJ/mol/nm), será permitido o movimento apenas dessa molécula.
-* É mais eficiente e garente acurácia aplicar o termostato em grupos separados, no caso de `tc-grps = Protein   Non-Protein`.
-* A constante de tempo de ajuste da temperatura, `tau-t = 1.0`, garante a aplicação do termostato nesse intervalo de tempo em ps. Pode variar entre `0.5~1.0`, sempre menor que a constante de ajuste do barostato e para valores muito pequenos o sistema ⚠️ 'explodirá'!
+* A restrição de posição dos átomos não hidrogênios da biomolécula nas etapas subsequentes é necessária para preservar a conformação da biomolécula enquanto se promove o ajuste do solvente ao seu redor. Caso algum átomo exceda o limite estabelecido no arquivo posre.itp (padrão de 1000 kJ/mol/nm), será permitido o movimento apenas desse átomo, mantendo os demais restritos conforme os parâmetros definidos.
+* A aplicação do termostato em grupos distintos, como definido em `tc-grps = Protein Non-Protein`, é mais eficiente e garante maior acurácia ao controle de temperatura. Essa abordagem permite que a proteína e o solvente sejam tratados separadamente, ajustando com precisão as variações térmicas de cada componente do sistema.
+* A constante de tempo para o ajuste da temperatura, definida por `tau-t = 1.0`, assegura que o termostato seja aplicado nesse intervalo de tempo, medido em picossegundos. Esse valor pode variar entre **0,5 e 1,0** ps, devendo-se garantir que permaneça sempre **menor** que a constante de ajuste do barostato. Ressalta-se que valores demasiadamente pequenos para tau-t podem ocasionar instabilidade no sistema, podendo levar à sua 'explosão' (colapso estrutural ou erros críticos durante a simulação).
 
 ```
 gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
 
-# -r = restraint file, arquivo de coordenadas com as restrinções iniciais (geralmente mesmo arquivo).
+# -r = restrain file, arquivo de coordenadas com as restrinções iniciais (geralmente mesmo arquivo).
 ```
 ```
 gmx mdrun -f -deffnm nvt
 ```
 
 >[!NOTE]
->Note a performance no display de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
+>Nota-se a performance no display de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
 >
 
-Vamos gerar e verificar a temperatura do sistema:
+Procede-se à geração do gráfico para a verificação da temperatura do sistema. Essa análise permite confirmar se a temperatura média está de acordo com o valor estabelecido nos parâmetros de simulação, além de avaliar possíveis flutuações durante o processo.
 
 ```
 gmx energy -f nvt.edr -s nvt.tpr -o temperature.xvg
@@ -358,15 +363,15 @@ xmgrace temperature.xvg
 <img src="img/temperature.png" alt="gráfico da temperatura">
 </div>
 
-Após 20 ps a temperatura do sistema estabilizou em 298.15 K. Caso não houver a estabilização, o tempo em `nsteps` deve ser aumentado e a etapa repetida. Agora partimos para o ajuste de pressão.
+Após 20 ps, observa-se que a temperatura do sistema estabilizou em 298,15 K. Caso a estabilização não seja alcançada, recomenda-se aumentar o valor de `nsteps` e repetir a etapa. Com a temperatura devidamente controlada, procede-se ao ajuste da pressão do sistema.
 
-***NPT***: mantendo o mesmo número de moléculas (N), pressão (P) e temperatura (T), vamos gerar o binario .tpr com o arquivo [npt.mdp](inputs-easy/npt.mdp). Nesse arquivo `npt.mdp` definimos:
+***NPT***: mantendo o número de moléculas (N), o pressão (P) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [npt.mdp](inputs-easy/npt.mdp). Nesse arquivo `npt.mdp` define-se:
 
 * O algoritmo responsável por ajustar a pressão, `pcoul = C-rescale`.
 * A constante de tempo de ajuste da pressão, `tau-p = 3.0`.
 * A pressão requerida, `ref-p = 1.0`.
 
-Os demais parâmetros são idênticos ou semelhantes a etapa NVT, entretanto o tempo de equilibrio é um pouco maior na etapa NPT. Vamos gerar o arquivo binário .tpr a partir das coordenadas anteriores da etapa NVT.
+Os demais parâmetros utilizados nesta etapa são idênticos ou semelhantes aos empregados na etapa NVT, contudo o tempo de equilíbrio costuma ser um pouco maior na etapa NPT. O arquivo binário .tpr será gerado a partir das coordenadas obtidas previamente na etapa NVT, garantindo a continuidade do processo de simulação sob o novo conjunto de condições.
 
 ```
 gmx grompp -v -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -o npt.tpr -p topol.top
@@ -384,9 +389,9 @@ gmx mdrun -v -deffnm npt
 <img src="img/density.png" alt="gráfico da densidade">
 </div>
 
-Pelo gráfico da pressão, notamos picos distintos que não são representativos e adequados para avaliar o desempenho do barostato. O gráfico de densidade é ideal para avaliar, onde notamos uma estabilização da densidade com pouca variação.
+A análise do gráfico de pressão revela a presença de picos distintos, que não são representativos nem adequados para avaliar o desempenho do barostato. Para esse fim, o gráfico de densidade mostra-se mais apropriado, pois permite observar a estabilização da densidade do sistema, geralmente acompanhada de pequenas variações, indicando um equilíbrio adequado sob as condições simuladas.
 
-Vamos para um breve resumo dos termostatos e barostatos.
+A seguir, apresenta-se um breve resumo sobre os principais termostatos e barostatos utilizados em simulações de dinâmica molecular.
 
 | Termostato | Características | Vantagens | Limitações
 |--------|---------|-------------|---------------|
