@@ -319,7 +319,8 @@ Observa-se a curva gerada no gráfico, a qual indica a minimização efetiva do 
 
 As próximas etapas consiste no ajuste da temperatura e da pressão do sistema, estabelecendo-se 298,15 K (25 ºC) para a temperatura e 1 bar (0,98 atm) para a pressão. Essas condições visam simular um ambiente termodinâmico semelhante ao meio biológico natural.
 
-***NVT***: mantendo o número de moléculas (N), o volume (V) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [nvt.mdp](inputs-easy/nvt.mdp). No arquivo `nvt.mdp` define-se alguns parâmetros:
+### NVT: ajustando a temperatura da caixa de simulação
+Mantendo o número de moléculas (N), o volume (V) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [nvt.mdp](inputs-easy/nvt.mdp). No arquivo `nvt.mdp` define-se alguns parâmetros:
 
 * Definimos a restrição da proteina, `define = -DPOSRES`.
 * Definimos o tempo para o ajuste da temperatura, `nsteps = 50000` x 0,002 (dt) = 100 ps.
