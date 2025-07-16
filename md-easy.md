@@ -365,7 +365,8 @@ xmgrace temperature.xvg
 
 Após 20 ps, observa-se que a temperatura do sistema estabilizou em 298,15 K. Caso a estabilização não seja alcançada, recomenda-se aumentar o valor de `nsteps` e repetir a etapa. Com a temperatura devidamente controlada, procede-se ao ajuste da pressão do sistema.
 
-***NPT***: mantendo o número de moléculas (N), o pressão (P) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [npt.mdp](inputs-easy/npt.mdp). Nesse arquivo `npt.mdp` define-se:
+### NPT: ajustando a pressão da caixa de simulação
+Mantendo o número de moléculas (N), o pressão (P) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [npt.mdp](inputs-easy/npt.mdp). Nesse arquivo `npt.mdp` define-se:
 
 * O algoritmo responsável por ajustar a pressão, `pcoul = C-rescale`.
 * A constante de tempo de ajuste da pressão, `tau-p = 3.0`.
