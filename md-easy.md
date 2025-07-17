@@ -169,6 +169,7 @@ As dimensões da caixa selecionada podem ser verificadas na mensagem de saída. 
 
 >[!NOTE]
 >Saiba mais sobre [editconf](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-editconf.html).
+>
 >Essa função é util para converter arquivos .pdb <--> .gro usando `gmx editconf -f <file>.gro -o <file>.pdb`.
 >
 
@@ -199,6 +200,7 @@ O GROMACS preencherá toda a caixa de simulação com moléculas de água proven
 
 >[!NOTE]
 >Saiba mais sobre [solvate](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-solvate.html).
+>
 >Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-maxsol** para definir a quantidade máxima de moleculas adicionadas, útil nos cálculos de concentrações.
 >
 
@@ -333,7 +335,7 @@ gmx mdrun -f -deffnm nvt
 ```
 
 >[!NOTE]
->Nota-se a performance no display de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
+>Nota-se a performance na mensagem de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
 >
 
 Procede-se a visualização do gráfico para a verificação da temperatura do sistema. Essa análise permite confirmar se a temperatura média está de acordo com o valor estabelecido nos parâmetros de simulação, além de avaliar possíveis flutuações durante o processo.
