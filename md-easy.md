@@ -20,20 +20,20 @@
 
 ## Arquivos iniciais
 
-Inicialmente precisamos obter as coordenadas da nossa biomolécula, campos de forças e arquivos inputs para a dinâmica. Essa etapa faz parte do planejamento do projeto.
+Inicialmente, obtém-se as posições iniciais da biomolécula, os campos de força e os arquivos de entrada para a dinâmica molecular. Essa etapa integra o planejamento do projeto.
 
-Será utilizada a biomolécula [insulina](https://doi.org/10.1107/S1744309110000461) que possui o código [3I40](https://www.rcsb.org/structure/3I40) no PDB e resolução de 1,85 Â. Recomenda-se sempre utilizar estruturas com **resolução inferior a 2,5 Å**, uma vez que isso assegura uma geometria mais confiável da biomolécula para as simulações de dinâmica molecular; quanto menor a resolução, maior o nível de detalhamento obtido.
+Utiliza-se a biomolécula [insulina](https://doi.org/10.1107/S1744309110000461), com o código [3I40](https://www.rcsb.org/structure/3I40) no PDB e resolução de 1,85 Å. **Recomenda-se o emprego de estruturas com resolução inferior a 2,5 Å**. Isso assegura uma geometria confiável da biomolécula para as simulações de dinâmica molecular. Uma resolução menor proporciona maior detalhamento.
 
-O [PDB (Protein Data Bank)](https://www.rcsb.org/) é um banco de dados que reúne inúmeras biomoléculas depositadas, cada uma identificada por um código específico. É recomendável explorar não apenas as informações básicas fornecidas pelo PDB sobre a molécula de insulina humana, mas também detalhes complementares, como o método experimental utilizado para obtenção da estrutura, a presença de ligantes, possíveis modificações estruturais e estados de protonação, a fim de garantir maior precisão e realismo nas simulações computacionais.
+O [PDB (*Protein Data Bank*)](https://www.rcsb.org/) é um banco de dados que reúne inúmeras biomoléculas depositadas, cada uma identificada por um código específico. Recomenda-se explorar não apenas as informações básicas do PDB sobre a molécula de insulina humana, mas também detalhes complementares. Estes incluem o método experimental de obtenção da estrutura, a presença de ligantes, possíveis modificações estruturais e estados de protonação. Tal exploração garante maior precisão e realismo nas simulações comput
 
 <div align="center">
 <img src="img/insulina.png" alt="insulina">
 </div>
 
->Proteína PDB 3I40, insulina humana. O VMD possui o seguinte esquema de cores para a estrutura secundária: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 ciano para voltas e ⚪ branco para superhélices ou cordas.
+>PDB 3I40, insulina humana. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 ciano para voltas e ⚪ branco para superhélices ou cordas.
 
 >[!TIP]
-> Organize o diretório de trabalho criando pastas `analysis` para os arquivos de analises e `inputs` para os arquivos de entradas .mdp da dinâmica molecular.
+> Organize o diretório de trabalho criando pastas `analysis` para os arquivos de análises e `inputs` para os arquivos de entradas .mdp da dinâmica molecular.
 >
 
 ```
@@ -98,7 +98,7 @@ grep -v HETATM 3i40.pdb > 3i40_clean.pdb
 # grep -v HOH 3i40.pdb > 3i40_clean.pdb
 ```
 
-Também é necessário observar que algumas biomoléculas apresentam múltiplas cadeias, identificadas como `chain A`, `chain B` e assim por diante. Recomenda-se remover manualmente as cadeias que não serão objeto de estudo. No presente caso, a cadeia B foi removida utilizando-se um editor de texto simples.
+Também se observa que algumas biomoléculas apresentam múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Recomenda-se remover manualmente as cadeias que não serão objeto de estudo. No presente caso, a cadeia B foi removida com um editor de texto simples.
 
 Em seguida, deve-se proceder à escolha do campo de força e do modelo de água que serão utilizados na simulação:
 
@@ -112,9 +112,9 @@ gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 
 Quando solicitado, digite o número correspondente ao campo de força e o modelo de água. Digite 1 para escolher AMBER03 (ou equivalente AMBER) e 1 para escolher o modelo de água TIP3P recomendado para campo de força AMBER.
 
-O Gromacs utilizará valores canônicos para cada aminoácido, considerando condições de pH próximas da neutralidade e adicionando os hidrogênios correspondentes. Nessa etapa, a carga líquida total do sistema será conservada, podendo ser visualizada no display por meio da mensagem `Total charge in system -2.000 e`.
+O GROMACS utiliza valores canônicos para cada aminoácido, considerando condições de pH próximas da neutralidade. Além disso, adiciona os hidrogênios correspondentes. Nesta etapa, conserva-se a carga líquida total da biomolécula, que pode ser visualizada no display pela mensagem `Total charge in system -2.000 e`.
 
-Caso se opte pela utilização de um campo de força externo, a pasta correspondente, contendo os respectivos arquivos, deve estar localizada no diretório de trabalho e nomeada como `<name>.ff`.
+Se for utilizar um campo de força externo, a pasta correspondente deve estar no diretório de trabalho nomeada como `<name>.ff`.
 
 Para visualizar no VMD, utilize:
 ```
@@ -122,10 +122,10 @@ vmd insulina.gro
 ```
 
 >[!NOTE]
->Saiba mais sobre o comando [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
+>Saiba mais sobre [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
 >
 >Será criado os seguintes arquivos:
-> - insulina.gro = arquivo com as coordenadas de cada átomo da biomolécula compatível com o campo de força.
+> - insulina.gro = arquivo com as posições iniciais de cada átomo da biomolécula compatível com o campo de força.
 > - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para os cálculos das forças.
 > - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrições por padrão.
 >
@@ -134,7 +134,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 ------- | ---------- | -------- | -------- 
 **OPLS**    | O campo de força OPLS-AA (Optimized Potentials for Liquid Simulations – All Atom) é amplamente usado para simulações de proteínas, pequenas moléculas, solventes, lipídios, dentre outros. | TIP4P recomendado, mas pode usar TIP3P. Não recomendado SPC. | 1.0~1.2 nm
 **AMBER**   | A família de campos de força AMBER (como amber99sb, amber99sb-ildn, amber14, etc.) é amplamente usada para proteínas, DNA/RNA e simulações biomoleculares. | TIP3P, não recomendado TIP4P e SPC. | 1.0~1.2 nm
-**CHARMM**  | O campo de força CHARMM (como charmm36-jul2022.ff) é extremamente detalhado, especialmente para lipídios, proteínas e açúcares, e foi parametrizado com switching functions, o que o diferencia das abordagens anteriores. | TIP3P modificado, não substituir por TIP3P comum. | 1.2 nm
+**CHARMM**  | O campo de força CHARMM (como charmm36-jul2022.ff) é extremamente detalhado, especialmente para lipídios, proteínas e açúcares, e foi parametrizado com *switching functions*, o que o diferencia das abordagens anteriores. | TIP3P modificado, não substituir por TIP3P comum. | 1.2 nm
 **GROMOS**  | O campo de força GROMOS96 (como gromos54a7.ff) é uma escolha clássica para simulações de proteínas, sistemas aquosos e alguns tipos de estudos de bioenergia. Ele é o único desta lista a usar potencial truncado sem PME. | SPC | 1.4 nm
 
 | Modelo | Tipo | Descrição |
@@ -148,7 +148,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 >[!IMPORTANT]
 >A escolha do campo de força e do modelo de água deve considerar a natureza do sistema e as propriedades que se deseja investigar.
 >
->É de extrema importância o conhecimento completo sobre os formatos de arquivos utilizados e criados pelo Gromacs. Para estudos: [File formats topology](https://manual.gromacs.org/current/reference-manual/topologies/topology-file-formats.html) e [File formats](https://manual.gromacs.org/current/reference-manual/file-formats.html).
+>É de extrema importância o conhecimento completo sobre os formatos de arquivos utilizados pelo GROMACS. Para estudos: [File formats topology](https://manual.gromacs.org/current/reference-manual/topologies/topology-file-formats.html) e [File formats](https://manual.gromacs.org/current/reference-manual/file-formats.html).
 >
 
 ## Definindo a caixa de simulação: dimensões, solvatação e neutralização
