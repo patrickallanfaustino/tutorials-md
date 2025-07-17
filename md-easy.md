@@ -397,6 +397,7 @@ A seguir, apresenta-se um breve resumo sobre os principais termostatos e barosta
 
 >[!IMPORTANT]
 >A escolha do termostato e barostato deve considerar a natureza do sistema e as propriedades que se deseja investigar.
+>
 >O GROMACS recomenda: **V-rescale** e **C-rescale**.
 >
 
