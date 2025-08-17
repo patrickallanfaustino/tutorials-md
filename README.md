@@ -13,6 +13,6 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 
 - [Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md)
 
-## Dissertações e Teses 📖
+## Artigos, Teses e Dissertações 📖
 
-- [Dissertação de mestrado: Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos]()
+- [Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos]()
