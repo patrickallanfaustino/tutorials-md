@@ -161,7 +161,7 @@ gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
 # -p = processing, para processar o arquivo de topologia do sistema.
 ```
 
-O GROMACS acaba de preencher a caixa com moléculas de água do arquivo `spc216.gro` (compatível com o modelo TIP3P), identificando-as com o resíduo **SOL**. Verifique na mensagem de saída a linha `Number of solvent molecules` para confirmar a quantidade de solvente adicionado. O programa já atualizou essa informação automaticamente na seção `[ molecules ]` do seu arquivo topol.top.
+O GROMACS acaba de preencher a caixa com moléculas de água do arquivo `spc216.gro` (compatível com o modelo TIP3P), identificando-as com o resíduo **SOL**. Verifique na mensagem de saída a linha `Number of solvent molecules` para confirmar a quantidade de solvente adicionado. O programa já atualizou essa informação automaticamente na seção `[ molecules ]` do seu arquivo `topol.top`.
 
 >[!NOTE]
 >Saiba mais sobre [solvate](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-solvate.html).
@@ -182,7 +182,7 @@ O GROMACS acaba de preencher a caixa com moléculas de água do arquivo `spc216.
 ### Neutralização
 A etapa final na preparação da caixa é a neutralização do sistema com a adição de íons. Este passo é fundamental, pois os algoritmos da simulação funcionam com maior eficiência em sistemas eletricamente neutros. Como visto na etapa anterior, a carga total da insulina é de -2,000 e. Portanto, adicione dois cátions para compensar essa carga e zerar a carga total do sistema.
 
-Antes de neutralizar com a função `genion`, é necessário gerar um arquivo binário .tpr com as informações necessárias para o processamento:
+Antes de neutralizar com a função `genion`, é necessário gerar um arquivo binário `.tpr` com as informações necessárias para o processamento:
 
 ```
 gmx grompp -v -f inputs/ions.mdp -o ions.tpr -c solv.gro -p topol.top
@@ -214,7 +214,7 @@ gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutra
 
 Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar o sistema. Neste caso, considerando a carga líquida de -2,000 e serão adicionados dois íons NA ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9% m/m, simulando o ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema.
 
-Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions and 43 CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo topol.top é atualizado com as quantidades de ions adicionadas.
+Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions and 43 CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo `topol.top` é atualizado com as quantidades de ions adicionadas.
 
 
 >[!NOTE]
@@ -229,7 +229,7 @@ Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions a
 
 ## Minimização do sistema
 
-O próximo passo é a minimização de energia. Este procedimento remove sobreposições entre as moléculas e garante uma configuração estrutural estável, essencial para as etapas seguintes da simulação. Para isso, execute duas ações em sequência: primeiro, gere um novo arquivo binário .tpr para a minimização; depois, execute o comando de minimização de energia com o arquivo recém-criado.
+O próximo passo é a minimização de energia. Este procedimento remove sobreposições entre as moléculas e garante uma configuração estrutural estável, essencial para as etapas seguintes da simulação. Para isso, execute duas ações em sequência: primeiro, gere um novo arquivo binário `.tpr` para a minimização; depois, execute o comando de minimização de energia com o arquivo recém-criado.
 
 ```
 gmx grompp -v -f inputs/minim.mdp -c solv_ions.gro -o em.tpr -p topol.top
@@ -276,20 +276,22 @@ Observe a curva no gráfico, a qual indica a minimização efetiva do sistema.
 As próximas etapas são a equilibração da temperatura e da pressão do sistema. Primeiro, ajuste a temperatura para 298,15 K (25 °C) e, em seguida, a pressão para 1 bar (0,98 atm). Essas condições visam simular um ambiente termodinâmico semelhante ao meio biológico.
 
 ### NVT: ajustando a temperatura da caixa de simulação
-Mantendo o número de moléculas (N), o volume (V) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [nvt.mdp](inputs-easy/nvt.mdp). No arquivo `nvt.mdp` define-se os parâmetros:
+Inicie a equilibração de temperatura (ensemble NVT), na qual o número de moléculas (N), o volume (V) e a temperatura (T) são mantidos constantes. Para esta etapa, gere o arquivo binário `.tpr` utilizando o arquivo de parâmetros [nvt.mdp](inputs-easy/nvt.mdp). Este arquivo contém as seguintes definições:
 
-* Define-se a restrição da biomolécula, com `define = -DPOSRES`.
-* Define-se o tempo para o ajuste da temperatura, em `nsteps = 50000` x 0,002 (dt) = 100 ps.
-* Define-se o algoritmo para o ajuste da temperatura, em `tcoupl = V-rescale`.
-* Define-se os grupos para o ajuste da temperatura, com `tc-grps = Protein   Non-Protein`.
-* Define-se a constante de acoplamento da temperatura, com `tau-t = 1.0`.
-* Define-se a temperatura de referência, em `ref-t = 298.15`.
+* Define a restrição da biomolécula, com `define = -DPOSRES`.
+* Define o tempo para o ajuste da temperatura, em `nsteps = 50000` x 0,002 (dt) = 100 ps.
+* Define o algoritmo para o ajuste da temperatura, em `tcoupl = V-rescale`.
+* Define os grupos para o ajuste da temperatura, com `tc-grps = Protein   Non-Protein`.
+* Define a constante de acoplamento da temperatura, com `tau-t = 1.0`.
+* Define a temperatura de referência, em `ref-t = 298.15`.
 
-Destaca-se algumas considerações específicas:
+Algumas considerações específicas:
 
-* A restrição de posição dos átomos não-hidrogênios da biomolécula nas etapas subsequentes é necessária para preservar a conformação da biomolécula enquanto se promove o ajuste do solvente ao seu redor. Caso algum átomo exceda o limite estabelecido no arquivo posre.itp (padrão 1000 kJ/mol/nm), será permitido o movimento apenas desse átomo, mantendo os demais restritos conforme os parâmetros definidos.
-* A aplicação do termostato em grupos distintos, como definido em `tc-grps = Protein Non-Protein`, é mais eficiente e garante maior acurácia ao controle de temperatura. Essa abordagem permite que a proteína e o solvente sejam tratados separadamente, ajustando com precisão as variações térmicas de cada componente do sistema.
-* A constante de acoplamento da temperatura, definida com `tau-t = 1.0`, assegura que o termostato seja aplicado nesse intervalo de tempo, medido em picossegundos. Esse valor pode variar entre **0,5 e 1,0 ps**, devendo garantir que permaneça sempre **menor que a constante de acoplamento da pressão**. Ressalta-se que valores demasiadamente pequenos para tau-t podem ocasionar instabilidade no sistema, levando à 'explosão' (colapso estrutural ou erros críticos durante a simulação).
+* **Restrições de Posição**: Utilize restrições de posição para manter os átomos pesados da proteína (não-hidrogênios) "congelados" em suas posições iniciais. Esta técnica é crucial para permitir que as moléculas de água se acomodem e relaxem ao redor da proteína sem desestabilizar a sua estrutura. O arquivo `posre.itp` define a força máxima dessa restrição (padrão de 1000 kJ/mol/nm). Se um átomo sofrer um choque muito forte, a restrição permite que apenas ele se mova ligeiramente para aliviar a tensão, preservando a estabilidade do resto da molécula.
+
+* **Grupos de Temperatura (Termostato)**: Separe o controle de temperatura em dois grupos com o parâmetro `tc-grps = Protein Non-Protein`. Esta abordagem aumenta a precisão e a eficiência do controle de temperatura. Ela permite que o termostato meça e ajuste a temperatura da proteína e do solvente de forma independente, corrigindo as variações térmicas de cada componente com maior acurácia.
+
+* **Constante de Acoplamento da Temperatura (tau-t)**: Ajuste a frequência de atuação do termostato com o parâmetro `tau-t = 1.0`. Este valor, em picossegundos (ps), define a frequência com que o termostato corrige a temperatura do sistema. Mantenha tau-t na faixa de **0,5 a 1,0** ps e certifique-se de que ele seja **sempre menor que a constante de acoplamento da pressão (tau-p)**, que será definida na próxima etapa. Atenção: Evite usar valores muito baixos para tau-t. Isso faria o termostato agir de forma agressiva, o que pode causar instabilidades e levar ao colapso da simulação ("explosão").
 
 ```
 gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
@@ -301,10 +303,10 @@ gmx mdrun -f -deffnm nvt
 ```
 
 >[!NOTE]
->Nota-se a performance na mensagem de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
+>Verifique a performance na mensagem de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
 >
 
-Procede-se a visualização do gráfico para a verificação da temperatura do sistema. Essa análise permite confirmar se a temperatura média está de acordo com o valor estabelecido nos parâmetros de simulação, além de avaliar possíveis flutuações durante o processo.
+Após a equilibração, verifique se a temperatura do sistema se estabilizou corretamente. Para isso, gere e analise o gráfico de temperatura. No gráfico, confirme se a temperatura média corresponde ao valor definido nos parâmetros e observe se as flutuações estão estáveis.
 
 ```
 gmx energy -f nvt.edr -s nvt.tpr -o temperature.xvg
@@ -320,16 +322,16 @@ xmgrace temperature.xvg
 <img src="img/temperature.png" alt="gráfico da temperatura">
 </div>
 
-Após 20 ps, observa-se que a temperatura do sistema estabilizou em 298,15 K. Caso a estabilização não seja alcançada, recomenda-se aumentar o valor de `nsteps` e repetir a etapa. Com a temperatura devidamente controlada, procede-se ao ajuste da pressão do sistema.
+Após 20 ps, observe que a temperatura do sistema estabilizou em 298,15 K. Caso a estabilização não seja alcançada, aumente o valor de `nsteps` e realiza novamente a etapa. Após a temperatura devidamente controlada, procede-se ao ajuste da pressão do sistema.
 
 ### NPT: ajustando a pressão da caixa de simulação
-Mantendo o número de moléculas (N), o pressão (P) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [npt.mdp](inputs-easy/npt.mdp). Nesse arquivo `npt.mdp` define-se:
+Concluída a equilibração da temperatura, inicie a equilibração da pressão (ensemble NPT). Nesta etapa, a densidade do sistema será ajustada para a pressão correta, mantendo-se constantes o número de moléculas (N), a pressão (P) e a temperatura (T). Para isso, gere um novo arquivo binário .tpr utilizando o arquivo de parâmetros [npt.mdp](inputs-easy/npt.mdp). Este arquivo contém as seguintes definições:
 
 * O algoritmo responsável por ajustar a pressão, com `pcoul = C-rescale`.
 * A constante de acoplamento da pressão, em `tau-p = 3.0`.
-* A pressão de referência, em `ref-p = 1.0`.
+* A pressão de referência, em bar, `ref-p = 1.0`.
 
-Os demais parâmetros utilizados nesta etapa são idênticos ou semelhantes aos empregados na etapa NVT, contudo o tempo de equilíbrio costuma ser um pouco maior na etapa NPT. O arquivo binário .tpr será gerado a partir das coordenadas obtidas previamente na etapa NVT, garantindo a continuidade do processo de simulação sob o novo conjunto de condições.
+Você notará que a maioria dos parâmetros para a etapa NPT é idêntica ou semelhante à da etapa NVT anterior. A principal diferença é que o tempo de simulação para a equilibração de pressão costuma ser maior. É importante destacar que o GROMACS utiliza o estado final da equilibração NVT como o ponto de partida para esta nova etapa. Esse encadeamento garante a continuidade do processo, aplicando agora as novas condições de pressão constante.
 
 ```
 gmx grompp -v -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -o npt.tpr -p topol.top
@@ -347,9 +349,9 @@ gmx mdrun -v -deffnm npt
 <img src="img/density.png" alt="gráfico da densidade">
 </div>
 
-A análise do gráfico de pressão revela a presença de picos distintos, que não são representativos nem adequados para avaliar o desempenho do barostato. Para esse fim, o gráfico de densidade mostra-se mais apropriado, pois permite observar a estabilização da densidade do sistema, geralmente acompanhada de pequenas variações, indicando o equilíbrio adequado sob as condições simuladas.
+Para avaliar a equilibração da pressão, evite focar no gráfico de pressão, pois suas flutuações são geralmente muito altas e pouco informativas. Em vez disso, analise o gráfico de densidade, que é o indicador correto para esta etapa. No gráfico, verifique se a curva se estabiliza em um valor médio, apresentando apenas pequenas variações. Essa estabilização confirma que o sistema atingiu a densidade correta e está em equilíbrio.
 
-A seguir, apresenta-se um breve resumo sobre os principais termostatos e barostatos utilizados em simulações de dinâmica molecular.
+A seguir, apresentamos um breve resumo dos principais termostatos e barostatos disponíveis para controlar a temperatura e a pressão em suas simulações.
 
 | Termostato | Características | Vantagens | Limitações
 |--------|---------|-------------|---------------|
@@ -368,8 +370,6 @@ A seguir, apresenta-se um breve resumo sobre os principais termostatos e barosta
 >
 >O GROMACS recomenda: **V-rescale** e **C-rescale**.
 >
-
-Agora estamos prontos para nossa simulação!
 
 ## Produção: integradores
 
