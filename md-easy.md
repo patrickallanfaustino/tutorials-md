@@ -5,7 +5,7 @@
 </div>
 
 <div align="center">
-  <p>Simular a insulina humana em uma caixa cúbica de água com temperatura de 298 K e 1 bar de pressão. A insulina é um hormônio regulador do metabolismo de glicose nas células humanas.</p>
+  <p>O objetivo deste tutorial é simular a insulina humana, o hormônio que regula o metabolismo da glicose, em uma caixa com água cúbica sob condições de 298 K e 1 bar.</p>
   <p>Explore, colabore e estude! 😄</p>
 </div>
 
@@ -20,11 +20,11 @@
 
 ## Arquivos iniciais
 
-Inicialmente, obtém-se as posições iniciais da biomolécula, os campos de força e os arquivos de entrada para a dinâmica molecular. Essa etapa integra o planejamento do projeto.
+Para iniciar a simulação, obtenha os arquivos de topologia (campos de força), as coordenadas iniciais da biomolécula e os parâmetros de entrada para a dinâmica molecular.
 
-Utiliza-se a biomolécula [insulina](https://doi.org/10.1107/S1744309110000461), com o código [3I40](https://www.rcsb.org/structure/3I40) no PDB e resolução de 1,85 Å. **Recomenda-se o emprego de estruturas com resolução inferior a 2,5 Å**. Isso assegura uma geometria confiável da biomolécula para as simulações de dinâmica molecular. Uma resolução menor proporciona maior detalhamento.
+Utilize a estrutura da [insulina humana](https://doi.org/10.1107/S1744309110000461) com o código [3I40](https://www.rcsb.org/structure/3I40) do PDB, que possui uma resolução de 1,85 Å. **Dê preferência a estruturas com resolução cristalográfica inferior a 2,5 Å**, pois isso garante uma geometria molecular mais confiável e detalhada, o que é fundamental para a qualidade da simulação. Uma resolução menor proporciona maior detalhamento cristalográfico.
 
-O [PDB (*Protein Data Bank*)](https://www.rcsb.org/) é um banco de dados que reúne inúmeras biomoléculas depositadas, cada uma identificada por um código específico. Recomenda-se explorar não apenas as informações básicas do PDB sobre a molécula de insulina humana, mas também detalhes complementares. Estes incluem o método experimental de obtenção da estrutura, a presença de ligantes, possíveis modificações estruturais e estados de protonação. Tal exploração garante maior precisão e realismo nas simulações comput
+Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.org/) para uma análise aprofundada. Para garantir maior precisão e realismo, explore os detalhes complementares da estrutura. Verifique o método experimental usado para sua obtenção, a presença de ligantes, possíveis modificações estruturais e os estados de protonação dos resíduos.
 
 <div align="center">
 <img src="img/insulina.png" alt="insulina">
@@ -33,52 +33,12 @@ O [PDB (*Protein Data Bank*)](https://www.rcsb.org/) é um banco de dados que re
 >PDB 3I40, insulina humana. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 ciano para voltas e ⚪ branco para superhélices ou cordas.
 
 >[!TIP]
-> Organize o diretório de trabalho criando pastas `analysis` para os arquivos de análises e `inputs` para os arquivos de entradas .mdp da dinâmica molecular.
+>Organize seu diretório de trabalho. Crie duas subpastas: `analysis`, destinada aos resultados das análises, e `inputs`, para armazenar os arquivos de parâmetros da dinâmica molecular (.mdp).
 >
 
 ```
 ├── 3i40.pdb
 ├── amber14sb_parmbsc1_cufix.ff
-│   ├── aminoacids.arn
-│   ├── aminoacids.c.tdb
-│   ├── aminoacids.hdb
-│   ├── aminoacids.n.tdb
-│   ├── aminoacids.r2b
-│   ├── aminoacids.rtp
-│   ├── aminoacids.vsd
-│   ├── atomtypes.atp
-│   ├── ca-sol7.itp
-│   ├── ca-sol7.pdb
-│   ├── cufix.itp
-│   ├── dna.arn
-│   ├── dna.hdb
-│   ├── dna.r2b
-│   ├── dna.rtp
-│   ├── ffbonded.itp
-│   ├── ffnonbonded.itp
-│   ├── ffnonbonded.itp~
-│   ├── forcefield.doc
-│   ├── forcefield.itp
-│   ├── forcefield.itp~
-│   ├── gbsa.itp
-│   ├── ions.itp
-│   ├── Makefile.am
-│   ├── Makefile.in
-│   ├── mg-sol6.itp
-│   ├── mg-sol6.pdb
-│   ├── README.md
-│   ├── rna.arn
-│   ├── rna.hdb
-│   ├── rna.r2b
-│   ├── rna.rtp
-│   ├── spce.itp
-│   ├── spc.itp
-│   ├── tip3p.itp
-│   ├── tip4pew.itp
-│   ├── tip4p.itp
-│   ├── tip5p.itp
-│   ├── urea.itp
-│   └── watermodels.dat
 ├── analysis
 └── inputs
     ├── ions.mdp
@@ -90,7 +50,7 @@ O [PDB (*Protein Data Bank*)](https://www.rcsb.org/) é um banco de dados que re
 
 ## Preparo da topologia da molécula: campos de forças
 
-O arquivo **3i40.pdb** contém as coordenadas da biomolécula, bem como moléculas de água e ligantes. É necessário remover as moléculas de água (`HOH`) e outros ligantes (`HETATM`) para evitar possíveis erros nas etapas subsequentes. Essa remoção pode ser realizada manualmente, editando diretamente o arquivo, ou por meio de comandos no prompt, de acordo com a preferência do pesquisador:
+O arquivo **3i40.pdb** contém, além das coordenadas da biomolécula, moléculas de água (`HOH`) e outros ligantes (`HETATM`). Remova esses componentes extras para evitar erros nas etapas subsequentes. Realize essa limpeza de duas maneiras: editando o arquivo manualmente ou utilizando os comandos de terminal apresentados a seguir.
 
 ```
 grep -v HETATM 3i40.pdb > 3i40_clean.pdb
@@ -98,9 +58,13 @@ grep -v HETATM 3i40.pdb > 3i40_clean.pdb
 # grep -v HOH 3i40.pdb > 3i40_clean.pdb
 ```
 
-Também se observa que algumas biomoléculas apresentam múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Recomenda-se remover manualmente as cadeias que não serão objeto de estudo. No presente caso, a cadeia B foi removida com um editor de texto simples.
+Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Remova as cadeias desnecessárias. No caso, a cadeia B foi removida com um editor de texto simples.
 
-Em seguida, deve-se proceder à escolha do campo de força e do modelo de água que serão utilizados na simulação:
+Em seguida, escolha o campo de força e o modelo de água que serão usados na simulação:
+
+>[!NOTE]
+>Caso utilize um campo de força externo, coloque a pasta correspondente no diretório de trabalho como <name>.ff.
+>
 
 ```
 gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
@@ -110,11 +74,11 @@ gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 # -o = file output, arquivo de saída das coordenadas.
 ```
 
-Quando solicitado, digite o número correspondente ao campo de força e o modelo de água. Digite 1 para escolher AMBER03 (ou equivalente AMBER) e 1 para escolher o modelo de água TIP3P recomendado para campo de força AMBER.
+O programa solicitará duas escolhas em sequência. Responda a cada prompt da seguinte forma:
+ - Para o campo de força, digite 1 para selecionar AMBER03.
+ - Para o modelo de água, digite 1 novamente para selecionar TIP3P, o padrão recomendado para a família AMBER.
 
-O GROMACS utiliza valores canônicos para cada aminoácido, considerando condições de pH próximas da neutralidade. Além disso, adiciona os hidrogênios correspondentes. Nesta etapa, conserva-se a carga líquida total da biomolécula, que pode ser visualizada no prompt pela mensagem `Total charge in system -2.000 e`.
-
-Se for utilizar um campo de força externo, a pasta correspondente deve estar no diretório de trabalho nomeada como `<name>.ff`.
+O GROMACS utiliza estados de protonação canônicos para cada aminoácido (assumindo pH neutro) e adiciona os hidrogênios correspondentes. Ao final do processo, o programa conserva a carga líquida total da biomolécula. Confirme este valor no terminal, procurando pela mensagem: `Total charge in system -2.000 e`.
 
 Para visualizar no VMD, utilize:
 ```
@@ -124,9 +88,9 @@ vmd insulina.gro
 >[!NOTE]
 >Saiba mais sobre [gmx2pdb](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-pdb2gmx.html).
 >
->Será criado os seguintes arquivos:
-> - insulina.gro = arquivo com as posições iniciais de cada átomo da biomolécula compatível com o campo de força.
-> - topol.top = arquivo com a topologia da biomolécula, ou seja, com os parâmetros necessários para os cálculos das forças.
+>Serão criados os arquivos:
+> - insulina.gro = arquivo com as posições iniciais de cada átomo da biomolécula compatível com o campo de força escolhido.
+> - topol.top = arquivo com os parâmetros necessários para as integrações e derivações numéricas.
 > - posre.itp = arquivo de topologia auxiliar indicando os átomos com restrições por padrão.
 >
 
@@ -146,7 +110,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 | **TIP5P** | 5 pontos | Dois pontos extra para os pares de elétrons do oxigênio. Mais preciso para estrutura tetraédrica, porém mais custoso. |
 
 >[!IMPORTANT]
->A escolha do campo de força e do modelo de água deve considerar a natureza do sistema e as propriedades que se deseja investigar.
+>Escolha o campo de força e o modelo de água com base na natureza do seu sistema e nas propriedades que você deseja investigar.
 >
 >É de extrema importância o conhecimento completo sobre os formatos de arquivos utilizados pelo GROMACS. Para estudos: [File formats topology](https://manual.gromacs.org/current/reference-manual/topologies/topology-file-formats.html) e [File formats](https://manual.gromacs.org/current/reference-manual/file-formats.html).
 >
