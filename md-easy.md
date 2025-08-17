@@ -63,7 +63,7 @@ Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas co
 Em seguida, escolha o campo de força e o modelo de água que serão usados na simulação:
 
 >[!NOTE]
->Caso utilize um campo de força externo, coloque a pasta correspondente no diretório de trabalho como <name>.ff.
+>Caso utilize um campo de força externo, coloque a pasta correspondente no diretório de trabalho como <<name>>.ff.
 >
 
 ```
@@ -117,7 +117,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 
 ## Definindo a caixa de simulação: dimensões, solvatação e neutralização
 
-Nesta etapa, procede-se à definição da caixa de simulação, ajustando-se suas dimensões, a distância da biomolécula em relação às bordas e outros parâmetros relevantes para a correta configuração do sistema.
+Nesta etapa, defina a caixa de simulação e ajuste seus parâmetros, como as dimensões, a distância da biomolécula até as bordas e outras configurações relevantes para a correta montagem do sistema.
 
 ```
 gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
@@ -127,9 +127,9 @@ gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
 # -bt = box type, formato da caixa.
 ```
 
-O formato da caixa pode ser definido em `cubic`, `triclinic`, `octahedron` ou `dodecahedron`. A escolha do formato da caixa de simulação é de responsabilidade do pesquisador e deve considerar o formato da biomolécula, com o objetivo de otimizar o número de moléculas no sistema. Essa estratégia permite economizar recursos computacionais, equilibrando tempo de simulação e demanda energética.
+Escolha o formato da caixa de simulação (entre `cubic`, `triclinic`, `octahedron` ou `dodecahedron`) considerando a geometria da sua biomolécula. O objetivo é selecionar um formato que otimize o volume do sistema, reduzindo o número de moléculas de solvente. Essa otimização economiza recursos computacionais ao equilibrar o tempo de simulação e a demanda energética.
 
-As dimensões da caixa selecionada podem ser verificadas na mensagem de saída. Recomenda-se que a distância entre a biomolécula e as bordas da caixa esteja entre 1,0 e 2,5 nm, pois esses valores são considerados ideais.
+Verifique as dimensões da caixa na mensagem de saída do programa. Certifique-se de que a distância mínima entre a biomolécula e as bordas da caixa esteja na **faixa de 1,0 a 2,5 nm, pois esses valores são ideais para a simulação**.
 
 >[!NOTE]
 >Saiba mais sobre [editconf](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-editconf.html).
@@ -150,7 +150,8 @@ As dimensões da caixa selecionada podem ser verificadas na mensagem de saída. 
 >PDB 3I40, insulina humana em uma caixa de simulação cubica 7.8 x 7.8 x 7.8 nm.
 
 ### Solvatação
-Na sequência, a caixa de simulação será preenchida com moléculas de água, uma vez que o objetivo é investigar a solvatação da insulina em meio aquoso. Esse procedimento assegura que a biomolécula esteja imersa em um ambiente que simule condições fisiológicas adequadas para a dinâmica molecular.
+
+Em seguida, preencha a caixa de simulação com moléculas de água para solvatar a insulina. Este procedimento garante que a biomolécula fique imersa em um ambiente aquoso, simulando as condições fisiológicas necessárias para a análise da dinâmica molecular.
 
 ```
 gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
@@ -160,12 +161,12 @@ gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
 # -p = processing, para processar o arquivo de topologia do sistema.
 ```
 
-O GROMACS preencherá toda a caixa de simulação com moléculas de água provenientes do arquivo `spc216.gro`, que é adequado para o modelo TIP3P. As moléculas de água serão identificadas pelo resíduo **SOL**. Na mensagem de saída, é possível observar a quantidade total de moléculas de solvente adicionadas por meio da linha `Number of solvent molecules`, sendo essa informação incorporada automaticamente ao `[ molecules ]` do arquivo de topologia do sistema.
+O GROMACS acaba de preencher a caixa com moléculas de água do arquivo `spc216.gro` (compatível com o modelo TIP3P), identificando-as com o resíduo **SOL**. Verifique na mensagem de saída a linha `Number of solvent molecules` para confirmar a quantidade de solvente adicionado. O programa já atualizou essa informação automaticamente na seção `[ molecules ]` do seu arquivo topol.top.
 
 >[!NOTE]
 >Saiba mais sobre [solvate](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-solvate.html).
 >
->Adicionalmente, podemos definir **-box** para definir as dimensões de uma nova caixa de simulação e **-maxsol** para definir a quantidade máxima de moleculas adicionadas, útil nos cálculos de concentrações.
+>Adicionalmente, pode ser definido **-box** para as dimensões de uma nova caixa de simulação e **-maxsol** para limitar a quantidade máxima de moleculas adicionadas, útil quando existe uma concentração calculada.
 >
 
 >[!IMPORTANT]
@@ -179,7 +180,7 @@ O GROMACS preencherá toda a caixa de simulação com moléculas de água proven
 >PDB 3I40 solvatada com água modelo TIP3P
 
 ### Neutralização
-Na última etapa do preparo da caixa de simulação, procede-se à neutralização do sistema por meio da adição de íons. Essa etapa é fundamental, pois os integradores utilizados nas simulações apresentam maior eficiência em sistemas eletricamente neutros. Considerando que a insulina apresenta carga total de -2,000 e, como evidenciado anteriormente na preparação da topologia, será necessária a adição de cátions de modo a compensar essa carga e garantir a neutralidade global do sistema.
+A etapa final na preparação da caixa é a neutralização do sistema com a adição de íons. Este passo é fundamental, pois os algoritmos da simulação funcionam com maior eficiência em sistemas eletricamente neutros. Como visto na etapa anterior, a carga total da insulina é de -2,000 e. Portanto, adicione dois cátions para compensar essa carga e zerar a carga total do sistema.
 
 Antes de neutralizar com a função `genion`, é necessário gerar um arquivo binário .tpr com as informações necessárias para o processamento:
 
@@ -189,15 +190,17 @@ gmx grompp -v -f inputs/ions.mdp -o ions.tpr -c solv.gro -p topol.top
 # -c = coordenates, arquivo com as coordenadas do sistema.
 ```
 
-Na tag -f está indicado o arquivo [ions.mdp](inputs-easy/ions.mdp) da pasta `/inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se um [estudo intensivo](https://manual.gromacs.org/current/user-guide/mdp-options.html) sobre os parâmetros desse arquivo.
+Na tag -f está indicado o arquivo [ions.mdp](inputs-easy/ions.mdp) da pasta `/inputs`. Esse arquivo possui todos os parâmetros necessários para o processamento dessa etapa. Recomenda-se o [estudo intensivo](https://manual.gromacs.org/current/user-guide/mdp-options.html) sobre os parâmetros desse arquivo.
 
 >[!NOTE]
 >Saiba mais sobre [grompp](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-grompp.html).
 >
->Em algumas oportunidades, o GROMACS gera `warnings` que devem ser verificados e, se necessário, suprimidos com **-maxwarn [x]**, onde `x` é a quantidade de `warnings` a ser suprimidos.
+>Em algumas oportunidades, o GROMACS gera `warnings` que devem ser verificados e, se necessário, suprimidos com **-maxwarn [x]**, onde `x` é a quantidade de `warnings` a ser suprimidos. Novamente, revise!
 >
 
-Neste momento, procede-se à neutralização da caixa de simulação, adicionando-se os íons necessários para assegurar a neutralidade do sistema.
+O programa genion solicitará que você selecione um grupo de moléculas para substituir pelos íons. A convenção é sempre escolher o grupo de solvente (**SOL**). Portanto, quando solicitado, digite o número correspondente à opção SOL.
+
+Agora, adicione os íons necessários para neutralizar a carga da caixa de simulação e garantir que o sistema seja eletricamente neutro.
 
 ```
 gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
@@ -209,9 +212,10 @@ gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutra
 # -conc 0.15 = concentration, define a concentração em mol/L.
 ```
 
-Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar a biomolécula e neste caso, considerando a carga líquida de -2,000 e, serão adicionados dois íons NA ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9% m/m, simulando um ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema. Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions and 43 CL ions`, indicando o número de íons a serem incorporados para atingir a concentração e a neutralidade desejados.
+Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar o sistema. Neste caso, considerando a carga líquida de -2,000 e serão adicionados dois íons NA ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9% m/m, simulando o ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema.
 
-O `genion` solicitara selecionar qual o grupo de moléculas que serão substituídas pela adição dos ions. Por convenção, utiliza-se o grupo **SOL** para remover moléculas de água em troca dos ions. Selecione o número correspondente ao SOL.
+Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions and 43 CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo topol.top é atualizado com as quantidades de ions adicionadas.
+
 
 >[!NOTE]
 >Saiba mais sobre [genion](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-genion.html).
@@ -223,11 +227,9 @@ O `genion` solicitara selecionar qual o grupo de moléculas que serão substitu�
 
 >PDB 3I40 solvatada e neutralizada. Em 🔵 NA e 🟢 CL.
 
-Pronto, agora nossa caixa de simulação está pronta!
-
 ## Minimização do sistema
 
-Neste momento, realiza-se a minimização da energia potencial do sistema, processando as eventuais sobreposições entre as moléculas. Para isso, é gerado novamente o arquivo binário .tpr e, em seguida, procede-se à minimização energética do sistema, garantindo uma configuração estrutural inicial estável e adequada para as etapas subsequentes da simulação.
+O próximo passo é a minimização de energia. Este procedimento remove sobreposições entre as moléculas e garante uma configuração estrutural estável, essencial para as etapas seguintes da simulação. Para isso, execute duas ações em sequência: primeiro, gere um novo arquivo binário .tpr para a minimização; depois, execute o comando de minimização de energia com o arquivo recém-criado.
 
 ```
 gmx grompp -v -f inputs/minim.mdp -c solv_ions.gro -o em.tpr -p topol.top
@@ -238,32 +240,32 @@ gmx mdrun -v -deffnm em
 # -deffnm = define o nome padrão de todos arquivos de entrada e saida.
 ```
 
-A função `mdrun` constitui o núcleo do processo de dinâmica molecular no GROMACS. Recomenda-se simplificar os nomes dos arquivos de entrada e saída utilizando a opção `-deffnm`. O nome utilizado em `grompp -o <name>.tpr` deve ser o mesmo especificado em `-deffnm`, garantindo consistência entre os arquivos utilizados. Para a etapa de minimização, é adotado o arquivo de parâmetros [minim.mdp](inputs-easy/minim.mdp), que contém as opções específicas para o procedimento de minimização energética.
+A função `mdrun` constitui o núcleo do processo de dinâmica molecular no GROMACS. Recomenda-se simplificar os nomes dos arquivos de entrada e saída utilizando a opção `-deffnm`. O nome utilizado em `grompp -o <name>.tpr` deve ser o mesmo especificado em `-deffnm`, garantindo consistência entre os arquivos utilizados. Para a etapa de minimização, é adotado o arquivo de parâmetros [minim.mdp](inputs-easy/minim.mdp), que contém os parâmetros para o procedimento de minimização.
 
 
 >[!NOTE]
 >Saiba mais sobre [mdrun](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-mdrun.html).
 >
 
-Para o acompanhamento eficiente desta etapa, recomenda-se a análise do gráfico de energia potencial do sistema. Para isso, o arquivo .edr, que armazena as energias calculadas durante a simulação, deve ser lido e convertido em um arquivo .xvg. Esse procedimento permite a avaliação gráfica da convergência e da estabilidade energética do sistema ao longo do processo de minimização.
+Analise a energia potencial para acompanhar o sucesso desta etapa. Para fazer isso, processe o arquivo de energia (.edr) para extrair os dados em um formato gráfico (.xvg). Este procedimento é essencial para avaliar graficamente se o sistema alcançou a convergência e a estabilidade energética.
 
 ```
 gmx energy -f em.edr -s em.tpr -o potential.xvg
 ```
 
-Verifique na tabela o número correspondente ao 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: **10 0**.
+Verifique na tabela o número correspondente a 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: `10 0`.
 
 >[!NOTE]
 >Saiba mais sobre [energy](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-energy.html).
 >
 
-Utiliza-se o `XMGrace` para visualizar o gráfico:
+Utilize o `XMGrace` para visualizar o gráfico:
 
 ```
 xmgrace potential.xvg
 ```
 
-Observa-se a curva gerada no gráfico, a qual indica a minimização efetiva do sistema.
+Observe a curva no gráfico, a qual indica a minimização efetiva do sistema.
 
 <div align="center">
 <img src="img/minim.png" alt="gráfico da energia minimizada">
@@ -271,7 +273,7 @@ Observa-se a curva gerada no gráfico, a qual indica a minimização efetiva do 
 
 ## Equilíbrio NVT e NPT: termostatos e barostatos
 
-As próximas etapas consiste no ajuste da temperatura e da pressão do sistema, estabelecendo-se 298,15 K (25 ºC) para a temperatura e 1 bar (0,98 atm) para a pressão. Essas condições visam simular um ambiente termodinâmico semelhante ao meio biológico natural.
+As próximas etapas são a equilibração da temperatura e da pressão do sistema. Primeiro, ajuste a temperatura para 298,15 K (25 °C) e, em seguida, a pressão para 1 bar (0,98 atm). Essas condições visam simular um ambiente termodinâmico semelhante ao meio biológico.
 
 ### NVT: ajustando a temperatura da caixa de simulação
 Mantendo o número de moléculas (N), o volume (V) e a temperatura (T) constantes, gera-se o arquivo binário .tpr utilizando o arquivo de parâmetros [nvt.mdp](inputs-easy/nvt.mdp). No arquivo `nvt.mdp` define-se os parâmetros:
