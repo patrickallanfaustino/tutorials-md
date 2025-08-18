@@ -437,8 +437,3 @@ Após a finalização, vamos proceder com o preparo da molecula e arquivos neces
 ## 📜 Citação
 
 - FAUSTINO, Patrick Allan dos Santos. **Tutorials: Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md). Acesso em: 18 jul. 2025.
-
----
-## 📝 Licença
-
-Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
