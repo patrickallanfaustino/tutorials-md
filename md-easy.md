@@ -6,7 +6,7 @@
 
 <div align="center">
   <p>O objetivo deste tutorial é simular a insulina humana, o hormônio que regula o metabolismo da glicose, em uma caixa com água cúbica sob condições de 298 K e 1 bar.</p>
-  <p>Explore, colabore e estude! 😄 Dúvidas: [patrick.faustino@unesp.br](mailto:patrick.faustino@unesp.br)</p>
+  <p>Explore, colabore e estude! 😄 Dúvidas: <a href="mailto:patrick.faustino@unesp.br">patrick.faustino@unesp.br</a></p>
 </div>
 
 ## 📖 Índice
