@@ -400,10 +400,10 @@ Pontos importantes sobre os parâmetros da simulação de produção:
 | **l-bfgs**     | Minimização quasi-Newton.                | Muito rápido em sistemas pequenos. | Ineficiente em sistemas grandes.             | Clusters ou moléculas pequenas.               |
 
 >[!NOTE]
->O GROMACS salva checkpoint da dinâmica molecular a cada 15 minutos em um arquivo `.cpt`. Esse tempo pode ser alterado com a tag -cpt [x].
+>O GROMACS salva checkpoint da dinâmica molecular a cada 15 minutos em um arquivo `.cpt`. Esse tempo pode ser alterado com a tag `-cpt [x]`.
 >
 
-Caso sua simulação seja interrompida por algum problema, retome-a a partir do último ponto salvo (checkpoint). Para fazer isso, adicione a flag -cpi ao seu comando mdrun, especificando o nome do arquivo de checkpoint:
+Caso sua simulação seja interrompida por algum problema, retome-a a partir do último ponto salvo (checkpoint). Para fazer isso, adicione a flag `-cpi` ao seu comando `mdrun`, especificando o nome do arquivo de checkpoint:
 ```
 gmx mdrun -v -deffnm md -cpi md.cpt
 
@@ -412,12 +412,12 @@ gmx mdrun -v -deffnm md -cpi md.cpt
 
 Para estender o tempo de uma simulação que já foi concluída, acrescentando mais tempo:
 ```
-gmx convert-tpr -s md.tpr -extend 5000 -o md_1.tpr
+gmx convert-tpr -s md.tpr -extend 5000 -o md_ex.tpr
 
 # -extend = indica o tempo, em ps, a ser acrescentado.
 ```
 ```
-gmx mdrun -v -deffnm md_1 -cpi md.cpt
+gmx mdrun -v -deffnm md_ex -cpi md.cpt
 ```
 
 >[!NOTE]
