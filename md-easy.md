@@ -399,6 +399,46 @@ Pontos importantes sobre os parâmetros da simulação de produção:
 | **cg**         | Minimização gradiente conjugado.         | Mais eficiente que *steep*.        | Menos robusto no início.                     | Refinar após steep.                           |
 | **l-bfgs**     | Minimização quasi-Newton.                | Muito rápido em sistemas pequenos. | Ineficiente em sistemas grandes.             | Clusters ou moléculas pequenas.               |
 
+>[!NOTE]
+>O GROMACS salva checkpoint da dinâmica molecular a cada 15 minutos em um arquivo `.cpt`. Esse tempo pode ser alterado com a tag -cpt [x].
+>
 
+Caso sua simulação seja interrompida por algum problema, retome-a a partir do último ponto salvo (checkpoint). Para fazer isso, adicione a flag -cpi ao seu comando mdrun, especificando o nome do arquivo de checkpoint:
+```
+gmx mdrun -v -deffnm md -cpi md.cpt
 
-o gromacs salva a cada 15 min um checkpoint no arquivo md.cpt. pode ser alterado com a tag -cpt 10
+# -cpi = checkpoint, arquivo com o ultimo estado salvo (backup).
+```
+
+Para estender o tempo de uma simulação que já foi concluída, acrescentando mais tempo:
+```
+gmx convert-tpr -s md.tpr -extend 5000 -o md_1.tpr
+
+# -extend = indica o tempo, em ps, a ser acrescentado.
+```
+```
+gmx mdrun -v -deffnm md_1 -cpi md.cpt
+```
+
+>[!NOTE]
+>Saiba mais sobre [convert-tpr](https://manual.gromacs.org/current/onlinehelp/gmx-convert-tpr.html).
+>
+
+Após a finalização, vamos proceder com o preparo da molecula e arquivos necessários para analise e a analise dos resultados.
+
+- [Preparo para análises]()
+- [Análises de resultados]()
+
+---
+
+### 🧪⚗️ *Boas simulações moleculares!* 🦠🧬
+
+---
+## 📜 Citação
+
+- FAUSTINO, Patrick Allan dos Santos. **Tutorials: Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md). Acesso em: 18 jul. 2025.
+
+---
+## 📝 Licença
+
+Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
