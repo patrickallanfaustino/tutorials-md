@@ -428,7 +428,6 @@ Após a finalização, vamos proceder com o preparo da molecula e arquivos neces
 
 Link para visualizar o video demonstrativo da dinâmica: [Dinâmica Molecular: Insulina Humana 3i40 em água.](https://youtube.com/shorts/2eMx-84VDBc?si=28Y8yeo5uVdDX0po)
 
-- [Preparo para análises]()
 - [Análises de resultados]()
 
 ---
