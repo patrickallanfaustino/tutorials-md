@@ -12,6 +12,7 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 ## Workflow de Dinâmicas Moleculares 🧬
 
 - [Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md)
+- [Análises de Resultados](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-analysis.md)
 
 ## Artigos, Teses e Dissertações 📖
 
