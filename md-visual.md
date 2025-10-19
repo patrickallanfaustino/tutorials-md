@@ -36,7 +36,7 @@ Para modificar a forma de representação das moléculas:
 Graphics > Representations
 ```
 
-Na janela que abrir, vamos criar representações para `protein`, `water`, `resname NA` e `resname CL` utilizando o botão **Create Rep**, e realizar as sequintes configurações:
+Na janela que abrir, vamos criar representações para `protein`, `water`, `resname NA` e `resname CL` utilizando o botão **Create Rep**, e realizar as seguintes configurações:
 ```
 Selected Atoms: protein; Coloring Method: Secundary Structure; Drawing Method: NewCartoon; Material: EdgyShiny
 Selected Atoms: water; Coloring Method: ColorId - 22 cyan3; Drawing Method: QuickSurf; Material: Transparent
@@ -51,7 +51,7 @@ Selected Atoms: resname CL; Coloring Method: Name; Drawing Method: VDW; Material
 >PDB 1S0Q, Tripsina Pancreática Bovina. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 azul para Hélices 3-10; 🔵 ciano para voltas e ⚪ branco para novelos ou cordas.
 
 >[!TIP]
->Na janela Graphics > Representations... é possivel desativar ou ativar a visualização da representação da molécula com um clique duplo sob a molécula desejada.
+>Na janela Graphics > Representations... é possivel desativar ou ativar a visualização da representação com clique duplo sobre a molécula desejada.
 >
 
 Para renderizar em arquivo de imagem:
@@ -63,7 +63,7 @@ File > Render > Start Rendering
 
 ## Visualização de trajetória no VMD
 >[!NOTE]
->Após a finalização da etapa de produção, é necessário ajustar as trajetórias `.xtc` ou `.trr` para a devida visualização no VMD. Esse procedimento não altera a dinâmica molecular.
+>Após finalização da etapa de produção, é necessário ajustar as trajetórias `.xtc` ou `.trr` para a devida visualização no VMD. Esse procedimento não altera a dinâmica molecular.
 >
 
 Para ajustar a trajetória no Gromacs:
@@ -81,7 +81,7 @@ Quando solicitado, selecione `1 Protein` para indicar que a proteina deverá ser
 >Saiba mais sobre [trjconv](https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html).
 >
 
-Para carregar as coordenadas e a trajetória no VMD:
+Para carregar as coordenadas e trajetória no VMD:
 ```
 vmd md_5ns.gro md_noPBC.xtc
 ```
@@ -90,7 +90,7 @@ vmd md_5ns.gro md_noPBC.xtc
 Link para visualizar o video demonstrativo da dinâmica: [https://youtu.be/IQGiznRc0Xo](https://youtu.be/IQGiznRc0Xo).
 
 >[!NOTE]
->Crie uma pasta para criar os snapshots de cada frame.
+>Crie uma pasta para salvar os snapshots de cada frame.
 >
 
 Para criar o video, inicialmente instale as bibliotecas:
@@ -104,11 +104,15 @@ No VMD, após ajustes nas visualizações e carregar os arquivos de coordenadas 
 Extensions > Visualization > Movie Maker
 ```
 
-Na janela que abrir, selecione a pasta onde os snapshots serão salvos. Certifique que `Name of movie: untitled`, `Rotation angle=0`, `Trajectory step size=1` e `Movie duration (s)=0`.
+Na janela que abrir, selecione a pasta onde os snapshots serão salvos. Certifique que:
+- `Name of movie: untitled`
+- `Rotation angle=0`
+- `Trajectory step size=1`
+- `Movie duration (s)=0`
 
-No menu `Renderer`, selecione `Snapshot` ou `Internal Tachyon`. Em `Movie Settings`, selecione `Trajectory` e verifique se a opção `4: Delete image files` esteja desabilitada. Em `Format`, selecione `MPEG-1`. Clique em Make Movie.
+No menu `Renderer`, selecione `Snapshot` ou `Internal Tachyon`. Em `Movie Settings`, selecione `Trajectory` e desabilite a opção `4: Delete image files`. Em `Format`, selecione `MPEG-1`. Clique em Make Movie.
 
-Após criar os snapshots, dentro onde estão os snapshots, crie o video:
+Na pasta onde estão os snapshots, crie o video:
 ```
 ffmpeg -framerate 30 -i untitled.%05d.ppm -vf scale=1920:-2:flags=lanczos -c:v libx265 -crf 18 -preset slow movie.mkv
 ```
@@ -123,4 +127,4 @@ O video será salvo como `movie.mkv` e pode ser hospedado no YouTube ou qualquer
 
 ## 📜 Citação
 
-- FAUSTINO, Patrick Allan dos Santos. **Tutorials: DCriar imagens e videos de dinâmicas moleculares**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-visual.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-visual.md). Acesso em: 18 jul. 2025.
+- FAUSTINO, Patrick Allan dos Santos. **Tutorials: Criar imagens e videos de dinâmicas moleculares**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-visual.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-visual.md). Acesso em: 18 jul. 2025.
