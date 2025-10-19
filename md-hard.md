@@ -1,11 +1,11 @@
-<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água</h1>
+<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água - Patrick</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
 </div>
 
 <div align="center">
-  <p>O objetivo deste tutorial é simular a enzima digestiva tripsina pancreática bovina em uma caixa cúbica com água sob condições de 298 K e 1 bar.</p>
+  <p>O objetivo deste tutorial é simular a enzima digestiva tripsina pancreática bovina em uma caixa cúbica com água sob condições de 298 K e 1 bar, com modificações do fluxo de trabalho.</p>
   <p>Explore, colabore e estude! 😄 Dúvidas: <a href="mailto:patrick.faustino@unesp.br">patrick.faustino@unesp.br</a></p>
 </div>
 
@@ -19,45 +19,75 @@
 - [Produção: integradores](#produção-integradores)
 - [Resumo](#resumo)
 
-## Arquivos iniciais
+## Considerações iniciais
 
-Para iniciar a simulação, obtenha os arquivos de topologia (campos de força), as coordenadas iniciais da biomolécula e os parâmetros de entrada para a dinâmica molecular.
+Após compreender perfeitamente como realizar uma dinâmica molecular simples da [tripsina pancreática bovina](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md), a evolução e destreza em realizar dinâmicas moleculares complexas exige etapas adicionais, que foram estudadas e são utilizadas por mim em artigos, dissertações, teses e quando necessário rigor acadêmico. Algumas observações importantes são:
 
-Utilize a estrutura da 1S0Q com o código [1S0Q](https://www.rcsb.org/structure/1S0Q) do PDB, que possui uma resolução de 1,02 Å. **Dê preferência a estruturas com resolução cristalográfica inferior a 2,5 Å**, pois isso garante uma geometria molecular mais confiável e detalhada, o que é fundamental para a qualidade da simulação. Uma resolução menor proporciona maior detalhamento cristalográfico.
+- Dependendo do sistema estudado, não torma mais preciso os resultados.
+- Adiciona uma etapa de minimização antes da neutralização.
+- Faz o uso gradativo do termostato e barostato de Berendsen.
 
-Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.org/) para uma análise aprofundada. Para garantir maior precisão e realismo, explore os detalhes complementares da estrutura. Verifique o método experimental usado para sua obtenção, a presença de ligantes, possíveis modificações estruturais e os estados de protonação dos resíduos.
-
-<div align="center">
-<img src="img/tripsina.png" alt="tripsina pancreática bovina">
-</div>
-
->PDB 1S0Q, Tripsina Pancreática Bovina. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 azul para Hélices 3-10; 🔵 ciano para voltas e ⚪ branco para novelos ou cordas.
-
->[!TIP]
->Organize seu diretório de trabalho. Crie duas subpastas: `analysis`, destinada aos resultados das análises, e `inputs`, para armazenar os arquivos de parâmetros da dinâmica molecular (.mdp).
->
-
-```
-├── 1S0Q.pdb
-├── amber14sb_parmbsc1_cufix.ff
-├── analysis
-└── inputs
-    ├── ions.mdp
-    ├── md.mdp
-    ├── minim.mdp
-    ├── npt.mdp
-    └── nvt.mdp
-```
-
-## Preparo da topologia da molécula: campos de forças
-
-O arquivo **1S0Q.pdb** contém, além das coordenadas da biomolécula, moléculas de água (`HOH`) e outros ligantes (`HETATM`). Remova esses componentes extras para evitar erros nas etapas subsequentes. Realize essa limpeza de duas maneiras: editando o arquivo manualmente ou utilizando os comandos de terminal apresentados a seguir.
+Assumindo que o estudante já esta familializado com a dinâmica molecular anterior da [tripsina pancreática bovina](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md) e já possui prática, segue abaixo o resumo das etapas:
 
 ```
 grep -v HETATM 1S0Q.pdb > 1S0Q_clean.pdb
-
-# grep -v HOH 1S0Q.pdb > 1S0Q_clean.pdb
+gmx pdb2gmx -v -f 1S0Q_clean.pdb -o tripsina.gro
+vmd tripsina.gro
 ```
+```
+gmx editconf -f tripsina.gro -o box.gro -c -d 2.0 -bt cubic
+gmx solvate -cp box.gro -cs spc216.gro -o solvated.gro -p topol.top
+gmx grompp -v -f inputs/minim.mdp -c solvated.gro -o solvated_em.tpr -p topol.top
+gmx mdrun -v -deffnm solvated_em
+gmx grompp -v -f inputs/ions.mdp -c solvated_em.gro -o ions.tpr -p topol.top
+gmx genion -s ions.tpr -o solvated_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
+```
+```
+gmx grompp -v -f inputs/minim.mdp -c solvated_ions.gro -o em.tpr -p topol.top
+gmx mdrun -v -deffnm em
+gmx energy -f em.edr -s em.tpr -o potential.xvg
+xmgrace potential.xvg
+```
+```
+gmx grompp -v -f inputs/nvt_1.mdp -c em.gro -r em.gro -o nvt_1.tpr -p topol.top
+gmx mdrun -v -deffnm nvt_1
+```
+```
+gmx grompp -v -f inputs/npt_1.mdp -c nvt_1.gro -r nvt_1.gro -t nvt_1.cpt -o npt_1.tpr -p topol.top
+gmx mdrun -v -deffnm npt_1
+gmx energy -f npt_1.edr -s npt_1.tpr -o temperature.xvg
+xmgrace temperature.xvg
+```
+```
+gmx grompp -v -f inputs/npt_2.mdp -c npt_1.gro -r npt_1.gro -t npt_1.cpt -o npt_2.tpr -p topol.top
+gmx mdrun -v -deffnm npt_2
+gmx energy -f npt_2.edr -s npt_2.tpr -o pressure.xvg
+xmgrace pressure.xvg
+gmx energy -f npt_2.edr -s npt_2.tpr -o density.xvg
+xmgrace density.xvg
+```
+```
+gmx grompp -v -f inputs/md.mdp -c npt_2.gro -t npt_2.cpt -o md_5ns.tpr -p topol.top
+gmx mdrun -v -deffnm md_5ns
+```
+
+>[!NOTE]
+>Pode ocorrer aviso dado pelo Gromacs sobre o uso do termostato e barostato Berendsen. Para suprimir, use `-maxwarn 1`.
+>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Remova as cadeias desnecessárias em um editor de texto simples.
 
