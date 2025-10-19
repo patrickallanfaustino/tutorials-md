@@ -11,7 +11,7 @@
 
 ## 📖 Índice
 
-- [Arquivos iniciais](#arquivos-iniciais)
+- [Representação gráfica no VMD](#representação-gráfica-no-VMD)
 - [Preparo da topologia da molécula: campos de forças](#preparo-da-topologia-da-molécula-campos-de-forças)
 - [Definindo a caixa de simulação: dimensões, solvatação e neutralização](#definindo-a-caixa-de-simulação-dimensões-solvatação-e-neutralização)
 - [Minimização do sistema](#minimização-do-sistema)
@@ -21,10 +21,6 @@
 
 ## Representação gráfica no VMD
 O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação, verifique este repositório.
-
->[!NOTE]
->Após a finalização da etapa de produção, é necessário o tratamento do arquivo de trajetórias `.xtc` ou `.trr`.
->
 
 Para carregar o arquivo de coordenadas no VMD:
 ```
@@ -62,39 +58,61 @@ Selected Atoms: resname CL; Coloring Method: Name; Drawing Method: VDW; Material
 >Na janela Graphics > Representations... é possivel desativar ou ativar a visualização da representação da molécula com um clique duplo sob a molécula desejada.
 >
 
+Para renderizar em arquivo de imagem:
+```
+File > Render > Start Rendering
+```
+É possivel alterar o motor de renderização para `Tachyon (internal, in-memory rendering)` e renomear o arquivo juntamente com a extensão `.png` ou `.jpg`.
 
 
+## Visualização de trajetória no VMD
 
-
-Para iniciar a simulação, obtenha os arquivos de topologia (campos de força), as coordenadas iniciais da biomolécula e os parâmetros de entrada para a dinâmica molecular.
-
-Utilize a estrutura da 1S0Q com o código [1S0Q](https://www.rcsb.org/structure/1S0Q) do PDB, que possui uma resolução de 1,02 Å. **Dê preferência a estruturas com resolução cristalográfica inferior a 2,5 Å**, pois isso garante uma geometria molecular mais confiável e detalhada, o que é fundamental para a qualidade da simulação. Uma resolução menor proporciona maior detalhamento cristalográfico.
-
-Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.org/) para uma análise aprofundada. Para garantir maior precisão e realismo, explore os detalhes complementares da estrutura. Verifique o método experimental usado para sua obtenção, a presença de ligantes, possíveis modificações estruturais e os estados de protonação dos resíduos.
-
-<div align="center">
-<img src="img/tripsina.png" alt="tripsina pancreática bovina">
-</div>
-
->PDB 1S0Q, Tripsina Pancreática Bovina. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 azul para Hélices 3-10; 🔵 ciano para voltas e ⚪ branco para novelos ou cordas.
-
->[!TIP]
->Organize seu diretório de trabalho. Crie duas subpastas: `analysis`, destinada aos resultados das análises, e `inputs`, para armazenar os arquivos de parâmetros da dinâmica molecular (.mdp).
+>[!NOTE]
+>Após a finalização da etapa de produção, é necessário ajustar as trajetórias `.xtc` ou `.trr` para a devida visualização no VMD. Esse procedimento não altera a dinâmica molecular.
 >
 
+Para ajustar a trajetória no Gromacs:
 ```
-├── 1S0Q.pdb
-├── amber14sb_parmbsc1_cufix.ff
-├── analysis
-└── inputs
-    ├── ions.mdp
-    ├── md.mdp
-    ├── minim.mdp
-    ├── npt.mdp
-    └── nvt.mdp
+gmx trjconv -f md_5ns.xtc -s md_5ns.tpr -o md_noPBC.xtc -pbc mol -center -ur compact
+
+# -pbc = mol, para visualizar as moléculas inteiras.
+# -center = centraliza a proteina na caixa.
+# -ur = compact, para uma visualização compacta na caixa.
 ```
 
-## Preparo da topologia da molécula: campos de forças
+Quando solicitado, selecione `1 Protein` para indicar que a proteina deverá ser centralizada na caixa e `0 System` para solicitar que todo o sistema esteja no arquivo de saida **md_noPBC.xtc**.
+
+>[!NOTE]
+>Saiba mais sobre [trjconv](https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html).
+>
+
+Para carregar as coordenadas e a trajetória no VMD:
+```
+vmd md_5ns.gro md_noPBC.xtc
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 O arquivo **1S0Q.pdb** contém, além das coordenadas da biomolécula, moléculas de água (`HOH`) e outros ligantes (`HETATM`). Remova esses componentes extras para evitar erros nas etapas subsequentes. Realize essa limpeza de duas maneiras: editando o arquivo manualmente ou utilizando os comandos de terminal apresentados a seguir.
 
