@@ -1,4 +1,4 @@
-<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água - Patrick</h1>
+<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água - modificado</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
@@ -79,7 +79,7 @@ gmx mdrun -v -deffnm md_5ns
 ```
 
 >[!NOTE]
->Pode ocorrer aviso dado pelo Gromacs sobre o uso do termostato e barostato Berendsen. Para suprimir, use `-maxwarn 1`.
+>Pode ocorrer alertas pelo Gromacs sobre o uso do termostato e barostato Berendsen. Para suprimir, use `-maxwarn [x]`, onde [x] é a quantidade de alertas emitidos.
 >
 
 Link para visualizar o video demonstrativo da dinâmica: [https://youtu.be/IQGiznRc0Xo](https://youtu.be/IQGiznRc0Xo).
