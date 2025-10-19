@@ -439,15 +439,49 @@ gmx trjcat -f md_5ns.xtc md_10ns.part0002.xtc -o final.xtc
 >Saiba mais sobre [convert-tpr](https://manual.gromacs.org/current/onlinehelp/gmx-convert-tpr.html).
 >
 
-Após a finalização, vamos proceder com o preparo da molecula e arquivos necessários para analise e a analise dos resultados.
-
 Link para visualizar o video demonstrativo da dinâmica: [https://youtu.be/IQGiznRc0Xo](https://youtu.be/IQGiznRc0Xo).
 
+- [Imagens e video](md-visual.md)
 - [Análises de resultados](md-analysis.md)
 
 ---
 
 ### 🧪⚗️ *Boas simulações moleculares!* 🦠🧬
+
+## Resumo
+
+```
+grep -v HETATM 1S0Q.pdb > 1S0Q_clean.pdb
+gmx pdb2gmx -v -f 1S0Q_clean.pdb -o tripsina.gro
+```
+```
+gmx editconf -f tripsina.gro -o box.gro -c -d 2.0 -bt cubic
+gmx solvate -cp box.gro -cs spc216.gro -o solvated.gro -p topol.top
+gmx grompp -v -f inputs/ions.mdp -o ions.tpr -c solvated.gro -p topol.top
+gmx genion -s ions.tpr -o solvated_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
+```
+```
+gmx grompp -v -f inputs/minim.mdp -c solvated_ions.gro -o em.tpr -p topol.top
+gmx mdrun -v -deffnm em
+gmx energy -f em.edr -s em.tpr -o potential.xvg
+xmgrace potential.xvg
+```
+``
+gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
+gmx mdrun -v -deffnm nvt
+gmx energy -f nvt.edr -s nvt.tpr -o temperature.xvg
+xmgrace temperature.xvg
+```
+``
+gmx grompp -v -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -o npt.tpr -p topol.top
+gmx mdrun -v -deffnm npt
+gmx energy -f npt.edr -s npt.tpr -o pressure.xvg
+gmx energy -f npt.edr -s npt.tpr -o density.xvg
+```
+```
+gmx grompp -v -f inputs/md.mdp -c npt.gro -t npt.cpt -o md_5ns.tpr -p topol.top
+gmx mdrun -v -deffnm md_5ns
+```
 
 ---
 ## 📜 Citação
