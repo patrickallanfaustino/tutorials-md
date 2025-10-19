@@ -1,11 +1,11 @@
-<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 5PTI) em água</h1>
+<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
 </div>
 
 <div align="center">
-  <p>O objetivo deste tutorial é simular o inibidor de tripsina pancreática bovina. Sua função biológica é inibir a atividade da tripsina, uma enzima digestiva, para proteger o pâncreas da autodigestão. As condições serão uma caixa cúbica com água sob condições de 298 K e 1 bar.</p>
+  <p>O objetivo deste tutorial é simular a enzima digestiva tripsina pancreática bovina em uma caixa cúbica com água sob condições de 298 K e 1 bar.</p>
   <p>Explore, colabore e estude! 😄 Dúvidas: <a href="mailto:patrick.faustino@unesp.br">patrick.faustino@unesp.br</a></p>
 </div>
 
@@ -22,22 +22,22 @@
 
 Para iniciar a simulação, obtenha os arquivos de topologia (campos de força), as coordenadas iniciais da biomolécula e os parâmetros de entrada para a dinâmica molecular.
 
-Utilize a estrutura da [BPTI](https://doi.org/10.1016/S0022-2836(84)80006-6) com o código [5PTI](https://www.rcsb.org/structure/5PTI) do PDB, que possui uma resolução de 1,00 Å. **Dê preferência a estruturas com resolução cristalográfica inferior a 2,5 Å**, pois isso garante uma geometria molecular mais confiável e detalhada, o que é fundamental para a qualidade da simulação. Uma resolução menor proporciona maior detalhamento cristalográfico.
+Utilize a estrutura da 1S0Q com o código [5PTI](https://www.rcsb.org/structure/1S0Q) do PDB, que possui uma resolução de 1,02 Å. **Dê preferência a estruturas com resolução cristalográfica inferior a 2,5 Å**, pois isso garante uma geometria molecular mais confiável e detalhada, o que é fundamental para a qualidade da simulação. Uma resolução menor proporciona maior detalhamento cristalográfico.
 
 Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.org/) para uma análise aprofundada. Para garantir maior precisão e realismo, explore os detalhes complementares da estrutura. Verifique o método experimental usado para sua obtenção, a presença de ligantes, possíveis modificações estruturais e os estados de protonação dos resíduos.
 
 <div align="center">
-<img src="img/5pti.png" alt="inibidor de tripsina pancreática bovina">
+<img src="img/tripsina.png" alt="tripsina pancreática bovina">
 </div>
 
->PDB 5PTI, Inibidor de Tripsina Pancreática Bovina. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 azul para Hélices 3-10; 🔵 ciano para voltas e ⚪ branco para novelos ou cordas.
+>PDB 1S0Q, Tripsina Pancreática Bovina. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 azul para Hélices 3-10; 🔵 ciano para voltas e ⚪ branco para novelos ou cordas.
 
 >[!TIP]
 >Organize seu diretório de trabalho. Crie duas subpastas: `analysis`, destinada aos resultados das análises, e `inputs`, para armazenar os arquivos de parâmetros da dinâmica molecular (.mdp).
 >
 
 ```
-├── 5PTI.pdb
+├── 1S0Q.pdb
 ├── amber14sb_parmbsc1_cufix.ff
 ├── analysis
 └── inputs
@@ -50,12 +50,12 @@ Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.or
 
 ## Preparo da topologia da molécula: campos de forças
 
-O arquivo **5PTI.pdb** contém, além das coordenadas da biomolécula, moléculas de água (`HOH`) e outros ligantes (`HETATM`). Remova esses componentes extras para evitar erros nas etapas subsequentes. Realize essa limpeza de duas maneiras: editando o arquivo manualmente ou utilizando os comandos de terminal apresentados a seguir.
+O arquivo **1S0Q.pdb** contém, além das coordenadas da biomolécula, moléculas de água (`HOH`) e outros ligantes (`HETATM`). Remova esses componentes extras para evitar erros nas etapas subsequentes. Realize essa limpeza de duas maneiras: editando o arquivo manualmente ou utilizando os comandos de terminal apresentados a seguir.
 
 ```
-grep -v HETATM 5PTI.pdb > 5PTI_clean.pdb
+grep -v HETATM 1S0Q.pdb > 1S0Q_clean.pdb
 
-# grep -v HOH 5PTI.pdb > 5PTI_clean.pdb
+# grep -v HOH 1S0Q.pdb > 1S0Q_clean.pdb
 ```
 
 Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Remova as cadeias desnecessárias em um editor de texto simples.
@@ -67,7 +67,7 @@ Em seguida, escolha o campo de força e o modelo de água que serão usados na s
 >
 
 ```
-gmx pdb2gmx -v -f 5PTI_clean.pdb -o protein.gro
+gmx pdb2gmx -v -f 1S0Q_clean.pdb -o tripsina.gro
 
 # -v = verbose, para visualizar o processo.
 # -f = file input, arquivo de entrada das coordenadas.
@@ -78,11 +78,11 @@ O programa solicitará duas escolhas em sequência. Responda a cada prompt da se
  - Para o campo de força, digite 1 para selecionar AMBER14SB_parmbsc1.
  - Para o modelo de água, digite 1 novamente para selecionar TIP3P recommended, o padrão recomendado para a família AMBER.
 
-O GROMACS utiliza estados de protonação canônicos para cada aminoácido (assumindo pH neutro) e adiciona os hidrogênios correspondentes. Ao final do processo, o programa conserva a carga líquida total da biomolécula. Confirme este valor no terminal, procurando pela mensagem: `Total charge in system -2.000 e`.
+O GROMACS utiliza estados de protonação canônicos para cada aminoácido (assumindo pH neutro) e adiciona os hidrogênios correspondentes. Ao final do processo, o programa conserva a carga líquida total da biomolécula. Confirme este valor no terminal, procurando pela mensagem: `Total charge in system 8.000 e`.
 
 Para visualizar no VMD, utilize:
 ```
-vmd protein.gro
+vmd tripsina.gro
 ```
 
 >[!NOTE]
@@ -120,7 +120,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 Nesta etapa, defina a caixa de simulação e ajuste seus parâmetros, como as dimensões, a distância da biomolécula até as bordas e outras configurações relevantes para a correta montagem do sistema.
 
 ```
-gmx editconf -f insulina.gro -o box.gro -c -d 2.5 -bt cubic
+gmx editconf -f tripsina.gro -o box.gro -c -d 2.0 -bt cubic
 
 # -c = center, para centralizar a biomolécula na caixa.
 # -d = distance, distância em nm entre todas moléculas e a borda.
@@ -147,14 +147,22 @@ Verifique as dimensões da caixa na mensagem de saída do programa. Certifique-s
 <img src="img/box.png" alt="caixa de simulação">
 </div>
 
->PDB 3I40, insulina humana em uma caixa de simulação cubica 7.8 x 7.8 x 7.8 nm.
+>PDB 1S0Q, tripsina em uma caixa de simulação cúbica.
+
+Para vizualisar no VMD:
+
+```
+vmd box.gro
+
+Extensions > Tk Console > pbc box -color blue
+```
 
 ### Solvatação
 
 Em seguida, preencha a caixa de simulação com moléculas de água para solvatar a insulina. Este procedimento garante que a biomolécula fique imersa em um ambiente aquoso, simulando as condições fisiológicas necessárias para a análise da dinâmica molecular.
 
 ```
-gmx solvate -cp box.gro -cs spc216.gro -o solv.gro -p topol.top
+gmx solvate -cp box.gro -cs spc216.gro -o solvated.gro -p topol.top
 
 # -cp = coordenates protein, coordenadas do nosso soluto (geralmente, proteina).
 # -cs = coordenates solvent, coordenadas da molecula que será usada como solvente.
@@ -174,18 +182,18 @@ O GROMACS acaba de preencher a caixa com moléculas de água do arquivo `spc216.
 >
 
 <div align="center">
-<img src="img/solvate.png" alt="proteina solvatada">
+<img src="img/solvated.png" alt=tripsina solvatada">
 </div>
 
->PDB 3I40 solvatada com água modelo TIP3P
+>PDB 1S0Q solvatada com água modelo TIP3P
 
 ### Neutralização
-A etapa final na preparação da caixa é a neutralização do sistema com a adição de íons. Este passo é fundamental, pois os algoritmos da simulação funcionam com maior eficiência em sistemas eletricamente neutros. Como visto na etapa anterior, a carga total da insulina é de -2,000 e. Portanto, adicione dois cátions para compensar essa carga e zerar a carga total do sistema.
+A etapa final na preparação da caixa é a neutralização do sistema com a adição de íons. Este passo é fundamental, pois os algoritmos da simulação funcionam com maior eficiência em sistemas eletricamente neutros. Como visto na etapa anterior, a carga total da insulina é de 8,000 e. Portanto, adicione dois cátions para compensar essa carga e zerar a carga total do sistema.
 
 Antes de neutralizar com a função `genion`, é necessário gerar um arquivo binário `.tpr` com as informações necessárias para o processamento:
 
 ```
-gmx grompp -v -f inputs/ions.mdp -o ions.tpr -c solv.gro -p topol.top
+gmx grompp -v -f inputs/ions.mdp -o ions.tpr -c solvated.gro -p topol.top
 
 # -c = coordenates, arquivo com as coordenadas do sistema.
 ```
@@ -203,7 +211,7 @@ O programa genion solicitará que você selecione um grupo de moléculas para su
 Agora, adicione os íons necessários para neutralizar a carga da caixa de simulação e garantir que o sistema seja eletricamente neutro.
 
 ```
-gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
+gmx genion -s ions.tpr -o solvated_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
 
 # -s = submit binary, arquivo binário criado anteriormente com todas informações do sistema.
 # -pname = nome do cátion(+), nesse caso NA Sódio.
@@ -222,10 +230,10 @@ Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions a
 >
 
 <div align="center">
-<img src="img/neutralization.png" alt="proteina solvatada e neutralizada">
+<img src="img/neutralization.png" alt="enzima solvatada e neutralizada">
 </div>
 
->PDB 3I40 solvatada e neutralizada. Em 🔵 NA e 🟢 CL.
+>PDB 1S0Q solvatada e neutralizada. Em 🔵 NA e 🟢 CL.
 
 ## Minimização do sistema
 
