@@ -17,6 +17,7 @@
 - [Minimização do sistema](#minimização-do-sistema)
 - [Equilíbrio NVT e NPT: termostatos e barostatos](#equilíbrio-nvt-e-npt-termostatos-e-barostatos)
 - [Produção: integradores](#produção-integradores)
+- [Resumo](#resumo)
 
 ## Arquivos iniciais
 
@@ -446,8 +447,6 @@ Link para visualizar o video demonstrativo da dinâmica: [https://youtu.be/IQGiz
 
 ---
 
-### 🧪⚗️ *Boas simulações moleculares!* 🦠🧬
-
 ## Resumo
 
 ```
@@ -466,13 +465,13 @@ gmx mdrun -v -deffnm em
 gmx energy -f em.edr -s em.tpr -o potential.xvg
 xmgrace potential.xvg
 ```
-``
+```
 gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
 gmx mdrun -v -deffnm nvt
 gmx energy -f nvt.edr -s nvt.tpr -o temperature.xvg
 xmgrace temperature.xvg
 ```
-``
+```
 gmx grompp -v -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -o npt.tpr -p topol.top
 gmx mdrun -v -deffnm npt
 gmx energy -f npt.edr -s npt.tpr -o pressure.xvg
@@ -484,6 +483,11 @@ gmx mdrun -v -deffnm md_5ns
 ```
 
 ---
+
+### 🧪⚗️ *Boas simulações moleculares!* 🦠🧬
+
+---
+
 ## 📜 Citação
 
 - FAUSTINO, Patrick Allan dos Santos. **Tutorials: Dinâmica Molecular de Biomoléculas (PDB: 1S0Q) em água**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md). Acesso em: 18 jul. 2025.
