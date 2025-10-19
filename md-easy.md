@@ -441,7 +441,7 @@ gmx trjcat -f md_5ns.xtc md_10ns.part0002.xtc -o final.xtc
 
 Após a finalização, vamos proceder com o preparo da molecula e arquivos necessários para analise e a analise dos resultados.
 
-Link para visualizar o video demonstrativo da dinâmica: [https://youtube.com/shorts/2eMx-84VDBc?si=28Y8yeo5uVdDX0po](https://youtube.com/shorts/2eMx-84VDBc?si=28Y8yeo5uVdDX0po)
+Link para visualizar o video demonstrativo da dinâmica: [https://youtube.com/shorts/2eMx-84VDBc?si=28Y8yeo5uVdDX0po](https://youtu.be/IQGiznRc0Xo)
 
 - [Análises de resultados](md-analysis.md)
 
