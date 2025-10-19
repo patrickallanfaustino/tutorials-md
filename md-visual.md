@@ -1,11 +1,11 @@
-<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água</h1>
+<h1 align="center">Criar imagens e videos de dinâmicas moleculares</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
 </div>
 
 <div align="center">
-  <p>O objetivo deste tutorial é simular a enzima digestiva tripsina pancreática bovina em uma caixa cúbica com água sob condições de 298 K e 1 bar.</p>
+  <p>O objetivo deste tutorial é criar imagens e video com qualidade para publicações a partir da dinâmica molecular da tripsina pancreática bovina.</p>
   <p>Explore, colabore e estude! 😄 Dúvidas: <a href="mailto:patrick.faustino@unesp.br">patrick.faustino@unesp.br</a></p>
 </div>
 
@@ -19,7 +19,52 @@
 - [Produção: integradores](#produção-integradores)
 - [Resumo](#resumo)
 
-## Arquivos iniciais
+## Representação gráfica no VMD
+O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação, verifique este repositório.
+
+>[!NOTE]
+>Após a finalização da etapa de produção, é necessário o tratamento do arquivo de trajetórias `.xtc` ou `.trr`.
+>
+
+Para carregar o arquivo de coordenadas no VMD:
+```
+vmd md_5ns.gro
+```
+
+No menu do VMD, podemos realizar algumas melhorias na visualização:
+```
+Display > Orthographic    # para alterar a visão referencial
+Display > Axes > Off    # para remover o eixo axial do painel de visualização
+Display > Rendermode > GLSL    # para alterar o motor de renderização
+Graphics > Colors > Display > Background > 8 white    # altera a cor do plano de fundo
+```
+
+Para modificar a forma de representação das moléculas:
+```
+Graphics > Representations
+```
+
+Na janela que abrir, vamos criar representações para `protein`, `water`, `resname NA` e `resname CL` utilizando o botão **Create Rep**, e realizar as sequintes configurações:
+```
+Selected Atoms: protein; Coloring Method: Secundary Structure; Drawing Method: NewCartoon; Material: EdgyShiny
+Selected Atoms: water; Coloring Method: ColorId - 22 cyan3; Drawing Method: QuickSurf; Material: Transparent
+Selected Atoms: resname NA; Coloring Method: Name; Drawing Method: VDW; Material: EdgyShiny
+Selected Atoms: resname CL; Coloring Method: Name; Drawing Method: VDW; Material: EdgyShiny
+```
+
+<div align="center">
+<img src="img/tripsina-in-box.png" alt="tripsina pancreática bovina">
+</div>
+
+>PDB 1S0Q, Tripsina Pancreática Bovina. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 azul para Hélices 3-10; 🔵 ciano para voltas e ⚪ branco para novelos ou cordas.
+
+>[!TIP]
+>Na janela Graphics > Representations... é possivel desativar ou ativar a visualização da representação da molécula com um clique duplo sob a molécula desejada.
+>
+
+
+
+
 
 Para iniciar a simulação, obtenha os arquivos de topologia (campos de força), as coordenadas iniciais da biomolécula e os parâmetros de entrada para a dinâmica molecular.
 
