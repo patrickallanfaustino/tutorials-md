@@ -220,9 +220,9 @@ gmx genion -s ions.tpr -o solvated_ions.gro -p topol.top -pname NA -nname CL -ne
 # -conc 0.15 = concentration, define a concentração em mol/L.
 ```
 
-Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar o sistema. Neste caso, considerando a carga líquida de -2,000 e serão adicionados dois íons NA ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9% m/m, simulando o ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema.
+Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar o sistema. Neste caso, considerando a carga líquida de 8,000 e serão adicionados oito íons CL ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9% m/m, simulando o ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema.
 
-Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions and 43 CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo `topol.top` é atualizado com as quantidades de ions adicionadas.
+Na mensagem de saída, pode-se observar a mensagem `Will try to add 67 NA ions and 75 CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo `topol.top` é atualizado com as quantidades de ions adicionadas.
 
 
 >[!NOTE]
@@ -230,7 +230,7 @@ Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions a
 >
 
 <div align="center">
-<img src="img/neutralization.png" alt="enzima solvatada e neutralizada">
+<img src="img/neutralization.png" alt="tripsina solvatada e neutralizada">
 </div>
 
 >PDB 1S0Q solvatada e neutralizada. Em 🔵 NA e 🟢 CL.
@@ -240,7 +240,7 @@ Na mensagem de saída, pode-se observar a mensagem `Will try to add 45 NA ions a
 O próximo passo é a minimização de energia. Este procedimento remove sobreposições entre as moléculas e garante uma configuração estrutural estável, essencial para as etapas seguintes da simulação. Para isso, execute duas ações em sequência: primeiro, gere um novo arquivo binário `.tpr` para a minimização; depois, execute o comando de minimização de energia com o arquivo recém-criado.
 
 ```
-gmx grompp -v -f inputs/minim.mdp -c solv_ions.gro -o em.tpr -p topol.top
+gmx grompp -v -f inputs/minim.mdp -c solvated_ions.gro -o em.tpr -p topol.top
 ```
 ```
 gmx mdrun -v -deffnm em
