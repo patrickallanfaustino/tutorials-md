@@ -1,4 +1,4 @@
-<h1 align="center">Análises de Resultados</h1>
+<h1 align="center">Análises de Resultados de Dinâmica Molecular</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
