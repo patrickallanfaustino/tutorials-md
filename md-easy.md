@@ -307,11 +307,11 @@ gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
 # -r = restrain file, arquivo de coordenadas com as restrinções iniciais (geralmente mesmo arquivo).
 ```
 ```
-gmx mdrun -f -deffnm nvt
+gmx mdrun -v -deffnm nvt
 ```
 
 >[!NOTE]
->Verifique a performance na mensagem de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 210.65 ns/day ou 0.114 hour/ns.
+>Verifique a performance na mensagem de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 149.69 ns/day ou 0.160 hour/ns.
 >
 
 Após a equilibração, verifique se a temperatura do sistema se estabilizou corretamente. Para isso, gere e analise o gráfico de temperatura. No gráfico, confirme se a temperatura média corresponde ao valor definido nos parâmetros e observe se as flutuações estão estáveis.
@@ -349,6 +349,10 @@ gmx grompp -v -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -o npt.tpr -p t
 ```
 gmx mdrun -v -deffnm npt
 ```
+```
+gmx energy -f npt.edr -s npt.tpr -o pressure.xvg
+gmx energy -f npt.edr -s npt.tpr -o density.xvg
+```
 
 <div align="center">
 <img src="img/pressure.png" alt="gráfico da pressão">
@@ -385,10 +389,10 @@ A etapa final é a simulação de produção. Se todos os passos anteriores fora
 Inicie a simulação de produção. Primeiro, gere o arquivo de entrada binário (.tpr) com base no arquivo de parâmetros [md.mdp](inputs-easy/md.mdp). Logo depois, inicie a simulação final de dinâmica molecular executando o comando a partir desse arquivo `.tpr`.
 
 ```
-gmx grompp -v -f inputs/md.mdp -c npt.gro -t npt.cpt -o md.tpr -p topol.top
+gmx grompp -v -f inputs/md.mdp -c npt.gro -t npt.cpt -o md_5ns.tpr -p topol.top
 ```
 ```
-gmx mdrun -v -deffnm md
+gmx mdrun -v -deffnm md_5ns
 ```
 Pontos importantes sobre os parâmetros da simulação de produção:
 
@@ -413,19 +417,22 @@ Pontos importantes sobre os parâmetros da simulação de produção:
 
 Caso sua simulação seja interrompida por algum problema, retome-a a partir do último ponto salvo (checkpoint). Para fazer isso, adicione a flag `-cpi` ao seu comando `mdrun`, especificando o nome do arquivo de checkpoint:
 ```
-gmx mdrun -v -deffnm md -cpi md.cpt
+gmx mdrun -v -deffnm md_5ns -cpi md_5ns.cpt
 
 # -cpi = checkpoint, arquivo com o ultimo estado salvo (backup).
 ```
 
 Para estender o tempo de uma simulação que já foi concluída, acrescentando mais tempo:
 ```
-gmx convert-tpr -s md.tpr -extend 5000 -o md_ex.tpr
+gmx convert-tpr -s md_5ns.tpr -extend 5000 -o md_10ns.tpr
 
 # -extend = indica o tempo, em ps, a ser acrescentado.
 ```
 ```
-gmx mdrun -v -deffnm md_ex -cpi md.cpt
+gmx mdrun -v -deffnm md_10ns -cpi md_5ns.cpt -noappend
+```
+```
+gmx trjcat -f md_5ns.xtc md_10ns.part0002.xtc -o final.xtc
 ```
 
 >[!NOTE]
@@ -434,9 +441,9 @@ gmx mdrun -v -deffnm md_ex -cpi md.cpt
 
 Após a finalização, vamos proceder com o preparo da molecula e arquivos necessários para analise e a analise dos resultados.
 
-Link para visualizar o video demonstrativo da dinâmica: [Dinâmica Molecular: Insulina Humana 3i40 em água.](https://youtube.com/shorts/2eMx-84VDBc?si=28Y8yeo5uVdDX0po)
+Link para visualizar o video demonstrativo da dinâmica: [https://youtube.com/shorts/2eMx-84VDBc?si=28Y8yeo5uVdDX0po](https://youtube.com/shorts/2eMx-84VDBc?si=28Y8yeo5uVdDX0po)
 
-- [Análises de resultados]()
+- [Análises de resultados](md-analysis.md)
 
 ---
 
@@ -445,4 +452,4 @@ Link para visualizar o video demonstrativo da dinâmica: [Dinâmica Molecular: I
 ---
 ## 📜 Citação
 
-- FAUSTINO, Patrick Allan dos Santos. **Tutorials: Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md). Acesso em: 18 jul. 2025.
+- FAUSTINO, Patrick Allan dos Santos. **Tutorials: Dinâmica Molecular de Biomoléculas (PDB: 1S0Q) em água**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md). Acesso em: 18 jul. 2025.
