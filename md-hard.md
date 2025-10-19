@@ -11,13 +11,13 @@
 
 ## Considerações
 
-Após compreender perfeitamente como realizar uma dinâmica molecular simples da [tripsina pancreática bovina](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md), a evolução e destreza em realizar dinâmicas moleculares complexas exige etapas adicionais, que foram estudadas e são utilizadas por mim em artigos, dissertações, teses e quando necessário rigor acadêmico. Algumas observações importantes são:
+Após compreender perfeitamente como realizar uma dinâmica molecular simples da [tripsina pancreática bovina](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md), a evolução e destreza em realizar dinâmicas moleculares complexas exige etapas adicionais, que foram estudadas e são utilizadas por mim em artigos, dissertações, teses e quando necessário rigor acadêmico. Algumas observações importantes:
 
 - Dependendo do sistema estudado, não torna os resultados mais precisos.
 - Adiciona uma etapa de minimização antes da neutralização.
-- Faz uso gradativo do termostato e barostato de Berendsen.
+- Faz uso progressivo do termostato e barostato de Berendsen.
 
-Assumindo que o estudante já esta familializado com a dinâmica molecular anterior da [tripsina pancreática bovina](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md) e já possui prática, segue abaixo o resumo das etapas:
+Assumindo que o estudante esta familializado com a dinâmica molecular anterior da [tripsina pancreática bovina](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md) e possui a prática necessária, segue abaixo o resumo das etapas:
 
 **Preparo dos arquivos e escolha do campo de força**
 ```
