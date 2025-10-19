@@ -1,11 +1,11 @@
-<h1 align="center">Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água</h1>
+<h1 align="center">Dinâmica Molecular de Biomolécula (PDB: 5PTI) em água</h1>
 
 <div align="center">
   <strong>🚀 Objetivo 📚</strong>
 </div>
 
 <div align="center">
-  <p>O objetivo deste tutorial é simular a insulina humana, o hormônio que regula o metabolismo da glicose, em uma caixa com água cúbica sob condições de 298 K e 1 bar.</p>
+  <p>O objetivo deste tutorial é simular o inibidor de tripsina pancreática bovina. Sua função biológica é inibir a atividade da tripsina, uma enzima digestiva, para proteger o pâncreas da autodigestão. As condições serão uma caixa cúbica com água sob condições de 298 K e 1 bar.</p>
   <p>Explore, colabore e estude! 😄 Dúvidas: <a href="mailto:patrick.faustino@unesp.br">patrick.faustino@unesp.br</a></p>
 </div>
 
@@ -22,22 +22,22 @@
 
 Para iniciar a simulação, obtenha os arquivos de topologia (campos de força), as coordenadas iniciais da biomolécula e os parâmetros de entrada para a dinâmica molecular.
 
-Utilize a estrutura da [insulina humana](https://doi.org/10.1107/S1744309110000461) com o código [3I40](https://www.rcsb.org/structure/3I40) do PDB, que possui uma resolução de 1,85 Å. **Dê preferência a estruturas com resolução cristalográfica inferior a 2,5 Å**, pois isso garante uma geometria molecular mais confiável e detalhada, o que é fundamental para a qualidade da simulação. Uma resolução menor proporciona maior detalhamento cristalográfico.
+Utilize a estrutura da [BPTI](https://doi.org/10.1016/S0022-2836(84)80006-6) com o código [5PTI](https://www.rcsb.org/structure/5PTI) do PDB, que possui uma resolução de 1,00 Å. **Dê preferência a estruturas com resolução cristalográfica inferior a 2,5 Å**, pois isso garante uma geometria molecular mais confiável e detalhada, o que é fundamental para a qualidade da simulação. Uma resolução menor proporciona maior detalhamento cristalográfico.
 
 Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.org/) para uma análise aprofundada. Para garantir maior precisão e realismo, explore os detalhes complementares da estrutura. Verifique o método experimental usado para sua obtenção, a presença de ligantes, possíveis modificações estruturais e os estados de protonação dos resíduos.
 
 <div align="center">
-<img src="img/insulina.png" alt="insulina">
+<img src="img/5pti.png" alt="inibidor de tripsina pancreática bovina">
 </div>
 
->PDB 3I40, insulina humana. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 ciano para voltas e ⚪ branco para superhélices ou cordas.
+>PDB 5PTI, Inibidor de Tripsina Pancreática Bovina. O VMD (*Visual Molecular Dynamics*) possui esquema de cores para estruturas de biomoléculas: 🟣 violeta para alfa-hélices; 🟡 amarelo para beta-folhas; 🔵 azul para Hélices 3-10; 🔵 ciano para voltas e ⚪ branco para novelos ou cordas.
 
 >[!TIP]
 >Organize seu diretório de trabalho. Crie duas subpastas: `analysis`, destinada aos resultados das análises, e `inputs`, para armazenar os arquivos de parâmetros da dinâmica molecular (.mdp).
 >
 
 ```
-├── 3i40.pdb
+├── 5PTI.pdb
 ├── amber14sb_parmbsc1_cufix.ff
 ├── analysis
 └── inputs
@@ -50,15 +50,15 @@ Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.or
 
 ## Preparo da topologia da molécula: campos de forças
 
-O arquivo **3i40.pdb** contém, além das coordenadas da biomolécula, moléculas de água (`HOH`) e outros ligantes (`HETATM`). Remova esses componentes extras para evitar erros nas etapas subsequentes. Realize essa limpeza de duas maneiras: editando o arquivo manualmente ou utilizando os comandos de terminal apresentados a seguir.
+O arquivo **5PTI.pdb** contém, além das coordenadas da biomolécula, moléculas de água (`HOH`) e outros ligantes (`HETATM`). Remova esses componentes extras para evitar erros nas etapas subsequentes. Realize essa limpeza de duas maneiras: editando o arquivo manualmente ou utilizando os comandos de terminal apresentados a seguir.
 
 ```
-grep -v HETATM 3i40.pdb > 3i40_clean.pdb
+grep -v HETATM 5PTI.pdb > 5PTI_clean.pdb
 
-# grep -v HOH 3i40.pdb > 3i40_clean.pdb
+# grep -v HOH 5PTI.pdb > 5PTI_clean.pdb
 ```
 
-Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Remova as cadeias desnecessárias. No caso, a cadeia B foi removida com um editor de texto simples.
+Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Remova as cadeias desnecessárias em um editor de texto simples.
 
 Em seguida, escolha o campo de força e o modelo de água que serão usados na simulação:
 
@@ -67,7 +67,7 @@ Em seguida, escolha o campo de força e o modelo de água que serão usados na s
 >
 
 ```
-gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
+gmx pdb2gmx -v -f 5PTI_clean.pdb -o protein.gro
 
 # -v = verbose, para visualizar o processo.
 # -f = file input, arquivo de entrada das coordenadas.
@@ -75,14 +75,14 @@ gmx pdb2gmx -v -f 3i40_clean.pdb -o insulina.gro
 ```
 
 O programa solicitará duas escolhas em sequência. Responda a cada prompt da seguinte forma:
- - Para o campo de força, digite 1 para selecionar AMBER03.
- - Para o modelo de água, digite 1 novamente para selecionar TIP3P, o padrão recomendado para a família AMBER.
+ - Para o campo de força, digite 1 para selecionar AMBER14SB_parmbsc1.
+ - Para o modelo de água, digite 1 novamente para selecionar TIP3P recommended, o padrão recomendado para a família AMBER.
 
 O GROMACS utiliza estados de protonação canônicos para cada aminoácido (assumindo pH neutro) e adiciona os hidrogênios correspondentes. Ao final do processo, o programa conserva a carga líquida total da biomolécula. Confirme este valor no terminal, procurando pela mensagem: `Total charge in system -2.000 e`.
 
 Para visualizar no VMD, utilize:
 ```
-vmd insulina.gro
+vmd protein.gro
 ```
 
 >[!NOTE]
