@@ -23,7 +23,6 @@ Assumindo que o estudante esta familializado com a dinâmica molecular anterior 
 ```
 grep -v HETATM 1S0Q.pdb > 1S0Q_clean.pdb
 gmx pdb2gmx -v -f 1S0Q_clean.pdb -o tripsina.gro
-vmd tripsina.gro
 ```
 
 **Definição da caixa de simulação, solvatação e minimização**
