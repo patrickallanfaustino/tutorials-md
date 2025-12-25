@@ -33,7 +33,7 @@ dispcorr                = EnerPres  ; account for cut-off vdW scheme
 
 ; Temperature coupling
 tcoupl                  = V-rescale            ; modified Berendsen thermostat
-tc-grps                 = Protein Non-Protein  ; two coupling groups - more accurate (Water non-Water)
+tc-grps                 = Protein non-Protein  ; two coupling groups - more accurate (Water non-Water)
 tau-t                   = 1.0       1.0        ; time constant, in ps
 ref-t                   = 298.15    298.15     ; reference temperature, one for each group, in K
 
