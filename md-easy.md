@@ -98,7 +98,7 @@ vmd tripsina.gro
 Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 ------- | ---------- | -------- | -------- 
 **OPLS**    | O campo de força OPLS-AA (Optimized Potentials for Liquid Simulations – All Atom) é amplamente usado para simulações de proteínas, pequenas moléculas, solventes, lipídios, dentre outros. | TIP4P recomendado, mas pode usar TIP3P. Não recomendado SPC. | 1.0~1.2 nm
-**AMBER**   | A família de campos de força AMBER (como amber99sb, amber99sb-ildn, amber14, etc.) é amplamente usada para proteínas, DNA/RNA e simulações biomoleculares. | TIP3P, não recomendado TIP4P e SPC. | 1.0~1.2 nm
+**AMBER**   | A família de campos de força AMBER (como amber99sb, amber99sb-ildn, amber14, etc.) é amplamente usada para proteínas, DNA/RNA e simulações biomoleculares. | TIP3P ou OPC, não recomendado TIP4P e SPC. | 1.0~1.2 nm
 **CHARMM**  | O campo de força CHARMM (como charmm36-jul2022.ff) é extremamente detalhado, especialmente para lipídios, proteínas e açúcares, e foi parametrizado com *switching functions*, o que o diferencia das abordagens anteriores. | TIP3P modificado, não substituir por TIP3P comum. | 1.2 nm
 **GROMOS**  | O campo de força GROMOS96 (como gromos54a7.ff) é uma escolha clássica para simulações de proteínas, sistemas aquosos e alguns tipos de estudos de bioenergia. Ele é o único desta lista a usar potencial truncado sem PME. | SPC | 1.4 nm
 
@@ -108,6 +108,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 | **SPC/E** | 3 pontos | Versão estendida do SPC, com correção de energia de polarização. Melhor densidade e constante dielétrica. |
 | **TIP3P** | 3 pontos | Muito usado com AMBER e CHARMM. Simples e compatível com muitos campos de força. |
 | **TIP4P** | 4 pontos | Inclui ponto virtual (M-site) para carga negativa fora do oxigênio, melhorando propriedades de fase. |
+| **OPC** | 4 pontos | É o "novo padrão de ouro" para simulações com campos de força modernos (como AMBER), equilibrando precisão estrutural e custo. |
 | **TIP5P** | 5 pontos | Dois pontos extra para os pares de elétrons do oxigênio. Mais preciso para estrutura tetraédrica, porém mais custoso. |
 
 >[!IMPORTANT]
@@ -121,7 +122,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 Nesta etapa, defina a caixa de simulação e ajuste seus parâmetros, como as dimensões, a distância da biomolécula até as bordas e outras configurações relevantes para a correta montagem do sistema.
 
 ```
-gmx editconf -f tripsina.gro -o box.gro -c -d 2.0 -bt cubic
+gmx editconf -f tripsina.gro -o box.gro -c -d 1.0 -bt cubic
 
 # -c = center, para centralizar a biomolécula na caixa.
 # -d = distance, distância em nm entre todas moléculas e a borda.
@@ -221,7 +222,7 @@ gmx genion -s ions.tpr -o solvated_ions.gro -p topol.top -pname NA -nname CL -ne
 # -conc 0.15 = concentration, define a concentração em mol/L.
 ```
 
-Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar o sistema. Neste caso, considerando a carga líquida de 8,000 e serão adicionados oito íons CL ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9% m/m, simulando o ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema.
+Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar o sistema. Neste caso, considerando a carga líquida de 8,000 e serão adicionados oito íons CL ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9 % (m/m), simulando o ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema.
 
 Na mensagem de saída, pode-se observar a mensagem `Will try to add 67 NA ions and 75 CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo `topol.top` é atualizado com as quantidades de ions adicionadas.
 
@@ -290,7 +291,7 @@ Inicie a equilibração de temperatura (ensemble NVT), na qual o número de mol�
 * Define a restrição da biomolécula, com `define = -DPOSRES`.
 * Define o tempo para o ajuste da temperatura, em `nsteps = 50000` x 0,002 (dt) = 100 ps.
 * Define o algoritmo para o ajuste da temperatura, em `tcoupl = V-rescale`.
-* Define os grupos para o ajuste da temperatura, com `tc-grps = Protein   Non-Protein`.
+* Define os grupos para o ajuste da temperatura, com `tc-grps = Protein   non-Protein`.
 * Define a constante de acoplamento da temperatura, com `tau-t = 1.0`.
 * Define a temperatura de referência, em `ref-t = 298.15`.
 
@@ -403,7 +404,7 @@ Pontos importantes sobre os parâmetros da simulação de produção:
 
 | Integrador     | Características                          | Vantagens                          | Limitações / Quando evitar                   | Uso típico                                    |
 |----------------|------------------------------------------|------------------------------------|----------------------------------------------|-----------------------------------------------|
-| **md**         | Leap-frog Verlet. Passo de tempo curto (1–2 fs). Conserva bem energia e momento.         | Robusto, padrão, eficiente.        | Velocidades não coincidem com posições.      | Produção em proteínas, membranas, solventes.  |
+| **md***         | Leap-frog Verlet. Passo de tempo curto (1–2 fs). Conserva bem energia e momento.         | Robusto, padrão, eficiente.        | Velocidades não coincidem com posições.      | Produção em proteínas, membranas, solventes.  |
 | **md-vv**      | Velocity-Verlet. Calcula velocidades no mesmo ponto que posições.                         | Melhora cálculo de velocidades.    | Pouco ganho em muitos casos.                 | Transporte, difusão, análise energética.      |
 | **md-vv-avek** | Velocity-Verlet com controle de energia cinética média (AVEK). | Temperatura estável sem termostato.| Mais pesado; pouco usado.                    | Equilíbrios longos sensíveis a flutuações.    |
 | **sd**         | Dinâmica de Langevin (stochastic). Força de fricção + ruído gaussiano..            | Excelente controle térmico.        | Distorce dinâmica real em excesso.           | Sistemas viscosos, líquidos iônicos, membranas.|
