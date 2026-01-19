@@ -27,6 +27,8 @@ Utilize a estrutura da 1S0Q com o código [1S0Q](https://www.rcsb.org/structure/
 
 Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.org/) para uma análise aprofundada. Para garantir maior precisão e realismo, explore os detalhes complementares da estrutura. Verifique o método experimental usado para sua obtenção, a presença de ligantes, possíveis modificações estruturais e os estados de protonação dos resíduos.
 
+Você também pode obter estruturas do [AlphaFold](https://alphafold.ebi.ac.uk/).
+
 <div align="center">
 <img src="img/tripsina.png" alt="tripsina pancreática bovina">
 </div>
@@ -36,18 +38,6 @@ Acesse a página da estrutura no [PDB (*Protein Data Bank*)](https://www.rcsb.or
 >[!TIP]
 >Organize seu diretório de trabalho. Crie duas subpastas: `analysis`, destinada aos resultados das análises, e `inputs`, para armazenar os arquivos de parâmetros da dinâmica molecular (.mdp).
 >
-
-```
-├── 1S0Q.pdb
-├── amber14sb_parmbsc1_cufix.ff
-├── analysis
-└── inputs
-    ├── ions.mdp
-    ├── md.mdp
-    ├── minim.mdp
-    ├── npt.mdp
-    └── nvt.mdp
-```
 
 ## Preparo da topologia da molécula: campos de forças
 
@@ -59,7 +49,7 @@ grep -v HETATM 1S0Q.pdb > 1S0Q_clean.pdb
 # grep -v HOH 1S0Q.pdb > 1S0Q_clean.pdb
 ```
 
-Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante. Remova as cadeias desnecessárias em um editor de texto simples.
+Observe que algumas biomoléculas apresenta múltiplas cadeias, identificadas como `chain A`, `chain B`, e assim por diante.
 
 Em seguida, escolha o campo de força e o modelo de água que serão usados na simulação:
 
@@ -75,9 +65,7 @@ gmx pdb2gmx -v -f 1S0Q_clean.pdb -o tripsina.gro
 # -o = file output, arquivo de saída das coordenadas.
 ```
 
-O programa solicitará duas escolhas em sequência. Responda a cada prompt da seguinte forma:
- - Para o campo de força, digite 1 para selecionar AMBER14SB_parmbsc1.
- - Para o modelo de água, digite 1 novamente para selecionar TIP3P recommended, o padrão recomendado para a família AMBER.
+O programa solicitará duas escolhas em sequência. Responda a cada prompt digitando o número correspondente.
 
 O GROMACS utiliza estados de protonação canônicos para cada aminoácido (assumindo pH neutro) e adiciona os hidrogênios correspondentes. Ao final do processo, o programa conserva a carga líquida total da biomolécula. Confirme este valor no terminal, procurando pela mensagem: `Total charge in system 8.000 e`.
 
@@ -108,7 +96,7 @@ Campo de Força  |  Informações  |  Modelo de água  |  cut-off
 | **SPC/E** | 3 pontos | Versão estendida do SPC, com correção de energia de polarização. Melhor densidade e constante dielétrica. |
 | **TIP3P** | 3 pontos | Muito usado com AMBER e CHARMM. Simples e compatível com muitos campos de força. |
 | **TIP4P** | 4 pontos | Inclui ponto virtual (M-site) para carga negativa fora do oxigênio, melhorando propriedades de fase. |
-| **OPC** | 4 pontos | É o "novo padrão de ouro" para simulações com campos de força modernos (como AMBER), equilibrando precisão estrutural e custo. |
+| **OPC** | 3 e 4 pontos | É o novo padrão para simulações com campos de força modernos (como AMBER), equilibrando precisão estrutural e custo. |
 | **TIP5P** | 5 pontos | Dois pontos extra para os pares de elétrons do oxigênio. Mais preciso para estrutura tetraédrica, porém mais custoso. |
 
 >[!IMPORTANT]
@@ -131,7 +119,7 @@ gmx editconf -f tripsina.gro -o box.gro -c -d 1.0 -bt cubic
 
 Escolha o formato da caixa de simulação (entre `cubic`, `triclinic`, `octahedron` ou `dodecahedron`) considerando a geometria da sua biomolécula. O objetivo é selecionar um formato que otimize o volume do sistema, reduzindo o número de moléculas de solvente. Essa otimização economiza recursos computacionais ao equilibrar o tempo de simulação e a demanda energética.
 
-Verifique as dimensões da caixa na mensagem de saída do programa. Certifique-se de que a distância mínima entre a biomolécula e as bordas da caixa esteja na **faixa de 1,0 a 2,5 nm, pois esses valores são ideais para a simulação**.
+Verifique as dimensões da caixa na mensagem de saída do programa. Certifique-se de que a distância mínima entre a biomolécula e as bordas da caixa esteja na **faixa de 1,0 a 2,0 nm, pois esses valores são ideais para a simulação**.
 
 >[!NOTE]
 >Saiba mais sobre [editconf](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-editconf.html).
@@ -224,7 +212,7 @@ gmx genion -s ions.tpr -o solvated_ions.gro -p topol.top -pname NA -nname CL -ne
 
 Por padrão, o GROMACS adiciona íons de sódio (NA) e cloreto (CL) em quantidade suficiente apenas para neutralizar o sistema. Neste caso, considerando a carga líquida de 8,000 e serão adicionados oito íons CL ao sistema. Entretanto, ao utilizar as opções `-conc 0.15` e, opcionalmente, `-neutral`, é possível garantir a adição de uma solução fisiológica a 0,9 % (m/m), simulando o ambiente semelhante ao sistema biológico humano, além de assegurar a neutralidade do sistema.
 
-Na mensagem de saída, pode-se observar a mensagem `Will try to add 67 NA ions and 75 CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo `topol.top` é atualizado com as quantidades de ions adicionadas.
+Na mensagem de saída, pode-se observar a mensagem `Will try to add XX NA ions and XX CL ions`, indicando o número de íons adicionados para atingir a concentração e a neutralidade. O arquivo `topol.top` é atualizado com as quantidades de ions adicionadas.
 
 
 >[!NOTE]
@@ -263,7 +251,7 @@ Analise a energia potencial para acompanhar o sucesso desta etapa. Para fazer is
 gmx energy -f em.edr -s em.tpr -o potential.xvg
 ```
 
-Verifique na tabela o número correspondente a 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: `10 0`.
+Verifique na tabela o número correspondente a 'Potential' e digite-o, seguindo por um espaço e pelo número 0 (zero). Exemplo: `11 0`.
 
 >[!NOTE]
 >Saiba mais sobre [energy](https://manual.gromacs.org/documentation/current/onlinehelp/gmx-energy.html).
@@ -311,10 +299,6 @@ gmx grompp -v -f inputs/nvt.mdp -c em.gro -r em.gro -o nvt.tpr -p topol.top
 ```
 gmx mdrun -v -deffnm nvt
 ```
-
->[!NOTE]
->Verifique a performance na mensagem de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 149.69 ns/day ou 0.160 hour/ns.
->
 
 Após a equilibração, verifique se a temperatura do sistema se estabilizou corretamente. Para isso, gere e analise o gráfico de temperatura. No gráfico, confirme se a temperatura média corresponde ao valor definido nos parâmetros e observe se as flutuações estão estáveis.
 
@@ -383,6 +367,10 @@ A seguir, apresentamos um breve resumo dos principais termostatos e barostatos d
 >A escolha do termostato e barostato deve considerar a natureza do sistema e as propriedades que se deseja investigar.
 >
 >O GROMACS recomenda: **V-rescale** e **C-rescale**.
+>
+
+>[!NOTE]
+>Verifique a performance na mensagem de saída, pode ser útil para planejar o tempo da simulação baseado no seu computador. Exemplo: 995.45 ns/day ou 0.024 hour/ns.
 >
 
 ## Produção: integradores
@@ -455,7 +443,7 @@ grep -v HETATM 1S0Q.pdb > 1S0Q_clean.pdb
 gmx pdb2gmx -v -f 1S0Q_clean.pdb -o tripsina.gro
 ```
 ```
-gmx editconf -f tripsina.gro -o box.gro -c -d 2.0 -bt cubic
+gmx editconf -f tripsina.gro -o box.gro -c -d 1.0 -bt cubic
 gmx solvate -cp box.gro -cs spc216.gro -o solvated.gro -p topol.top
 gmx grompp -v -f inputs/ions.mdp -o ions.tpr -c solvated.gro -p topol.top
 gmx genion -s ions.tpr -o solvated_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.15
@@ -491,4 +479,4 @@ gmx mdrun -v -deffnm md_5ns
 
 ## 📜 Citação
 
-- FAUSTINO, Patrick Allan dos Santos. **Tutorials: Dinâmica Molecular de Biomoléculas (PDB: 1S0Q) em água**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md). Acesso em: 18 jul. 2025.
+- FAUSTINO, Patrick Allan dos Santos. *Readme: Tutorials*. 2026. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/cuda-gromacs-ptbr.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/cuda-gromacs-ptbr.md). Acesso em: 18 jul. 2025.
