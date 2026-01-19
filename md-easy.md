@@ -277,7 +277,7 @@ As próximas etapas são a equilibração da temperatura e da pressão do sistem
 Inicie a equilibração de temperatura (ensemble NVT), na qual o número de moléculas (N), o volume (V) e a temperatura (T) são mantidos constantes. Para esta etapa, gere o arquivo binário `.tpr` utilizando o arquivo de parâmetros [nvt.mdp](inputs-easy/nvt.mdp). Este arquivo contém as seguintes definições:
 
 * Define a restrição da biomolécula, com `define = -DPOSRES`.
-* Define o tempo para o ajuste da temperatura, em `nsteps = 50000` x 0,002 (dt) = 100 ps.
+* Define o tempo para o ajuste da temperatura, em `nsteps = 50000 x 0,002 (dt) = 100 ps`.
 * Define o algoritmo para o ajuste da temperatura, em `tcoupl = V-rescale`.
 * Define os grupos para o ajuste da temperatura, com `tc-grps = Protein   non-Protein`.
 * Define a constante de acoplamento da temperatura, com `tau-t = 1.0`.
@@ -380,8 +380,7 @@ Inicie a simulação de produção. Primeiro, gere o arquivo de entrada binário
 
 ```
 gmx grompp -v -f inputs/md.mdp -c npt.gro -t npt.cpt -o md_5ns.tpr -p topol.top
-```
-```
+
 gmx mdrun -v -deffnm md_5ns
 ```
 Pontos importantes sobre os parâmetros da simulação de produção:
