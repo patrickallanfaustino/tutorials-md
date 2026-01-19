@@ -2,7 +2,7 @@ define                  = -DPOSRES  ; position restrain the protein
 
 ; RUN CONTROL PARAMETERS
 integrator              = md        ; leap-frog integrator
-nsteps                  = 50000     ; 0,002 * 50.000 = 100 ps
+nsteps                  = 100000    ; 0,002 * 100.000 = 200 ps
 dt                      = 0.002     ; 2 fs
 
 ; OUTPUT CONTROL OPTIONS
