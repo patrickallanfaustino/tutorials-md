@@ -11,7 +11,6 @@ nstenergy               = 5000      ; save energies in edr
 nstxout-compressed      = 5000      ; save coordinates in xtc (0,002 * 5000 = 10 ps)
 nstlog                  = 5000      ; update log file
 compressed-x-grps       = System    ; save the whole system
-IMD_group		= System
 
 ; NEIGHBORSEARCHING PARAMETERS
 cutoff-scheme           = Verlet    ; Buffered neighbor searching
