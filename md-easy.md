@@ -463,7 +463,9 @@ xmgrace temperature.xvg
 gmx grompp -v -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -o npt.tpr -p topol.top
 gmx mdrun -v -deffnm npt
 gmx energy -f npt.edr -s npt.tpr -o pressure.xvg
+xmgrace pressure.xvg
 gmx energy -f npt.edr -s npt.tpr -o density.xvg
+xmgrace density.xvg
 ```
 ```
 gmx grompp -v -f inputs/md.mdp -c npt.gro -t npt.cpt -o md_5ns.tpr -p topol.top
